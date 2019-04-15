@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BottombarDemo</string>
+
+    <string name="tab_one">Home</string>
+    <string name="tab_two">Sort</string>
+    <string name="tab_three">Find</string>
+    <string name="tab_four">Me</string>
+
+</resources>
+
+

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#0895e7"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="首页"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:id="@+id/image_search"
+            android:clickable="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/search"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"/>
+
+    <RelativeLayout
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        >
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="170dp"
+            android:layout_height="1dip"
+            android:background="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/text_u"
+            />
+
+        <TextView
+            android:id="@+id/text_u"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推荐"
+            android:layout_centerInParent="true"
+            android:textSize="13sp"
+            />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="175dp"
+            android:layout_height="1dip"
+            android:background="@color/gray"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/text_u"
+
+            />
+
+
+
+
+    </RelativeLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:rowCount="2"
+        >
+
+        <ImageView
+            android:id="@+id/imag_gone"
+            />
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_column="0"-->
+        <!--android:layout_row="0"-->
+        <!--android:layout_columnWeight="1"-->
+        <!--android:layout_rowWeight="1"-->
+
+
+        <ImageView
+            android:id="@+id/imag_gtwo"
+            />
+
+        <ImageView
+            android:id="@+id/imag_gthere"
+            />
+
+        <ImageView
+            android:id="@+id/imag_gfour"
+            />
+
+
+    </GridLayout>
+
+</LinearLayout>

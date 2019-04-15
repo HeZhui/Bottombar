@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/back_buy"
+            android:clickable="true"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:background="@drawable/arrow_left"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/buying"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="求购商品"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/back_buy"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/commit_buy"
+            android:layout_width="50dp"
+            android:layout_height="38dp"
+            android:clickable="true"
+            android:text="查询"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="30dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/text_name_buy"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:text="商品名称: "-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/gray"-->
+            <!--android:textSize="18sp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--/>-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/name_buy"-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_toRightOf="@+id/text_name_buy"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--/>-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="10dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/text_price"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:text="价格范围: "-->
+            <!--android:textColor="@color/gray"-->
+            <!--android:textSize="18sp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--/>-->
+
+        <!--<Spinner-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toRightOf="@+id/text_price"-->
+            <!--android:entries="@array/price"-->
+            <!--android:spinnerMode="dropdown"-->
+            <!--&gt;-->
+        <!--</Spinner>-->
+
+    <!--</RelativeLayout>-->
+
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="10dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/text_differ_buy"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="商品分类: "-->
+            <!--android:textColor="@color/gray"-->
+            <!--android:textSize="18sp"-->
+            <!--/>-->
+
+        <!--<Spinner-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toRightOf="@+id/text_differ_buy"-->
+            <!--android:entries="@array/differ"-->
+            <!--android:gravity="center"-->
+            <!--android:spinnerMode="dropdown"-->
+            <!--&gt;-->
+        <!--</Spinner>-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="10dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/phone_number_buy"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:text="联系方式: "-->
+            <!--android:textColor="@color/gray"-->
+            <!--android:textSize="18sp"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--/>-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/phone_buy"-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_alignTop="@+id/phone_number_buy"-->
+            <!--android:layout_toRightOf="@+id/phone_number_buy"-->
+            <!--android:layout_toEndOf="@+id/phone_number_buy"/>-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="10dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/text_description_buy"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:text="关于描述: "-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/gray"-->
+            <!--android:textSize="18sp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--/>-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/description_buy"-->
+            <!--android:layout_width="250dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:maxLines="3"-->
+            <!--android:layout_alignTop="@+id/text_description_buy"-->
+            <!--android:layout_toRightOf="@+id/text_description_buy"-->
+            <!--android:layout_toEndOf="@+id/text_description_buy"/>-->
+
+
+    <ListView
+        android:id="@+id/lv_showGoods"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+
+
+</LinearLayout>

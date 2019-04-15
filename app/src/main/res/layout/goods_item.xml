@@ -1,0 +1,125 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/goods_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="2dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_toRightOf="@+id/goods_image">
+
+        <TextView
+            android:id="@+id/ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商品编号:"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:id="@+id/goodsID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="goods_id"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_toRightOf="@+id/ID"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="商品名称:"
+            android:textSize="15sp"
+            android:layout_below="@+id/ID"
+            />
+
+
+        <TextView
+            android:id="@+id/goods_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="goods_name"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/goodsID"
+            android:layout_toRightOf="@+id/text_name"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/text_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_name"
+            android:gravity="center"
+            android:text="商品单价:"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_below="@+id/goods_name"
+            android:layout_toRightOf="@+id/text_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:text="goods_price"/>
+
+        <TextView
+            android:id="@+id/text_quality"
+            android:layout_below="@id/text_price"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="商品数量:"/>
+
+        <TextView
+            android:id="@+id/quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/text_quality"
+            android:layout_below="@+id/price"
+            android:text="goods_quality"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5sp"/>
+
+        <TextView
+            android:id="@+id/unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/quality"
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:text="单位"
+            android:textSize="15sp"
+            android:layout_alignBottom="@+id/quality"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

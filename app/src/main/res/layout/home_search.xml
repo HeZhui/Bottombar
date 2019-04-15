@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        >
+
+        <EditText
+            android:id="@+id/type_thing"
+            android:layout_width="280dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@color/white"
+            android:hint=" 搜索物品"
+            android:textColor="@color/gray"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/back_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/type_thing"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:maxLines="2"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

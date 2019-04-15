@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--#3F51B5-->
+    <color name="colorPrimary">#0895e7</color>
+    <!--#303F9F-->
+    <color name="colorPrimaryDark">#0895e7</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="homered">#d81e06</color>
+    <color name="sortgreen">#1afa29</color>
+    <color name="findblue">#1296db</color>
+    <color name="mepink">#d4237a</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#a7a7a7</color>
+
+    <color name="black">#ff000000</color>
+
+</resources>
