@@ -189,9 +189,8 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
 //            dialog.show();
 
             //发送请求
-            PostWith postWith = new PostWith();
             //传递参数
-            postWith.sendPostWithOkhttp( url, userJsonStr, new Callback() {
+            PostWith.sendPostWithOkhttp( url, userJsonStr, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //这里是子线程
@@ -218,9 +217,9 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                             @Override
                             public void run() {
                                 //json转String
-                                UserCO userCO = new UserCO();
+                                //UserCO userCO = new UserCO();
                                 Gson g = new Gson();
-                                userCO = g.fromJson( responseData, UserCO.class );
+                                UserCO userCO = g.fromJson( responseData, UserCO.class );
                                 //Log.i( "Test", userCO.toString() );
                                 int flag = userCO.getFlag();
                                 //Log.i( "Test", String.valueOf( flag ) );
@@ -238,7 +237,7 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                                     final SharedPreferences.Editor editor = getSharedPreferences( "data", MODE_PRIVATE ).edit();
                                     editor.putString( "uname", username );
                                     editor.putString( "token", token );
-                                    //储存登录成功标志
+                                    //储存登录成功login标志
                                     editor.putBoolean( "login",login );
                                     editor.commit();
                                     runOnUiThread( new Runnable() {

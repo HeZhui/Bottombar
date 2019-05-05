@@ -10,7 +10,8 @@
     //读取网络状态
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     //写SD卡
-
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+    //打开手机相册权限读取documents
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -69,6 +70,10 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
+        <activity android:name=".meactivity.UserInfor">
+        </activity>
+        <activity android:name=".meactivity.LoginSetting">
+        </activity>
     </application>
 
 </manifest>
