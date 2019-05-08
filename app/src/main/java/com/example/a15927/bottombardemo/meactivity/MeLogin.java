@@ -44,7 +44,7 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
     private CheckBox cb_mima;
     private EditText in_username, in_password;
     private Button meLogin, register;
-    private TextView forgetpasswoord;
+    private TextView forgetpassword;
     private String url = "http://118.89.217.225:8080/Proj20/login";//http://192.168.2.114:8081/Proj20/login
     private int opType = 90002;
     private String TAG = "Test";
@@ -91,8 +91,8 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
         register = (Button) findViewById( R.id.register_in );
         register.setOnClickListener( this );
 
-        forgetpasswoord = (TextView) findViewById( R.id.forget_to );
-        forgetpasswoord.setOnClickListener( this );
+        forgetpassword = (TextView) findViewById( R.id.forget_to );
+        forgetpassword.setOnClickListener( this );
 
     }
 

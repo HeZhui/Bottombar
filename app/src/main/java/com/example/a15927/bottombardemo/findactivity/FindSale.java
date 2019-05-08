@@ -43,7 +43,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener{
 
     //服务类型
     private int opType = 90003;
-    private  String url = "http://118.89.217.225:8080/Proj20/sale";
+    private  String url = "http://localhost:8081/Proj31/sale";//http://118.89.217.225:8080/Proj20/sale
 
     //相机参数
     private Uri imageUri;
@@ -51,8 +51,6 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener{
 
     private Spinner spinner_sale;
     private int spinner_position;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

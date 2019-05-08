@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.findactivity.FindBuy;
 import com.example.a15927.bottombardemo.findactivity.FindSale;
 import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
 import com.example.a15927.bottombardemo.functiontools.Goods;
@@ -48,7 +49,7 @@ public class FindFragment extends Fragment implements View.OnClickListener{
     private static int statue = 0;
 
     private int opTypebuy  = 90004;
-    private  String urlbuy = "http://118.89.217.225:8080/Proj20/buy";
+    private  String urlbuy = "http://118.89.217.225:8080/Proj20/buy";//http://118.89.217.225:8080/Proj20/buy
 
     //进度条一
     //Dialog progressDialog;
@@ -150,8 +151,8 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                     buy_button.setTextColor( Color.parseColor( "#0895e7" ) );
 
                     //跳转到用户查询商品的界面
-//                    Intent intent_buy = new Intent( getActivity(), FindBuy.class );
-//                    startActivity( intent_buy );
+                    Intent intent_buy = new Intent( getActivity(), FindBuy.class );
+                    startActivity( intent_buy );
                 }
                 else
                 break;

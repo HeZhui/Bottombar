@@ -44,11 +44,13 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener{
     private TextView commit_buy,buying;
     private ImageView back_buy;
     private int opType = 90004;
-    private  String url = "http://118.89.217.225:8080/Proj20/buy";
+    private  String url = "http://localhost:8081/Proj31/buy";//http://118.89.217.225:8080/Proj20/buy
 
     ListView lv_showGoods;
     List<ItemGoods> Goodslist = new ArrayList<ItemGoods>();
 
+    private  int count = 5;
+    private  int page;
 
 
     @Override
@@ -97,6 +99,9 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener{
         final UserBuy userBuy = new UserBuy();
         userBuy.setOpType( opType );
         userBuy.setToken( token );
+        userBuy.setCount( count );
+        page = 1;
+        userBuy.setPage( page );
         Gson gson_buy = new Gson();
         String userBuyJson = gson_buy.toJson( userBuy,UserBuy.class );
         //发送Post
