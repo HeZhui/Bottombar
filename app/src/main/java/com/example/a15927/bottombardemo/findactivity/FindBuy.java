@@ -99,7 +99,7 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener{
         final UserBuy userBuy = new UserBuy();
         userBuy.setOpType( opType );
         userBuy.setToken( token );
-        userBuy.setCount( count );
+        userBuy.setPageSize( count );
         page = 1;
         userBuy.setPage( page );
         Gson gson_buy = new Gson();

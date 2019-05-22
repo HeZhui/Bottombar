@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.findactivity.DividerItemDecoration;
 import com.example.a15927.bottombardemo.findactivity.FindBuy;
 import com.example.a15927.bottombardemo.findactivity.FindSale;
 import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
@@ -26,6 +28,7 @@ import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.LoadingDialog;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserBuy;
+import com.example.a15927.bottombardemo.views.PullToRefreshAndPushToLoadView6;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -49,7 +52,7 @@ public class FindFragment extends Fragment implements View.OnClickListener{
     private static int statue = 0;
 
     private int opTypebuy  = 90004;
-    private  String urlbuy = "http://118.89.217.225:8080/Proj20/buy";//http://118.89.217.225:8080/Proj20/buy
+    private  String urlbuy = "http://47.105.185.251:8081/Proj31/buy";//http://192.168.2.134:8080/Proj20/buy
 
     //进度条一
     //Dialog progressDialog;
@@ -68,7 +71,7 @@ public class FindFragment extends Fragment implements View.OnClickListener{
     //展示商品方式
     RecyclerView recyclerView;
     List<ItemGoods> Goodslist = new ArrayList<>();
-
+    private PullToRefreshAndPushToLoadView6 pullToRefreshAndPushToLoadView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
@@ -76,11 +79,31 @@ public class FindFragment extends Fragment implements View.OnClickListener{
         //初始化组件
         init(view);
 
+       LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
+        recyclerView.setLayoutManager( layoutManager );
+        GoodsAdapter adapter = new GoodsAdapter( Goodslist );
+        recyclerView.setAdapter( adapter );
+        recyclerView.setHasFixedSize( true );
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration( getActivity(),Color.DKGRAY,2,2 );
+        dividerItemDecoration.setDrawBorderTopAndBottom( true );
+        recyclerView.addItemDecoration( dividerItemDecoration );
+        recyclerView.setItemAnimator( new DefaultItemAnimator() );
+        pullToRefreshAndPushToLoadView.setOnRefreshAndLoadMoreListener(new PullToRefreshAndPushToLoadView6.PullToRefreshAndPushToLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+
+            @Override
+            public void onLoadMore() {
+                load();
+            }
+        }, 0);
 //        Intent intent_find = getActivity().getIntent();
 //        String goodsGsonStr = intent_find.getStringExtra( "goodsInfo" );
 //        Log.d( "Test", goodsGsonStr );
         return view;
-        }
+    }
 
 
     public void init(View view){
@@ -90,12 +113,43 @@ public class FindFragment extends Fragment implements View.OnClickListener{
         buy_button.setOnClickListener( this );
         image_add = (ImageView) view.findViewById( R.id.image_add );
         image_add.setOnClickListener( this );
-
+        pullToRefreshAndPushToLoadView = (PullToRefreshAndPushToLoadView6) view.findViewById(R.id.prpt);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
 
         //设置默认状态 ：摊位
         sale_button.setEnabled( false );
         sale_button.setTextColor( Color.parseColor( "#0895e7" ) );
+    }
+
+
+    private void refresh() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Thread.sleep(30 * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                pullToRefreshAndPushToLoadView.finishRefreshing();
+            }
+        }.start();
+    }
+
+    private void load() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Thread.sleep(10 * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                pullToRefreshAndPushToLoadView.finishLoading();
+            }
+        }.start();
     }
 
 
@@ -200,9 +254,8 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                 //开始解析返回数据
                 Log.i( TAG, "开始解析数据" );
                 Gson gson = new Gson();
-                Goods goods = new Goods();
                 //把属性给到对应的对象中
-                goods = gson.fromJson( responseData,Goods.class );
+                Goods goods = gson.fromJson( responseData,Goods.class );
                 Log.i( TAG, "解析数据完毕" );
                 int flag = goods.getFlag();
                 Log.i( TAG, "flag " +flag);
@@ -226,6 +279,7 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                             recyclerView.setLayoutManager( layoutManager );
                             GoodsAdapter adapter = new GoodsAdapter( Goodslist );
                             recyclerView.setAdapter( adapter );
+
                         }
                     } );
                 }
@@ -255,89 +309,7 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                 }
             }
         } );
-//        //创建OkHttpClient对象。
-//        OkHttpClient client = new OkHttpClient();
-//        //请求体
-//        RequestBody requestBody = new FormBody.Builder()
-//                .add( "reqJson", userBuyJson)
-//                .build();
-//        //发送请求
-//        Request request = new Request.Builder()
-//                .url(urlbuy)
-//                .post(requestBody )
-//                .build();
-//
-//        client.newCall( request ).enqueue( new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.d("Test","获取数据失败了"+e.toString());
-//                getActivity().runOnUiThread( new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        //这里的上下文由于是Fragment，不能直接写，需要依赖活动
-//                        dismiss( progressDialog );
-//                        Toast.makeText( getActivity(),"数据出错！",Toast.LENGTH_SHORT ).show();
-//                    }
-//                } );
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                Log.d("Test","获取数据成功了");
-//                String responseData = response.body().string();
-//                Log.i( TAG, "onResponse: " +responseData);
-//                //开始解析返回数据
-//                Log.i( TAG, "开始解析数据" );
-//                Gson gson = new Gson();
-//                Goods goods = new Goods();
-//                //把属性给到对应的对象中
-//                goods = gson.fromJson( responseData,Goods.class );
-//                Log.i( TAG, "解析数据完毕" );
-//                int flag = goods.getFlag();
-//                Log.i( TAG, "flag " +flag);
-//                Goodslist = goods.getGoodsList();
-//                Log.i( TAG, "goodsList" +Goodslist);
-//                //Flag判断
-//                if (flag == 200){
-//                    //切换到主线程
-//                    getActivity().runOnUiThread( new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            //进度框消失
-//                            dismiss(progressDialog);
-//                            Log.i( "Test", "run: 查询成功" );
-//                            Toast.makeText( getActivity(),"查询成功",Toast.LENGTH_SHORT ).show();
-//                            //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
-//                            //与ListView类似的效果
-//                            LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
-//                            recyclerView.setLayoutManager( layoutManager );
-//                            GoodsAdapter adapter = new GoodsAdapter( Goodslist );
-//                            recyclerView.setAdapter( adapter );
-//                        }
-//                    } );
-//                }
-//                else if(flag == 30001){
-//                    getActivity().runOnUiThread( new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            dismiss(progressDialog);
-//                            Toast.makeText( getActivity(),"登录信息已失效,请再次登录",Toast.LENGTH_SHORT ).show();
-//                        }
-//                    } );
-//                }
-//                else{
-//                    getActivity().runOnUiThread( new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            dismiss(progressDialog);
-//                            Toast.makeText( getActivity(),"出现错误，查询失败",Toast.LENGTH_SHORT ).show();
-//                        }
-//                    } );
-//                }
-//            }
-//        } );
      }
-
 
 }
 

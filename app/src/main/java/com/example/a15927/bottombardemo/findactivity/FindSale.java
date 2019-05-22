@@ -43,14 +43,14 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener{
 
     //服务类型
     private int opType = 90003;
-    private  String url = "http://localhost:8081/Proj31/sale";//http://118.89.217.225:8080/Proj20/sale
+    private  String url = "http://47.105.185.251:8081/Proj31/sale";//http://192.168.2.134:8080/Proj20/sale
 
     //相机参数
     private Uri imageUri;
     private static final int TAKE_PHOTO = 1;
 
     private Spinner spinner_sale;
-    private int spinner_position;
+    private static int spinner_position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +82,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener{
         spinner_sale.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinner_position = position;
-                Toast.makeText( FindSale.this,"position"+position,Toast.LENGTH_SHORT ).show();
+                spinner_position = position+1;
+                Toast.makeText( FindSale.this,"position"+spinner_position,Toast.LENGTH_SHORT ).show();
             }
 
             @Override
@@ -183,7 +183,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener{
         Log.i( "Test", "uname is  " +uname);
         Log.i( "Test", "token is  " +token );
 
-        //设置属性
+            //设置属性
         goodsPut.setOpType( opType );
         goodsPut.setGoodsID( goodsID );
         goodsPut.setGoodsType( String.valueOf( spinner_position ) );
@@ -203,7 +203,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener{
         //组成Json串
         Gson gson = new Gson();
         String goodsJsonStr = gson.toJson( goodsPut,GoodsPut.class );
-        Log.i( "Test", goodsJsonStr );
+        Log.i( "Test", goodsJsonStr.toString() );
 
 //        sendGoodsData(url,goodsJsonStr);
         PostWith postWith = new PostWith();
@@ -226,9 +226,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener{
                 final String responseData = response.body().string();
                 Log.i( "Test",responseData );
                 //json转String
-                Goodsback goodsback = new Goodsback();
                 Gson re_gson = new Gson();
-                goodsback = re_gson.fromJson( responseData,Goodsback.class );
+                Goodsback goodsback = re_gson.fromJson( responseData,Goodsback.class );
                 Log.i( "Test", goodsback.toString() );
                 int flag = goodsback.getFlag();
                 if(flag == 200){

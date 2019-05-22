@@ -50,6 +50,7 @@ public class MeFragment extends Fragment {
             //从登录界面data取出用户名
             String username = User.getString( "uname","" );
             user.setText( username );
+            user.setTextSize( 20 );
             Log.i( TAG, "MeFragment: username is "+username );
         }
 

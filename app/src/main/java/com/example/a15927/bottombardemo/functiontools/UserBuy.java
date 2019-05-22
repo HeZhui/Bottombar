@@ -1,13 +1,9 @@
 package com.example.a15927.bottombardemo.functiontools;
 
-/**
- * Created by Administrator on 2019/3/28.
- */
-
 public class UserBuy {
     private int opType;
     private String token;
-    private int count;
+    private int pageSize;
     private int page;
 
     public int getOpType() {
@@ -26,12 +22,12 @@ public class UserBuy {
         this.token = token;
     }
 
-    public int getCount() {
-        return count;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public int getPage() {
@@ -47,7 +43,7 @@ public class UserBuy {
         return "UserBuy{" +
                 "opType=" + opType +
                 ", token='" + token + '\'' +
-                ", count=" + count +
+                ", pageSize=" + pageSize +
                 ", page=" + page +
                 '}';
     }
