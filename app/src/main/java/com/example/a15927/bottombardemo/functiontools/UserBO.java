@@ -41,6 +41,4 @@ public class UserBO {
                 ", upassword='" + upassword + '\'' +
                 '}';
     }
-
-    
 }

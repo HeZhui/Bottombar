@@ -1015,6 +1015,4 @@ public class PullToRefreshAndPushToLoadView6 extends ViewGroup {
     }
 
 
-
-
 }

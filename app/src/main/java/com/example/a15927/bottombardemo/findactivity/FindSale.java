@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15927.bottombardemo.MyTools.FileUtils;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.GoodsPut;
 import com.example.a15927.bottombardemo.functiontools.Goodsback;
@@ -168,13 +169,13 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener{
     public void comitsale(String goods_name, String goods_price, String mobile_phone, String goods_description){
         //构造部分属性
         GoodsPut goodsPut = new GoodsPut();
-        String goodsID = UUID.randomUUID().toString();
+        String goodsID = UUID.randomUUID().toString().replaceAll( "-","" );
         UserVO userVO = new UserVO();
-        String uuid = UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString().replaceAll( "-","" );
         Resources res = getResources();
         Bitmap bmp = BitmapFactory.decodeResource(res, R.drawable.chen);//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
         //bitmp转bytes
-        byte[] uimages = userVO.Bitmap2Bytes(bmp);
+        byte[] uimages = FileUtils.Bitmap2Bytes(bmp);
 
         //取出token
         SharedPreferences sp = getSharedPreferences( "data",MODE_PRIVATE );

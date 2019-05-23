@@ -6,7 +6,6 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15927.bottombardemo.MyTools.FileUtils;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -40,6 +40,7 @@ import com.google.gson.Gson;
 import com.longsh.optionframelibrary.OptionBottomDialog;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
     //拍照功能参数
     //imageUri照片真实路径
     private Uri imageUri;
-    private Uri cropImageUri;
+    //private Uri cropImageUri;
     File outputImage;
     File cropImage;
     private static final int TAKE_PHOTO = 1;
@@ -135,8 +136,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                                 Log.i( "Test", "onItemClick:outputImage is "+outputImage );
                                 //压缩后存储的文件位置
                                 cropImage = new File (getExternalCacheDir(),"crop_image.jpg");
-                                //获取图片裁剪后的地址路径
-                                cropImageUri = Uri.fromFile( cropImage );
                                 Log.i( "Test", "onItemClick:cropImage is "+cropImage );
                                 try {
                                     if (outputImage.exists()) {
@@ -150,10 +149,12 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                                 if (Build.VERSION.SDK_INT >= 24) {
                                     //将File对象转换成封装过的Uri对象，这个Uri对象标志着照片的真实路径
                                     imageUri = FileProvider.getUriForFile( RegisterIn.this, "com.example.a15927.bottombardemo.fileprovider", outputImage );
+                                    //cropImageUri = FileProvider.getUriForFile( RegisterIn.this,"com.example.a15927.bottombardemo.fileprovider",outputImage );
                                     Log.i( "Test", "onItemClick:------1--------- " );
                                 } else {
                                     //将File对象转换成Uri对象，这个Uri对象标志着照片的真实路径
                                     imageUri = Uri.fromFile( outputImage );
+                                    //cropImageUri = Uri.fromFile( cropImage );
                                     Log.i( "Test", "onItemClick:------2--------- " );
                                 }
 
@@ -231,14 +232,13 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                     //打开相机成功
                     try {
                         //将拍摄的照片的照片显示出来
-                        //需要对拍摄的照片进行处理编辑
-//                        Thumbnails.of( imageUri.toString() )
-//                                .scale(1f)
-//                                .outputQuality(0.5f)
-//                                .toFile(cropImageUri.toString());
+
                         //拍照成功的话，就调用BitmapFactory的decodeStream()方法把output_image.jpg解析成Bitmap对象，然后显示
                         //imageUri是拍摄的照片的真实路径
                         Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+//                        int w = bitmap.getWidth();
+//                        int h = bitmap.getHeight();
+//                        Bitmap newBitmap = FileUtils.zoomBitmap( bitmap,(int)(0.5*w),(int)(0.5*h));
                         //打印出照片的路径
                         Log.i( "Test", "register imageUri is " + imageUri );
                         //存储Uri对象，即照片的真实路径
@@ -329,7 +329,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-
     //注册
     public void allcomit() {
         String inputUsername = input_username.getText().toString().trim();
@@ -370,20 +369,34 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
     }
 
     public void register(String uname, String upassword) {
-        //生成部分属性
-        UserVO userVO = new UserVO();
-        String uuid = UUID.randomUUID().toString();
-        Resources res = getResources();
-        Bitmap bitmap = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
-//        Bitmap bitmap = null;
+        Bitmap cropBitMap = null;
+        //需要对拍摄的照片进行压缩处理
+        //Error:无法访问BufferedImage 找不到java.awt.image.BufferedImage的类文件
 //        try {
-//            bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-//        } catch (FileNotFoundException e) {
+//            Thumbnails.of( imageUri.toString())
+//                    .scale(1f)
+//                    .outputQuality(0.5f)
+//                    .toFile(cropImage.toString());
+//        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-//        Log.i( "Test", "register:imageUri is  " + imageUri );
+        try {
+            Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+//            int w = bitmap.getWidth();
+//            int h = bitmap.getHeight();
+            cropBitMap = FileUtils.zoomBitmap( bitmap, 1, 1 );
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //生成部分属性
+        UserVO userVO = new UserVO();
+        String uuid = UUID.randomUUID().toString().replaceAll( "-","" );
+        //Resources res = getResources();
+       // Bitmap bitmap = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
+
         //bitmp转bytes
-        byte[] uimages = userVO.Bitmap2Bytes( bitmap );
+        byte[] uimages = FileUtils.Bitmap2Bytes( cropBitMap );
 
         userVO.setOpType( opType );
         userVO.setUid( uuid );
@@ -476,81 +489,5 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                 }
             }
         } );
-        //sendData( url, JsonStr );
     }
-
-    //发送请求
-    //    public void sendData(String url, String JsonStr) {
-    //        //创建OkHttpClient对象。
-    //        OkHttpClient client = new OkHttpClient();
-    //        RequestBody requestBody = new FormBody.Builder()
-    //                .add( "reqJson", JsonStr )
-    //                .build();
-    //
-    //        Request request = new Request.Builder()
-    //                .url( url )
-    //                .post( requestBody )
-    //                .build();
-    //        client.newCall( request ).enqueue( new Callback() {
-    //            @Override
-    //            public void onFailure(Call call, IOException e) {
-    //                Log.d( "Test", "获取数据失败了" + e.toString() );
-    //                runOnUiThread( new Runnable() {
-    //                    @Override
-    //                    public void run() {
-    //                        Toast.makeText( RegisterIn.this, "数据错误", Toast.LENGTH_SHORT ).show();
-    //                    }
-    //                } );
-    //
-    //            }
-    //
-    //            @Override
-    //            public void onResponse(Call call, final Response response) throws IOException {
-    //                if (response.isSuccessful()) {//回调的方法执行在子线程。
-    //                    Log.d( "Test", "获取数据成功了" );
-    //                    //获取后台返回结果
-    //                    final String responseData = response.body().string();
-    //                    //json转String
-    //                    UserCO userCO = new UserCO();
-    //                    Gson g = new Gson();
-    //                    userCO = g.fromJson( responseData, UserCO.class );
-    //                    Log.i( "Test", userCO.toString() );
-    //                    int flag = userCO.getFlag();
-    //                    Log.i( "Test", String.valueOf( flag ) );
-    //                    String message = userCO.getMessage();
-    //                    Log.i( "Test", message );
-    //                    String token = userCO.getToken();
-    //                    //当token无返回值时，为null,但是Log打印时message不可为空，故而出现此步崩溃
-    //                    //Log.i( "Test", token );
-    //
-    //                    if (flag == 200) {
-    //                        runOnUiThread( new Runnable() {
-    //                            @Override
-    //                            public void run() {
-    //                                Toast.makeText( RegisterIn.this, "注册成功", Toast.LENGTH_SHORT ).show();
-    //                                Intent intentTras = new Intent( RegisterIn.this, MeLogin.class );
-    //                                startActivity( intentTras );
-    //                            }
-    //                        } );
-    //                    } else if (flag == 10002) {
-    //                        runOnUiThread( new Runnable() {
-    //                            @Override
-    //                            public void run() {
-    //                                Toast.makeText( RegisterIn.this, "该用户名已存在，注册失败！", Toast.LENGTH_SHORT ).show();
-    //                            }
-    //                        } );
-    //
-    //                    } else {
-    //                        runOnUiThread( new Runnable() {
-    //                            @Override
-    //                            public void run() {
-    //                                Toast.makeText( RegisterIn.this, "注册失败", Toast.LENGTH_SHORT ).show();
-    //                            }
-    //                        } );
-    //                    }
-    //                }
-    //            }
-    //        } );
-    //    }
-
 }
