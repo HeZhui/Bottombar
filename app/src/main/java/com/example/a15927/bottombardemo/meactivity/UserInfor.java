@@ -2,7 +2,9 @@ package com.example.a15927.bottombardemo.meactivity;
 
 import android.Manifest;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -26,13 +28,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15927.bottombardemo.MyTools.FileUtils;
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.functiontools.PostWith;
+import com.example.a15927.bottombardemo.functiontools.UserCheck;
+import com.example.a15927.bottombardemo.functiontools.UserQuery;
+import com.example.a15927.bottombardemo.functiontools.UserVO;
+import com.google.gson.Gson;
 import com.longsh.optionframelibrary.OptionBottomDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class UserInfor extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,18 +55,91 @@ public class UserInfor extends AppCompatActivity implements View.OnClickListener
     private TextView userId,userAccount,userSex,userPhone;//用户信息
     private EditText description;//个性说明
 
+    private int op_query = 90006;
+    private int op_update = 90007;
+    private String url = "http://47.105.185.251:8081/Proj31/user";
+
     //拍照功能参数
     //imageUri照片真实路径
     private Uri imageUri;
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
 
+    private String TAG = "Test";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_user_infor );
         //初始化绑定控件
         initView();
+        //查询用户信息并显示
+        //取出从登录界面存储token
+        SharedPreferences User = getSharedPreferences( "data", Context.MODE_PRIVATE );
+        //如果未找到该值，则使用get方法中传入的默认值false代替
+        String token  = User.getString( "token", "" );
+        //设置属性
+        UserCheck userCheck = new UserCheck();
+        userCheck.setOpType( op_query );
+        userCheck.setToken( token );
+        //封装Json串
+        Gson gson = new Gson();
+        String reqJson = gson.toJson( userCheck,UserCheck.class );
+        //发送请求
+        PostWith.sendPostWithOkhttp( url, reqJson, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d( TAG, "获取数据失败了" + e.toString() );
+                runOnUiThread( new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText( UserInfor.this, "数据错误", Toast.LENGTH_SHORT ).show();
+                    }
+                } );
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {//回调的方法执行在子线程。
+                    Log.d( TAG, "获取数据成功了" );
+                    final String responseData = response.body().string();
+                    Log.i( TAG, "onResponse: responseData is " + responseData );
+                    runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            Gson g = new Gson();
+                            UserQuery userQuery = g.fromJson( responseData,UserQuery.class );
+                            int flag = userQuery.getFlag();
+                            Log.i( TAG, "run: flag is "+flag );
+                            UserVO userVO = userQuery.getUser();
+                            Log.i( TAG, "run: userVO is "+ userQuery.getUser());
+                            if(flag == 200){
+                                Log.i( TAG, "run: 查询成功" );
+                                userId.setText( userVO.getUid() );
+                                userAccount.setText( userVO.getUname() );
+                                userPhone.setText( userVO.getUphone() );
+                                if(userVO.getSex() == 1){
+                                    userSex.setText( "女");
+                                }else {
+                                    userSex.setText( "男" );
+                                }
+                                Bitmap bitmap = FileUtils.Bytes2Bimap( userVO.getUimage() );
+                                Bitmap zoomBit = FileUtils.zoomBitmap( bitmap,720,1080 );
+                                userImage.setImageBitmap( zoomBit );
+                            }
+                            else if (flag == 30001){
+                                Log.i( TAG, "run: token无效" );
+                                Toast.makeText( UserInfor.this, "当前登录信息无效，请重新登录", Toast.LENGTH_SHORT ).show();
+                            }
+                            else{
+                                Log.i( TAG, "run: 查询失败" );
+                                Toast.makeText( UserInfor.this, "获取用户信息失败", Toast.LENGTH_SHORT ).show();
+                            }
+                        }
+                    } );
+                }
+            }
+        } );
+
     }
 
     private void initView() {

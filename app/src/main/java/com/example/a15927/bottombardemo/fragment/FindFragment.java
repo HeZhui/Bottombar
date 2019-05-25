@@ -279,7 +279,6 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                             recyclerView.setLayoutManager( layoutManager );
                             GoodsAdapter adapter = new GoodsAdapter( Goodslist );
                             recyclerView.setAdapter( adapter );
-
                         }
                     } );
                 }

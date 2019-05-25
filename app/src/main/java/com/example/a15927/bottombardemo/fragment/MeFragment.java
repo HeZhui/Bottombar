@@ -4,6 +4,8 @@ package com.example.a15927.bottombardemo.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -49,9 +51,13 @@ public class MeFragment extends Fragment {
         if(login == true){
             //从登录界面data取出用户名
             String username = User.getString( "uname","" );
+            Log.i( TAG, "MeFragment: username is "+username );
+            String filePath = User.getString( "filePath","" );
+            Log.i( TAG, "onCreateView: filePath is "+filePath );
             user.setText( username );
             user.setTextSize( 20 );
-            Log.i( TAG, "MeFragment: username is "+username );
+            Bitmap bitmap = BitmapFactory.decodeFile( filePath );
+            image_plus.setImageBitmap( bitmap );
         }
 
         setting.setOnClickListener( new View.OnClickListener() {

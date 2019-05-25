@@ -2,10 +2,6 @@ package com.example.a15927.bottombardemo.functiontools;
 
 import java.util.Arrays;
 
-/**
- * Created by Administrator on 2019/3/19.
- */
-
 public class UserVO {
     private int opType;//操作类型
     private String uid;
@@ -14,8 +10,8 @@ public class UserVO {
     private byte[] uimage;
     private String uphone;
     private int sex;
-//    private String qq;
-//    private String weixin;
+    private String qq;
+    private String weixin;
 //
 //    private String token; // 查询或更新用户时，需要用到token
 
@@ -90,6 +86,22 @@ public class UserVO {
 
     public void setupassword(String upassword) {
         this.upassword = upassword;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(String weixin) {
+        this.weixin = weixin;
     }
 
     @Override

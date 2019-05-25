@@ -40,7 +40,6 @@ import com.google.gson.Gson;
 import com.longsh.optionframelibrary.OptionBottomDialog;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
     private Uri imageUri;
     //private Uri cropImageUri;
     File outputImage;
-    File cropImage;
+//    File cropImage;
+    private static String filePath = null;
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
 
@@ -135,8 +135,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                                 outputImage = new File( getExternalCacheDir(), "output_image.jpg" );
                                 Log.i( "Test", "onItemClick:outputImage is "+outputImage );
                                 //压缩后存储的文件位置
-                                cropImage = new File (getExternalCacheDir(),"crop_image.jpg");
-                                Log.i( "Test", "onItemClick:cropImage is "+cropImage );
+//                                cropImage = new File (getExternalCacheDir(),"crop_image.jpg");
+//                                Log.i( "Test", "onItemClick:cropImage is "+cropImage );
                                 try {
                                     if (outputImage.exists()) {
                                         outputImage.delete();
@@ -236,17 +236,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                         //拍照成功的话，就调用BitmapFactory的decodeStream()方法把output_image.jpg解析成Bitmap对象，然后显示
                         //imageUri是拍摄的照片的真实路径
                         Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-//                        int w = bitmap.getWidth();
-//                        int h = bitmap.getHeight();
-//                        Bitmap newBitmap = FileUtils.zoomBitmap( bitmap,(int)(0.5*w),(int)(0.5*h));
-                        //打印出照片的路径
                         Log.i( "Test", "register imageUri is " + imageUri );
-                        //存储Uri对象，即照片的真实路径
-                        SharedPreferences.Editor image = getSharedPreferences( "data", MODE_PRIVATE ).edit();
-                        String uri = imageUri.toString();
-                        image.putString( "imageUri", uri );
-                        Log.i( "Test", "onActivityResult: uri is " + uri );
-                        image.commit();//提交
+                        filePath = outputImage.toString();
                         //显示到指定位置
                         takephoto.setImageBitmap( bitmap );
                     } catch (IOException e) {
@@ -268,36 +259,37 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void handleImageOnKitKat(Intent data) {
-        Log.i( "Test", "执行到打开相册子程序了" );
+        //Log.i( "Test", "执行到打开相册子程序了" );
         String imagePath = null;
         Uri uri = data.getData();
-        Log.i( "Test", " 执行到data.getData()了" );
+        //Log.i( "Test", " 执行到data.getData()了" );
         if (DocumentsContract.isDocumentUri( this, uri )) {
             //如果是document类型的Uri,则通过document id处理
             String docId = DocumentsContract.getDocumentId( uri );
-            Log.i( "Test", " 执行到打开相册文件documents" );
+            //Log.i( "Test", " 执行到打开相册文件documents" );
             if ("com.android.providers.media.documents".equals( uri.getAuthority() )) {
                 //解析出数字格式的id
-                Log.i( "Test", "handleImageOnKitKat: selection " );
+                //Log.i( "Test", "handleImageOnKitKat: selection " );
                 String id = docId.split( ":" )[1];
                 String selection = MediaStore.Images.Media._ID + "=" + id;
                 imagePath = getImagePath( MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection );
             } else if ("com.android.providers.downloads.documents".equals( uri.getAuthority() )) {
-                Log.i( "Test", "执行到documents了" );
+                //Log.i( "Test", "执行到documents了" );
                 Uri contentUri = ContentUris.withAppendedId( Uri.parse( "ontent://downloads/public_downloads" ), Long.valueOf( docId ) );
                 imagePath = getImagePath( contentUri, null );
             } else if ("content".equalsIgnoreCase( uri.getScheme() )) {
-                Log.i( "Test", "执行到content了" );
+                //Log.i( "Test", "执行到content了" );
                 //如果是content类型的Uri,则通过普通方式处理
                 imagePath = getImagePath( uri, null );
                 Log.i( "Test", "handleImageOnKitKat: imagePath is " + imagePath );
             } else if ("file".equalsIgnoreCase( uri.getScheme() )) {
                 //如果是file类型的Uri,直接获取图片路径即可
-                Log.i( "Test", "执行到file了" );
+                //Log.i( "Test", "执行到file了" );
                 imagePath = uri.getPath();
             }
             Log.i( "Test", " 执行到显示了" );
             displayImage( imagePath );
+            filePath = imagePath;
         }
     }
 
@@ -309,22 +301,22 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         Log.i( "Test", "getImagePath: cursor is " + cursor );
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                Log.i( "Test", "执行到cursor了" );
+                //Log.i( "Test", "执行到cursor了" );
                 path = cursor.getString( cursor.getColumnIndex( MediaStore.Images.Media.DATA ) );
             }
             cursor.close();
         }
-        Log.i( "Test", " return path了" );
+        //Log.i( "Test", " return path了" );
         return path;
     }
 
     private void displayImage(String imagePath) {
         if (imagePath != null) {
-            Log.i( "Test", "onActivityResult: 即将显示了" );
+            //Log.i( "Test", "onActivityResult: 即将显示了" );
             Bitmap bitmap = BitmapFactory.decodeFile( imagePath );
             takephoto.setImageBitmap( bitmap );
         } else {
-            Log.i( "Test", "onActivityResult: 执行到打不开相册了" );
+            //Log.i( "Test", "onActivityResult: 执行到打不开相册了" );
             Toast.makeText( this, "failed to get image", Toast.LENGTH_SHORT ).show();
         }
     }
@@ -369,7 +361,11 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
     }
 
     public void register(String uname, String upassword) {
-        Bitmap cropBitMap = null;
+        //存储照片路径
+        SharedPreferences.Editor image = getSharedPreferences( "data", MODE_PRIVATE ).edit();
+        image.putString( "filePath", filePath );
+        Log.i( "Test", "filePath is " + filePath );
+        image.commit();//提交
         //需要对拍摄的照片进行压缩处理
         //Error:无法访问BufferedImage 找不到java.awt.image.BufferedImage的类文件
 //        try {
@@ -380,14 +376,10 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        try {
-            Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-//            int w = bitmap.getWidth();
-//            int h = bitmap.getHeight();
-            cropBitMap = FileUtils.zoomBitmap( bitmap, 1, 1 );
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+        Bitmap bitmap =BitmapFactory.decodeFile( filePath );
+        //压缩图片
+        Bitmap cropBitMap = FileUtils.zoomBitmap( bitmap, 240, 240 );
 
         //生成部分属性
         UserVO userVO = new UserVO();
@@ -397,7 +389,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
 
         //bitmp转bytes
         byte[] uimages = FileUtils.Bitmap2Bytes( cropBitMap );
-
         userVO.setOpType( opType );
         userVO.setUid( uuid );
         userVO.setuname( uname );
@@ -436,8 +427,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                     //获取后台返回结果
                     final String responseData = response.body().string();
                     //json转String
-
-                    //UserCO userCO = new UserCO();
                     Gson g = new Gson();
                     UserCO userCO = g.fromJson( responseData, UserCO.class );
                     Log.i( "Test", userCO.toString() );

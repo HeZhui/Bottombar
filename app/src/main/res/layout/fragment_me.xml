@@ -37,8 +37,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_plus"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:background="@drawable/puls"
@@ -118,11 +118,12 @@
             android:id="@+id/image_flag"
             android:layout_width="27dp"
             android:layout_height="27dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
             android:background="@drawable/flag"
             android:layout_marginLeft="20dp"
-            />
+            android:layout_alignTop="@+id/image_arrow_2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -247,11 +248,12 @@
             android:id="@+id/image_set_up"
             android:layout_width="27dp"
             android:layout_height="27dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
             android:background="@drawable/set"
-            android:layout_marginLeft="20dp"
-            />
+            android:layout_marginLeft="21dp"
+            android:layout_alignTop="@+id/image_arrow5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="21dp"/>
         <TextView
             android:id="@+id/setting"
             android:layout_width="match_parent"
