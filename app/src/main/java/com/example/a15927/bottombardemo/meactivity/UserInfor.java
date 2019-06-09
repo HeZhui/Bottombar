@@ -92,7 +92,7 @@ public class UserInfor extends AppCompatActivity implements View.OnClickListener
                 runOnUiThread( new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText( UserInfor.this, "数据错误", Toast.LENGTH_SHORT ).show();
+                        Toast.makeText( UserInfor.this, "网络不给力！", Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }

@@ -2,11 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     >
 
     <ImageView
         android:id="@+id/goods_image"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:layout_centerVertical="true"/>
@@ -87,6 +88,14 @@
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:text="goods_price"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/price"
+            android:layout_below="@+id/goods_name"
+            android:text="元"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="2dp"/>
 
         <TextView
             android:id="@+id/text_quality"

@@ -44,8 +44,9 @@
         android:layout_centerVertical="true"
         />
 
-</RelativeLayout>
+    </RelativeLayout>
 
+    <!--de.hdodenhof.circleimageview.CircleImageView-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp">

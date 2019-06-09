@@ -202,7 +202,7 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                             dismiss(progressDialog);
                             //取消进度条二
                             //mHandler.sendEmptyMessage(1);
-                            Toast.makeText( MeLogin.this, "数据错误", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( MeLogin.this, "网络不给力！", Toast.LENGTH_SHORT ).show();
                         }
                     } );
                 }

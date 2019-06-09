@@ -16,9 +16,12 @@ public class PostWith {
     public static String TAG = "Test";
 
     //okhttp3  post网络请求函数
-    public static void  sendPostWithOkhttp( String url,  String JsonStr,okhttp3.Callback callback){//
+    public static void  sendPostWithOkhttp( String url,  String JsonStr,okhttp3.Callback callback){
         //创建实例对象
         OkHttpClient okHttpClient = new OkHttpClient();
+//        //数据类型为json格式
+//        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+//        RequestBody body = RequestBody.create(JSON, JsonStr);
         //包装方法体
         Log.i( TAG, "reqJson is " +JsonStr);
         RequestBody requestBody = new  FormBody.Builder()
@@ -30,24 +33,6 @@ public class PostWith {
                 .url( url )
                 .build();
         okHttpClient.newCall( request ).enqueue( callback );
-
-//        okHttpClient.newCall( request ).enqueue( new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                //对异常情况进行处理
-//                Log.d(TAG,"获取数据失败了"+e.toString());
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                //得到服务器返回的具体内容
-//                if(response.isSuccessful()) {//回调的方法执行在子线程。
-//                    Log.d( TAG, "获取数据成功了   postWith()" );
-//                    responseData = response.body().string();
-//                }
-//            }
-//        } );
     }
 
 }

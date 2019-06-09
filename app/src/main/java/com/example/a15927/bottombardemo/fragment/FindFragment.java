@@ -1,11 +1,11 @@
 package com.example.a15927.bottombardemo.fragment;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,9 +23,9 @@ import com.example.a15927.bottombardemo.findactivity.DividerItemDecoration;
 import com.example.a15927.bottombardemo.findactivity.FindBuy;
 import com.example.a15927.bottombardemo.findactivity.FindSale;
 import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
+import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
-import com.example.a15927.bottombardemo.functiontools.LoadingDialog;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserBuy;
 import com.example.a15927.bottombardemo.views.PullToRefreshAndPushToLoadView6;
@@ -40,6 +40,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
 
 public class FindFragment extends Fragment implements View.OnClickListener{
 
@@ -55,17 +56,17 @@ public class FindFragment extends Fragment implements View.OnClickListener{
     private  String urlbuy = "http://47.105.185.251:8081/Proj31/buy";//http://192.168.2.134:8080/Proj20/buy
 
     //进度条一
-    //Dialog progressDialog;
+    Dialog progressDialog;
     //进度条二
-    private LoadingDialog dialog;
-
-    private Handler mHandler = new Handler() {
-        public void dispatchMessage(android.os.Message msg) {
-            if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
-            }
-        };
-    };
+//    private LoadingDialog dialog;
+//
+//    private Handler mHandler = new Handler() {
+//        public void dispatchMessage(android.os.Message msg) {
+//            if (dialog != null && dialog.isShowing()) {
+//                dialog.dismiss();
+//            }
+//        };
+//    };
 
 
     //展示商品方式
@@ -79,7 +80,7 @@ public class FindFragment extends Fragment implements View.OnClickListener{
         //初始化组件
         init(view);
 
-       LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
+        LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         recyclerView.setLayoutManager( layoutManager );
         GoodsAdapter adapter = new GoodsAdapter( Goodslist );
         recyclerView.setAdapter( adapter );
@@ -121,7 +122,6 @@ public class FindFragment extends Fragment implements View.OnClickListener{
         sale_button.setTextColor( Color.parseColor( "#0895e7" ) );
     }
 
-
     private void refresh() {
         new Thread() {
             @Override
@@ -152,7 +152,6 @@ public class FindFragment extends Fragment implements View.OnClickListener{
         }.start();
     }
 
-
     @Override
     public void onClick(View view) {
         //清除状态
@@ -177,17 +176,17 @@ public class FindFragment extends Fragment implements View.OnClickListener{
 
 
                 //进度框显示方法一
-                //progressDialog = DialogUIUtils.showLoadingDialog( MeLogin.this,"正在登录" );
-                //progressDialog.show();
+                progressDialog = DialogUIUtils.showLoadingDialog( getActivity(),"正在查询" );
+                progressDialog.show();
 
-                //进度条显示方法二
-                dialog = new LoadingDialog(getActivity(),R.layout.tips_load);
-                //点击物理返回键是否可取消dialog
-                dialog.setCancelable(true);
-                //点击dialog之外 是否可取消
-                dialog.setCanceledOnTouchOutside(true);
-                //显示
-                dialog.show();
+//                //进度条显示方法二
+//                dialog = new LoadingDialog(getActivity(),R.layout.tips_load);
+//                //点击物理返回键是否可取消dialog
+//                dialog.setCancelable(true);
+//                //点击dialog之外 是否可取消
+//                dialog.setCanceledOnTouchOutside(true);
+//                //显示
+//                dialog.show();
 
                 //在求购界面查询商品
                 enquire();
@@ -238,10 +237,10 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                     public void run() {
                         //这里的上下文由于是Fragment，不能直接写，需要依赖活动
                         //取消进度框一
-                        //dismiss(progressDialog);
+                        dismiss(progressDialog);
                         //取消进度条二
-                        mHandler.sendEmptyMessage(1);
-                        Toast.makeText( getActivity(),"数据出错！",Toast.LENGTH_SHORT ).show();
+                        //mHandler.sendEmptyMessage(1);
+                        Toast.makeText( getActivity(),"网络不给力！",Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }
@@ -268,9 +267,9 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                         @Override
                         public void run() {
                             //取消进度框一
-                            //dismiss(progressDialog);
+                            dismiss(progressDialog);
                             //取消进度条二
-                            mHandler.sendEmptyMessage(1);
+                            //mHandler.sendEmptyMessage(1);
                             Log.i( "Test", "run: 查询成功" );
                             Toast.makeText( getActivity(),"查询成功",Toast.LENGTH_SHORT ).show();
                             //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
@@ -287,9 +286,9 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                         @Override
                         public void run() {
                             //取消进度框一
-                            //dismiss(progressDialog);
+                            dismiss(progressDialog);
                             //取消进度条二
-                            mHandler.sendEmptyMessage(1);
+                            //mHandler.sendEmptyMessage(1);
                             Toast.makeText( getActivity(),"登录信息已失效,请再次登录",Toast.LENGTH_SHORT ).show();
                         }
                     } );
@@ -299,9 +298,9 @@ public class FindFragment extends Fragment implements View.OnClickListener{
                         @Override
                         public void run() {
                             //取消进度框一
-                            //dismiss(progressDialog);
+                            dismiss(progressDialog);
                             //取消进度条二
-                            mHandler.sendEmptyMessage(1);
+                            //mHandler.sendEmptyMessage(1);
                             Toast.makeText( getActivity(),"出现错误，查询失败",Toast.LENGTH_SHORT ).show();
                         }
                     } );

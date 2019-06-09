@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -56,6 +57,7 @@ public class MeFragment extends Fragment {
             Log.i( TAG, "onCreateView: filePath is "+filePath );
             user.setText( username );
             user.setTextSize( 20 );
+            user.setTextColor( Color.parseColor("#000000") );
             Bitmap bitmap = BitmapFactory.decodeFile( filePath );
             image_plus.setImageBitmap( bitmap );
         }

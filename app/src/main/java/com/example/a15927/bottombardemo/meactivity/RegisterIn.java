@@ -1,8 +1,6 @@
 package com.example.a15927.bottombardemo.meactivity;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -10,15 +8,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.MyTools.FileUtils;
+import com.example.a15927.bottombardemo.MyTools.ImageUtils;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -52,7 +45,7 @@ import okhttp3.Response;
 import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
 
 
-public class RegisterIn extends AppCompatActivity implements View.OnClickListener {
+public class RegisterIn extends AppCompatActivity implements View.OnClickListener{
     private EditText input_username;
     private EditText input_password;
     private EditText password_confirm;
@@ -62,14 +55,14 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
     private TextView back;
 
     //拍照功能参数
-    //imageUri照片真实路径
-    private Uri imageUri;
-    //private Uri cropImageUri;
-    File outputImage;
-//    File cropImage;
-    private static String filePath = null;
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
+    private final static int CROP_IMAGE = 3;
+
+    //imageUri照片真实路径
+    private Uri imageUri;
+    //照片存储
+    File filePath;
 
     //访问的服务器网页
     private int opType = 90001;
@@ -132,36 +125,33 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                                 //创建File对象，用于存储拍照后的图片,并把图片命名为output_image.jpg
                                 //存储在手机SD卡的应用关联缓存目录下，应用关联缓存目录是指SD卡中专门用于存放当前应用缓存数据的位置
                                 //调用getExternalCacheDir()获取这个目录
-                                outputImage = new File( getExternalCacheDir(), "output_image.jpg" );
-                                Log.i( "Test", "onItemClick:outputImage is "+outputImage );
-                                //压缩后存储的文件位置
-//                                cropImage = new File (getExternalCacheDir(),"crop_image.jpg");
-//                                Log.i( "Test", "onItemClick:cropImage is "+cropImage );
-                                try {
-                                    if (outputImage.exists()) {
-                                        outputImage.delete();
-                                    }
-                                    outputImage.createNewFile();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                //判断版本号
-                                if (Build.VERSION.SDK_INT >= 24) {
-                                    //将File对象转换成封装过的Uri对象，这个Uri对象标志着照片的真实路径
-                                    imageUri = FileProvider.getUriForFile( RegisterIn.this, "com.example.a15927.bottombardemo.fileprovider", outputImage );
-                                    //cropImageUri = FileProvider.getUriForFile( RegisterIn.this,"com.example.a15927.bottombardemo.fileprovider",outputImage );
-                                    Log.i( "Test", "onItemClick:------1--------- " );
-                                } else {
-                                    //将File对象转换成Uri对象，这个Uri对象标志着照片的真实路径
-                                    imageUri = Uri.fromFile( outputImage );
-                                    //cropImageUri = Uri.fromFile( cropImage );
-                                    Log.i( "Test", "onItemClick:------2--------- " );
-                                }
-
+//                                outputImage = new File( getExternalCacheDir(), "output_image.jpg" );
+//                                Log.i( "Test", "onItemClick:outputImage is "+outputImage );
+//                                try {
+//                                    if (outputImage.exists()) {
+//                                        outputImage.delete();
+//                                    }
+//                                    outputImage.createNewFile();
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                //判断版本号
+//                                if (Build.VERSION.SDK_INT >= 24) {
+//                                    //将File对象转换成封装过的Uri对象，这个Uri对象标志着照片的真实路径
+//                                    imageUri = FileProvider.getUriForFile( RegisterIn.this, "com.example.a15927.bottombardemo.fileprovider", outputImage );
+//                                    //cropImageUri = FileProvider.getUriForFile( RegisterIn.this,"com.example.a15927.bottombardemo.fileprovider",outputImage );
+//                                    Log.i( "Test", "onItemClick:------1--------- " );
+//                                } else {
+//                                    //将File对象转换成Uri对象，这个Uri对象标志着照片的真实路径
+//                                    imageUri = Uri.fromFile( outputImage );
+//                                    //cropImageUri = Uri.fromFile( cropImage );
+//                                    Log.i( "Test", "onItemClick:------2--------- " );
+//                                }
                                 //启动相机程序
                                 //隐式Intent
                                 Intent intent_photo = new Intent( "android.media.action.IMAGE_CAPTURE" );
                                 //putExtra()指定图片的输出地址，填入之前获得的Uri对象
+                                imageUri = ImageUtils.getImageUri( RegisterIn.this );
                                 intent_photo.putExtra( MediaStore.EXTRA_OUTPUT, imageUri );
                                 //startActivity( intent_photo );
                                 startActivityForResult( intent_photo, TAKE_PHOTO );
@@ -172,15 +162,19 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                                 //测试使用，验证是否为position= 1
                                 //Toast.makeText(RegisterIn.this,"position 1", Toast.LENGTH_SHORT ).show();
 
-                                //动态获取权限-------WRITE_EXTERNAL_STORAGE--------
-                                if (ContextCompat.checkSelfPermission( RegisterIn.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
-                                    ActivityCompat.requestPermissions( RegisterIn.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1 );
-                                } else {
-                                    //打开相册
-                                    openAlbum();
-                                }
+//                                //动态获取权限-------WRITE_EXTERNAL_STORAGE--------
+//                                if (ContextCompat.checkSelfPermission( RegisterIn.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+//                                    ActivityCompat.requestPermissions( RegisterIn.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1 );
+//                                } else {
+//                                    //打开相册
+//                                    openAlbum();
+//                                }
+                                //打开相册
+                                openAlbum();
                                 //底部弹框消失
                                 optionBottomDialog.dismiss();
+                                break;
+                            default:
                                 break;
                         }
                     }
@@ -202,8 +196,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
 
     //打开相册
     private void openAlbum() {
-        Intent intent_album = new Intent( "android.intent.action.GET_CONTENT" );
-        intent_album.setType( "image/*" );
+        Intent intent_album = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+        //intent_album.setType( "image/*" );
         //startActivity( intent_album );
         //需要返回给此活动一个消息，如果打开相册成功，则需要显示图片到活动中
         startActivityForResult( intent_album, CHOOSE_PHOTO );
@@ -224,100 +218,91 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    private void startImageCrop(File saveToFile,Uri uri) {
+        if(uri == null){
+            return ;
+        }
+        Intent intent = new Intent( "com.android.camera.action.CROP" );
+        Log.i( "Test", "startImageCrop: " + "执行到压缩图片了" + "uri is " + uri );
+        intent.setDataAndType( uri, "image/*" );//设置Uri及类型
+        //uri权限
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra( "crop", "true" );//
+        intent.putExtra( "aspectX", 1 );//X方向上的比例
+        intent.putExtra( "aspectY", 1 );//Y方向上的比例
+        intent.putExtra( "outputX", 150 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 150 );//裁剪区的Y方向宽
+        intent.putExtra( "scale", true );//是否保留比例
+        intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
+        intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM
+        //判断文件是否存在
+        //File saveToFile = ImageUtils.getTempFile();
+        if (!saveToFile.getParentFile().exists()) {
+            saveToFile.getParentFile().mkdirs();
+        }
+        //将剪切后的图片存储到此文件
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(saveToFile));
+        Log.i( "Test", "startImageCrop: " + "即将跳到剪切图片" );
+        startActivityForResult( intent, CROP_IMAGE );
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    //打开相机成功
-                    try {
-                        //将拍摄的照片的照片显示出来
-
-                        //拍照成功的话，就调用BitmapFactory的decodeStream()方法把output_image.jpg解析成Bitmap对象，然后显示
-                        //imageUri是拍摄的照片的真实路径
-                        Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-                        Log.i( "Test", "register imageUri is " + imageUri );
-                        filePath = outputImage.toString();
-                        //显示到指定位置
-                        takephoto.setImageBitmap( bitmap );
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    //将拍摄的照片的照片显示出来
+                    //需要对拍摄的照片进行处理编辑
+                    //拍照成功的话，就调用BitmapFactory的decodeStream()方法把图片解析成Bitmap对象，然后显示
+                    Log.i( "Test", "onActivityResult TakePhoto : "+imageUri );
+                    //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+                    //takephoto.setImageBitmap( bitmap );
+                    //设置照片存储文件及剪切图片
+                    File saveFile = ImageUtils.getTempFile();
+                    filePath = ImageUtils.getTempFile();
+                    startImageCrop( saveFile,imageUri );
                 }
                 break;
             case CHOOSE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     //选中相册照片显示
                     Log.i( "Test", "onActivityResult: 执行到打开相册了" );
-                    handleImageOnKitKat( data );
+                    try {
+                        imageUri = data.getData(); //获取系统返回的照片的Uri
+                        Log.i( "Test", "onActivityResult: uriImage is " +imageUri );
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(imageUri,
+                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String path = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        //                        photo_taken.setImageBitmap(bitmap);
+                        //设置照片存储文件及剪切图片
+                        File saveFile = ImageUtils.setTempFile( RegisterIn.this );
+                        filePath = ImageUtils.getTempFile();
+                        startImageCrop( saveFile,imageUri );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CROP_IMAGE:
+                if(resultCode == RESULT_OK){
+                    Log.i( "Test", "onActivityResult: CROP_IMAGE" + "进入了CROP");
+                    // 通过图片URI拿到剪切图片
+                    //bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+                    //通过FileName拿到图片
+                    Bitmap bitmap = BitmapFactory.decodeFile( filePath.toString() );
+                    //把裁剪后的图片展示出来
+                    takephoto.setImageBitmap( bitmap );
+                    //ImageUtils.Compress( bitmap );
                 }
                 break;
             default:
                 break;
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void handleImageOnKitKat(Intent data) {
-        //Log.i( "Test", "执行到打开相册子程序了" );
-        String imagePath = null;
-        Uri uri = data.getData();
-        //Log.i( "Test", " 执行到data.getData()了" );
-        if (DocumentsContract.isDocumentUri( this, uri )) {
-            //如果是document类型的Uri,则通过document id处理
-            String docId = DocumentsContract.getDocumentId( uri );
-            //Log.i( "Test", " 执行到打开相册文件documents" );
-            if ("com.android.providers.media.documents".equals( uri.getAuthority() )) {
-                //解析出数字格式的id
-                //Log.i( "Test", "handleImageOnKitKat: selection " );
-                String id = docId.split( ":" )[1];
-                String selection = MediaStore.Images.Media._ID + "=" + id;
-                imagePath = getImagePath( MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection );
-            } else if ("com.android.providers.downloads.documents".equals( uri.getAuthority() )) {
-                //Log.i( "Test", "执行到documents了" );
-                Uri contentUri = ContentUris.withAppendedId( Uri.parse( "ontent://downloads/public_downloads" ), Long.valueOf( docId ) );
-                imagePath = getImagePath( contentUri, null );
-            } else if ("content".equalsIgnoreCase( uri.getScheme() )) {
-                //Log.i( "Test", "执行到content了" );
-                //如果是content类型的Uri,则通过普通方式处理
-                imagePath = getImagePath( uri, null );
-                Log.i( "Test", "handleImageOnKitKat: imagePath is " + imagePath );
-            } else if ("file".equalsIgnoreCase( uri.getScheme() )) {
-                //如果是file类型的Uri,直接获取图片路径即可
-                //Log.i( "Test", "执行到file了" );
-                imagePath = uri.getPath();
-            }
-            Log.i( "Test", " 执行到显示了" );
-            displayImage( imagePath );
-            filePath = imagePath;
-        }
-    }
-
-    private String getImagePath(Uri externalContentUri, String selection) {
-        String path = null;
-        //通过Uri和selection来获取真实的路径
-        Log.i( "Test", " 执行到获取路径了" + externalContentUri + "       section is " + selection );
-        Cursor cursor = getContentResolver().query( externalContentUri, null, selection, null, null );
-        Log.i( "Test", "getImagePath: cursor is " + cursor );
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                //Log.i( "Test", "执行到cursor了" );
-                path = cursor.getString( cursor.getColumnIndex( MediaStore.Images.Media.DATA ) );
-            }
-            cursor.close();
-        }
-        //Log.i( "Test", " return path了" );
-        return path;
-    }
-
-    private void displayImage(String imagePath) {
-        if (imagePath != null) {
-            //Log.i( "Test", "onActivityResult: 即将显示了" );
-            Bitmap bitmap = BitmapFactory.decodeFile( imagePath );
-            takephoto.setImageBitmap( bitmap );
-        } else {
-            //Log.i( "Test", "onActivityResult: 执行到打不开相册了" );
-            Toast.makeText( this, "failed to get image", Toast.LENGTH_SHORT ).show();
         }
     }
 
@@ -363,23 +348,14 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
     public void register(String uname, String upassword) {
         //存储照片路径
         SharedPreferences.Editor image = getSharedPreferences( "data", MODE_PRIVATE ).edit();
-        image.putString( "filePath", filePath );
-        Log.i( "Test", "filePath is " + filePath );
+        image.putString( "filePath", filePath.toString() );
+        Log.i( "Test", "filePath is " + filePath.toString() );
         image.commit();//提交
-        //需要对拍摄的照片进行压缩处理
-        //Error:无法访问BufferedImage 找不到java.awt.image.BufferedImage的类文件
-//        try {
-//            Thumbnails.of( imageUri.toString())
-//                    .scale(1f)
-//                    .outputQuality(0.5f)
-//                    .toFile(cropImage.toString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
         //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-        Bitmap bitmap =BitmapFactory.decodeFile( filePath );
-        //压缩图片
-        Bitmap cropBitMap = FileUtils.zoomBitmap( bitmap, 240, 240 );
+        Bitmap bitmap =BitmapFactory.decodeFile( filePath.toString() );
+//        //压缩图片
+//        Bitmap cropBitMap = FileUtils.zoomBitmap( bitmap, 200, 200 );
 
         //生成部分属性
         UserVO userVO = new UserVO();
@@ -388,7 +364,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
        // Bitmap bitmap = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
 
         //bitmp转bytes
-        byte[] uimages = FileUtils.Bitmap2Bytes( cropBitMap );
+        byte[] uimages = FileUtils.Bitmap2Bytes( bitmap );
         userVO.setOpType( opType );
         userVO.setUid( uuid );
         userVO.setuname( uname );
@@ -415,7 +391,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                         dismiss( progressDialog );
                         //取消进度条二
                         //mHandler.sendEmptyMessage(1);
-                        Toast.makeText( RegisterIn.this, "数据错误", Toast.LENGTH_SHORT ).show();
+                        Toast.makeText( RegisterIn.this, "网络不给力！", Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }

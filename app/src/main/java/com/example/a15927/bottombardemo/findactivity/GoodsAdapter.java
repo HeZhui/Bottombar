@@ -73,7 +73,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
         holder.goodsID.setText( goods.getGoodsID() );
         holder.goodsName.setText( goods.getGoodsName() );
         holder.goods_price.setText( ""+goods.getPrice() );
-        holder.goods_quality.setText( ""+ goods.getQuality() );
+        holder.goods_quality.setText( ""+ (int)goods.getQuality() );
         holder.goods_unit.setText( goods.getUnit() );
     }
 

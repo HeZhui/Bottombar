@@ -212,30 +212,30 @@
 
         <RelativeLayout
             android:id="@+id/rc_camera"
-            android:clickable="true"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="#ef76a0"
+            android:layout_marginBottom="35dp"
             android:layout_marginRight="2dp"
-            android:layout_marginBottom="35dp">
+            android:layout_weight="1"
+            android:background="#ef76a0"
+            android:clickable="true">
 
             <ImageButton
                 android:id="@+id/image_camera"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@drawable/camera"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+                android:background="@drawable/camera"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="相机"
-                android:textColor="#000"
-                android:textSize="20sp"
                 android:layout_below="@+id/image_camera"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:text="数码"
+                android:textColor="#000"
+                android:textSize="20sp"/>
         </RelativeLayout>
 
     </LinearLayout>

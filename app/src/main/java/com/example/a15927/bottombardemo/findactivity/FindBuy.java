@@ -124,7 +124,7 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener{
                 runOnUiThread( new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText( FindBuy.this,"网络出错啦！",Toast.LENGTH_SHORT ).show();
+                        Toast.makeText( FindBuy.this,"网络不给力！",Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }

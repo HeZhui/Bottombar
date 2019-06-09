@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -26,14 +24,14 @@
 
         <ImageView
             android:id="@+id/image_search"
-            android:clickable="true"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/search"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:src="@drawable/search"/>
 
     </RelativeLayout>
 
@@ -52,19 +50,19 @@
             android:id="@+id/view1"
             android:layout_width="170dp"
             android:layout_height="1dip"
-            android:background="@color/gray"
-            android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/text_u"
+            android:background="@color/gray"
             />
 
         <TextView
             android:id="@+id/text_u"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="推荐"
             android:layout_centerInParent="true"
+            android:text="推荐"
             android:textSize="13sp"
             />
 
@@ -72,51 +70,38 @@
             android:id="@+id/view2"
             android:layout_width="175dp"
             android:layout_height="1dip"
-            android:background="@color/gray"
-            android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/text_u"
+            android:background="@color/gray"
 
             />
-
-
-
-
     </RelativeLayout>
 
-    <GridLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:orientation="horizontal"
-        android:rowCount="2"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="51dp"
         >
 
-        <ImageView
-            android:id="@+id/imag_gone"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp">
+        </android.support.v7.widget.RecyclerView>
+
+        <include
+            android:id="@+id/layout_net_failed"
+            layout="@layout/net_failed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             />
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_column="0"-->
-        <!--android:layout_row="0"-->
-        <!--android:layout_columnWeight="1"-->
-        <!--android:layout_rowWeight="1"-->
+    </LinearLayout>
 
-
-        <ImageView
-            android:id="@+id/imag_gtwo"
-            />
-
-        <ImageView
-            android:id="@+id/imag_gthere"
-            />
-
-        <ImageView
-            android:id="@+id/imag_gfour"
-            />
-
-
-    </GridLayout>
 
 </LinearLayout>
