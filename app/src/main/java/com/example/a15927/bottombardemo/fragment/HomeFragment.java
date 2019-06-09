@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        initGoods();
+
         banner = (Banner) view.findViewById(R.id.banner);
         netFailedLayout = view.findViewById( R.id.layout_net_failed );
         recycler_home = (RecyclerView) view.findViewById( R.id.recycler_home );
@@ -78,6 +78,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
 
             }
         });
+        initGoods();
         initView();
         return view;
     }
@@ -144,7 +145,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                     getActivity().runOnUiThread( new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText( getActivity(),"登录信息已失效,请再次登录",Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( getActivity(),"登录信息已失效,请再次登录！",Toast.LENGTH_SHORT ).show();
                         }
                     } );
                 }

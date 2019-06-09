@@ -29,8 +29,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //集成模块的依赖
-    //compile project(':takephoto_library')
+
     // 轮播图的依赖
     compile 'com.youth.banner:banner:1.4.9'
     //底部弹框的依赖
@@ -49,6 +48,5 @@ dependencies {
     //圆形图片的依赖
     compile 'de.hdodenhof:circleimageview:2.1.0'
     testCompile 'junit:junit:4.12'
-    // 照片压缩的包依赖
-//    compile files('libs/thumbnailator-0.4.8.jar')
+
 }

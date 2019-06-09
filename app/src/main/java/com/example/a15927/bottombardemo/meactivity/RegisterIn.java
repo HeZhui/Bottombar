@@ -3,14 +3,12 @@ package com.example.a15927.bottombardemo.meactivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -122,31 +120,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                                 //测试使用，验证是否为position= 0
                                 //Toast.makeText(RegisterIn.this,"position 0", Toast.LENGTH_SHORT ).show();
 
-                                //创建File对象，用于存储拍照后的图片,并把图片命名为output_image.jpg
-                                //存储在手机SD卡的应用关联缓存目录下，应用关联缓存目录是指SD卡中专门用于存放当前应用缓存数据的位置
-                                //调用getExternalCacheDir()获取这个目录
-//                                outputImage = new File( getExternalCacheDir(), "output_image.jpg" );
-//                                Log.i( "Test", "onItemClick:outputImage is "+outputImage );
-//                                try {
-//                                    if (outputImage.exists()) {
-//                                        outputImage.delete();
-//                                    }
-//                                    outputImage.createNewFile();
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                //判断版本号
-//                                if (Build.VERSION.SDK_INT >= 24) {
-//                                    //将File对象转换成封装过的Uri对象，这个Uri对象标志着照片的真实路径
-//                                    imageUri = FileProvider.getUriForFile( RegisterIn.this, "com.example.a15927.bottombardemo.fileprovider", outputImage );
-//                                    //cropImageUri = FileProvider.getUriForFile( RegisterIn.this,"com.example.a15927.bottombardemo.fileprovider",outputImage );
-//                                    Log.i( "Test", "onItemClick:------1--------- " );
-//                                } else {
-//                                    //将File对象转换成Uri对象，这个Uri对象标志着照片的真实路径
-//                                    imageUri = Uri.fromFile( outputImage );
-//                                    //cropImageUri = Uri.fromFile( cropImage );
-//                                    Log.i( "Test", "onItemClick:------2--------- " );
-//                                }
                                 //启动相机程序
                                 //隐式Intent
                                 Intent intent_photo = new Intent( "android.media.action.IMAGE_CAPTURE" );
@@ -161,14 +134,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                             case 1:
                                 //测试使用，验证是否为position= 1
                                 //Toast.makeText(RegisterIn.this,"position 1", Toast.LENGTH_SHORT ).show();
-
-//                                //动态获取权限-------WRITE_EXTERNAL_STORAGE--------
-//                                if (ContextCompat.checkSelfPermission( RegisterIn.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
-//                                    ActivityCompat.requestPermissions( RegisterIn.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1 );
-//                                } else {
-//                                    //打开相册
-//                                    openAlbum();
-//                                }
                                 //打开相册
                                 openAlbum();
                                 //底部弹框消失
@@ -203,21 +168,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         startActivityForResult( intent_album, CHOOSE_PHOTO );
     }
 
-    //获取权限
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openAlbum();
-                } else {
-                    Toast.makeText( RegisterIn.this, "you denied the permission!", Toast.LENGTH_LONG ).show();
-                }
-                break;
-            default:
-        }
-    }
-
+    //剪切图片
     private void startImageCrop(File saveToFile,Uri uri) {
         if(uri == null){
             return ;
