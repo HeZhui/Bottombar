@@ -15,7 +15,7 @@ import okhttp3.RequestBody;
 public class PostWith {
     public static String TAG = "Test";
 
-    //okhttp3  post网络请求函数
+    //OkHttp的post网络请求函数
     public static void  sendPostWithOkhttp( String url,  String JsonStr,okhttp3.Callback callback){
         //创建实例对象
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -32,7 +32,7 @@ public class PostWith {
                 .post( requestBody )
                 .url( url )
                 .build();
-        okHttpClient.newCall( request ).enqueue( callback );
+        okHttpClient.newCall( request ).enqueue( callback );//异步请求
     }
 
 }

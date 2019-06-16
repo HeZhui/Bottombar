@@ -1,7 +1,5 @@
 package com.example.a15927.bottombardemo.functiontools;
 
-import java.util.Arrays;
-
 /**
  * Created by Administrator on 2019/3/27.
  */
@@ -21,156 +19,135 @@ public class GoodsPut {
     private String qq;
     private String weixin;
     private String token;    //token
-    //private String goodsTypeName; //所属类名（可选字段）
+    private String goodsTypeName; //所属类名（可选字段）
     private int sex;
-
-    public int getSex() {
-        return sex;
-    }
-
-    public String getUname() {
-        return uname;
-    }
-
-    public String getUphone() {
-        return uphone;
-    }
-
-    public String getQq() {
-        return qq;
-    }
-
-    public String getWeixin() {
-        return weixin;
-    }
 
     public int getOpType() {
         return opType;
+    }
+
+    public void setOpType(int opType) {
+        this.opType = opType;
     }
 
     public String getGoodsID() {
         return goodsID;
     }
 
-    public String getGoodsType() {
-        return goodsType;
-    }
-
-    public String getGoodsName() {
-        return goodsName;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public float getQuality() {
-        return quality;
-    }
-
-    public String getUserid() {
-        return userid;
-    }
-
-    public byte[] getGoodsImg() {
-        return goodsImg;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-//    public String getGoodsTypeName() {
-//        return goodsTypeName;
-//    }
-
-    public void setOpType(int opType) {
-        this.opType = opType;
-    }
-
     public void setGoodsID(String goodsID) {
         this.goodsID = goodsID;
+    }
+
+    public String getGoodsType() {
+        return goodsType;
     }
 
     public void setGoodsType(String goodsType) {
         this.goodsType = goodsType;
     }
 
+    public String getGoodsName() {
+        return goodsName;
+    }
+
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
+    }
+
+    public float getPrice() {
+        return price;
     }
 
     public void setPrice(float price) {
         this.price = price;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public float getQuality() {
+        return quality;
     }
 
     public void setQuality(float quality) {
         this.quality = quality;
     }
 
+    public String getUserid() {
+        return userid;
+    }
+
     public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public byte[] getGoodsImg() {
+        return goodsImg;
     }
 
     public void setGoodsImg(byte[] goodsImg) {
         this.goodsImg = goodsImg;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public String getUname() {
+        return uname;
     }
-
-//    public void setGoodsTypeName(String goodsTypeName) {
-//        this.goodsTypeName = goodsTypeName;
-//    }
 
     public void setUname(String uname) {
         this.uname = uname;
+    }
+
+    public String getUphone() {
+        return uphone;
     }
 
     public void setUphone(String uphone) {
         this.uphone = uphone;
     }
 
+    public String getQq() {
+        return qq;
+    }
+
     public void setQq(String qq) {
         this.qq = qq;
+    }
+
+    public String getWeixin() {
+        return weixin;
     }
 
     public void setWeixin(String weixin) {
         this.weixin = weixin;
     }
 
-    public void setSex(int sex) {
-        this.sex = sex;
+    public String getToken() {
+        return token;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "opType=" + opType +
-                ", goodsID='" + goodsID + '\'' +
-                ", goodsType='" + goodsType + '\'' +
-                ", goodsName='" + goodsName + '\'' +
-                ", price=" + price +
-                ", unit='" + unit + '\'' +
-                ", quality=" + quality +
-                ", userid='" + userid + '\'' +
-                ", goodsImg=" + Arrays.toString( goodsImg ) +
-                ", uname='" + uname + '\'' +
-                ", uphone='" + uphone + '\'' +
-                ", qq='" + qq + '\'' +
-                ", weixin='" + weixin + '\'' +
-                ", token='" + token + '\'' +
-                ", sex=" + sex +
-                '}';
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getGoodsTypeName() {
+        return goodsTypeName;
+    }
+
+    public void setGoodsTypeName(String goodsTypeName) {
+        this.goodsTypeName = goodsTypeName;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 
 }

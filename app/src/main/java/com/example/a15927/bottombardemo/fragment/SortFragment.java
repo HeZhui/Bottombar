@@ -83,17 +83,4 @@ public class SortFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        Button elictric_button = getActivity().findViewById(R.id.rc_elictric);
-//        elictric_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//               // Toast.makeText(getActivity(), "You clicked electric button", Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
-//    }show
-
 }

@@ -7,10 +7,10 @@
               >
 
     <ImageView
-        android:id="@+id/net"
+        android:id="@+id/nothing"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/net_failed"
+        android:src="@drawable/nothingatall"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
         />
@@ -18,9 +18,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="亲，当前网络不给力哦！"
-        android:layout_below="@+id/net"
+        android:text="咦，这里还什么都没有呢！"
+        android:layout_below="@+id/nothing"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"/>
-
+        android:layout_marginTop="5dp"/>
 </RelativeLayout>

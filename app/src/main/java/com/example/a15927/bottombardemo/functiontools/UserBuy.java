@@ -5,7 +5,8 @@ public class UserBuy {
     private String token;
     private int pageSize;
     private int page;
-
+    private int checkType; //查询方式       1----------加载               2----------------刷新
+    private int condition;//区别是摊位（ 1 ），还是求购（ 2 ）
     public int getOpType() {
         return opType;
     }
@@ -38,13 +39,19 @@ public class UserBuy {
         this.page = page;
     }
 
-    @Override
-    public String toString() {
-        return "UserBuy{" +
-                "opType=" + opType +
-                ", token='" + token + '\'' +
-                ", pageSize=" + pageSize +
-                ", page=" + page +
-                '}';
+    public int getCheckType() {
+        return checkType;
+    }
+
+    public void setCheckType(int checkType) {
+        this.checkType = checkType;
+    }
+
+    public int getCondition() {
+        return condition;
+    }
+
+    public void setCondition(int condition) {
+        this.condition = condition;
     }
 }

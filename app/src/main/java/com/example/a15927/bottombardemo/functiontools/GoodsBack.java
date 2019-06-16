@@ -4,7 +4,7 @@ package com.example.a15927.bottombardemo.functiontools;
  * Created by Administrator on 2019/3/27.
  */
 
-public class Goodsback {
+public class GoodsBack {
     private int flag;
     private String message;
 

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#fff">
+    android:background="#fff"
+    android:layout_marginBottom="50.5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,9 +24,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.4"
-        android:layout_marginTop="2dp"
         android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
         >
 
         <RelativeLayout
@@ -35,17 +34,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#8894ef"
+            android:background="#e3fffc"
             android:clickable="true"
 
             >
 
             <ImageView
                 android:id="@+id/Image_electric"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerInParent="true"
                 android:src="@drawable/electric"/>
 
 
@@ -55,7 +53,6 @@
                 android:layout_below="@+id/Image_electric"
                 android:layout_centerHorizontal="true"
                 android:text="电器"
-                android:textColor="#000"
                 android:textSize="20sp"/>
 
         </RelativeLayout>
@@ -63,35 +60,34 @@
         <View
             android:layout_width="2dip"
             android:layout_height="match_parent"
-            android:background="#fff"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/rc_electric"/>
+            android:layout_toRightOf="@+id/rc_electric"
+            android:background="#fff"/>
 
         <RelativeLayout
             android:id="@+id/rc_make_up"
-            android:clickable="true"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
             android:layout_weight="1"
-            android:background="#7bef75"
-            android:layout_marginRight="2dp">
+            android:background="#feebeb"
+            android:clickable="true">
 
 
             <ImageView
                 android:id="@+id/Image_make_up"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/make_up"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="化妆品"
-                android:textColor="#000"
-                android:textSize="20sp"
                 android:layout_below="@+id/Image_make_up"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:text="化妆品"
+                android:textSize="20sp"/>
         </RelativeLayout>
 
 
@@ -100,7 +96,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.4"
+        android:layout_weight="1"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="2dp">
 
@@ -110,12 +106,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#1de3c5">
+            android:background="#fffadd">
 
             <ImageView
                 android:id="@+id/image_clothes"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/clothes"/>
 
@@ -123,7 +119,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="衣服"
-                android:textColor="#000"
                 android:textSize="20sp"
                 android:layout_below="@+id/image_clothes"
                 android:layout_centerHorizontal="true"/>
@@ -144,21 +139,20 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="#0facfa"
+            android:background="#ffe5fd"
             android:layout_marginRight="2dp">
 
             <ImageView
                 android:id="@+id/image_sports"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/sports"/>
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/sports"
+                android:layout_centerInParent="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="运动"
-                android:textColor="#000"
                 android:textSize="20sp"
                 android:layout_below="@+id/image_sports"
                 android:layout_centerHorizontal="true"/>
@@ -169,7 +163,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.8"
+        android:layout_weight="1"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="2dp"
         android:layout_marginBottom="2dp">
@@ -180,23 +174,20 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="#fadd24"
-            android:layout_marginBottom="35dp"
+            android:background="#ffede4"
            >
 
             <ImageView
                 android:id="@+id/image_book"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@drawable/book"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerInParent="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="书籍"
-                android:textColor="#000"
                 android:textSize="20sp"
                 android:layout_below="@+id/image_book"
                 android:layout_centerHorizontal="true"/>
@@ -208,25 +199,25 @@
             android:layout_height="match_parent"
             android:background="#fff"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/rc_book"/>
+            android:layout_toRightOf="@+id/rc_book"
+            />
 
         <RelativeLayout
             android:id="@+id/rc_camera"
+            android:clickable="true"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="35dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
-            android:background="#ef76a0"
-            android:clickable="true">
+            android:background="#fbf5d5"
+            >
 
             <ImageButton
                 android:id="@+id/image_camera"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/camera"/>
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/camera"
+                android:layout_centerInParent="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -234,7 +225,6 @@
                 android:layout_below="@+id/image_camera"
                 android:layout_centerHorizontal="true"
                 android:text="数码"
-                android:textColor="#000"
                 android:textSize="20sp"/>
         </RelativeLayout>
 

@@ -20,7 +20,7 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
     private EditText password_confirm;
     private Button comit_info;
     private int opType=90007;
-    private String url = "http://118.89.217.225:8080/Proj20/user";
+    private String url = "http://47.105.185.251:8081/Proj31/user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

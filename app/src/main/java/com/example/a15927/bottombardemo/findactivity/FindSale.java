@@ -23,8 +23,8 @@ import com.example.a15927.bottombardemo.MyTools.FileUtils;
 import com.example.a15927.bottombardemo.MyTools.ImageUtils;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
+import com.example.a15927.bottombardemo.functiontools.GoodsBack;
 import com.example.a15927.bottombardemo.functiontools.GoodsPut;
-import com.example.a15927.bottombardemo.functiontools.Goodsback;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserVO;
 import com.google.gson.Gson;
@@ -45,11 +45,11 @@ import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismi
 public class FindSale extends AppCompatActivity implements View.OnClickListener {
     private ImageView photo_taken, back_sale;
     private EditText text_name, text_price, mobile, text_description;
-    private TextView comit_sale, saling;
+    private TextView commit_sale, saling;
     private static String TAG = "Test";
     //服务类型
     private int opType = 90003;
-    private String url = "http://47.105.185.251:8081/Proj31/sale";//http://192.168.2.134:8080/Proj20/sale
+    private String url = "http://47.105.185.251:8081/Proj31/sale";
 
     //相机参数
     private static Uri imageUri;
@@ -57,7 +57,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
     private static final int CHOOSE_PHOTO = 2;
     private final static int CROP_IMAGE = 3;
     //照片存储
-    File filePath;
+    File filePath ;
 
     //下拉框
     private Spinner spinner_sale;
@@ -81,8 +81,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         back_sale = (ImageView) findViewById( R.id.back_sale );
         back_sale.setOnClickListener( this );
 
-        comit_sale = (TextView) findViewById( R.id.comit_sale );
-        comit_sale.setOnClickListener( this );
+        commit_sale = (TextView) findViewById( R.id.commit_sale );
+        commit_sale.setOnClickListener( this );
 
         text_name = (EditText) findViewById( R.id.name_sale );
         text_price = (EditText) findViewById( R.id.price_sale );
@@ -154,30 +154,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                         }
                     }
                 } );
-
-                //                //创建File对象，用于存储拍照后的图片,并把图片命名为output_image.jpg
-                //                File outputImage = new File( getExternalCacheDir(), "output_image.jpg" );
-                //                try {
-                //                    if (outputImage.exists()) {
-                //                        outputImage.delete();
-                //                    }
-                //                    outputImage.createNewFile();
-                //                } catch (IOException e) {
-                //                    e.printStackTrace();
-                //                }
-                //                //判断版本号
-                //                if (Build.VERSION.SDK_INT >= 24) {
-                //                    imageUri = FileProvider.getUriForFile( FindSale.this, "com.example.a15927.bottombardemo.fileprovider", outputImage );
-                //                } else {
-                //                    imageUri = Uri.fromFile( outputImage );
-                //                }
-                //                //打开相机程序
-                //                Intent intent_photo = new Intent( "android.media.action.IMAGE_CAPTURE" );
-                //                intent_photo.putExtra( MediaStore.EXTRA_OUTPUT,imageUri );
-                //                //startActivity( intent_photo );
-                //                startActivityForResult( intent_photo, TAKE_PHOTO );
                 break;
-            case R.id.comit_sale:
+            case R.id.commit_sale:
                 // 获取填写的商品名字
                 String goods_name = text_name.getText().toString().trim();
                 //获取填写的商品价格
@@ -187,7 +165,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                 //获取填写的商品描述
                 String goods_description = text_description.getText().toString().trim();
 
-                if( goods_name == null || goods_price == null  ){
+                if(( goods_name == null|| goods_name.isEmpty())  && ( goods_price == null || goods_price.isEmpty()) ){
                     Toast.makeText( FindSale.this, "请填写完整的商品信息", Toast.LENGTH_SHORT ).show();
                 }else{
                     //进度框显示方法一
@@ -212,8 +190,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         intent.putExtra( "crop", "true" );//
         intent.putExtra( "aspectX", 1 );//X方向上的比例
         intent.putExtra( "aspectY", 1 );//Y方向上的比例
-        intent.putExtra( "outputX", 150 );//裁剪区的X方向宽
-        intent.putExtra( "outputY", 150 );//裁剪区的Y方向宽
+        intent.putExtra( "outputX", 100 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 100 );//裁剪区的Y方向宽
         intent.putExtra( "scale", true );//是否保留比例
         intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
         intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM
@@ -242,7 +220,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                     //photo_taken.setImageBitmap( bitmap );
                     //设置照片存储文件及剪切图片
                     File saveFile = ImageUtils.getTempFile();
-                    filePath = ImageUtils.getTempFile();
+                    //filePath = ImageUtils.getTempFile();
                     startImageCrop( saveFile,imageUri );
                 }
                 break;
@@ -264,7 +242,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
 //                        photo_taken.setImageBitmap(bitmap);
                         //设置照片存储文件及剪切图片
                         File saveFile = ImageUtils.setTempFile( FindSale.this );
-                        filePath = ImageUtils.getTempFile();
+                        //filePath = ImageUtils.getTempFile();
                         startImageCrop( saveFile,imageUri );
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -277,6 +255,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                     // 通过图片URI拿到剪切图片
                     //bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
                     //通过FileName拿到图片
+                    //filePath = ImageUtils.getTempFile();
                     Bitmap bitmap = BitmapFactory.decodeFile( filePath.toString() );
                     //把裁剪后的图片展示出来
                     photo_taken.setImageBitmap( bitmap );
@@ -298,8 +277,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         String uuid = UUID.randomUUID().toString().replaceAll( "-", "" );
 //        Resources res = getResources();
 //        Bitmap bmp = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
-        //filePath = ImageUtils.getTempFile( );
-        Log.i( TAG, "comitsale: filePath is "+filePath.toString() );
+        filePath = ImageUtils.getTempFile( );
+        //Log.i( TAG, "comitsale: filePath is "+filePath.toString() );
         Bitmap bmp =BitmapFactory.decodeFile( filePath.toString() );
         //bitmp转bytes
         byte[] uimages = FileUtils.Bitmap2Bytes( bmp );
@@ -333,7 +312,6 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         String goodsJsonStr = gson.toJson( goodsPut, GoodsPut.class );
         Log.i( "Test", goodsJsonStr.toString() );
 
-        //        sendGoodsData(url,goodsJsonStr);
         PostWith postWith = new PostWith();
         postWith.sendPostWithOkhttp( url, goodsJsonStr, new Callback() {
             @Override
@@ -342,6 +320,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                 runOnUiThread( new Runnable() {
                     @Override
                     public void run() {
+                        //取消进度框一
+                        dismiss(progressDialog);
                         Toast.makeText( FindSale.this, "网络不给力！", Toast.LENGTH_SHORT ).show();
                     }
                 } );
@@ -355,9 +335,9 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                 Log.i( "Test", responseData );
                 //json转String
                 Gson re_gson = new Gson();
-                Goodsback goodsback = re_gson.fromJson( responseData, Goodsback.class );
-                Log.i( "Test", goodsback.toString() );
-                int flag = goodsback.getFlag();
+                GoodsBack goodsBack = re_gson.fromJson( responseData, GoodsBack.class );
+                Log.i( "Test", goodsBack.toString() );
+                int flag = goodsBack.getFlag();
                 if (flag == 200) {
                     runOnUiThread( new Runnable() {
                         @Override

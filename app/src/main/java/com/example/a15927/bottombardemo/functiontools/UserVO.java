@@ -12,7 +12,6 @@ public class UserVO {
     private int sex;
     private String qq;
     private String weixin;
-//
 //    private String token; // 查询或更新用户时，需要用到token
 
 

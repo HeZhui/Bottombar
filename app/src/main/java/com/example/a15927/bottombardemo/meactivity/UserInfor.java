@@ -69,7 +69,7 @@ public class UserInfor extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_user_infor );
+        setContentView( R.layout.user_infor );
         //初始化绑定控件
         initView();
         //查询用户信息并显示

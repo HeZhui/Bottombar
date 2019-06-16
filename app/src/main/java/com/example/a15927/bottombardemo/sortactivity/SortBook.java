@@ -30,7 +30,7 @@ import okhttp3.Response;
 import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
 
 
-public class SortBook extends AppCompatActivity implements View.OnClickListener{
+public class SortBook extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "Test";
 
     private RecyclerView recycler_book;
@@ -40,7 +40,7 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener{
     private String url = "http://47.105.185.251:8081/Proj31/sort";
     private int QueryType = 1;//代表按照商品类别查询
     private String goodsType = "书籍";
-    private List<ItemGoods> goodsList = new ArrayList<>(  );
+    private List<ItemGoods> goodsList = new ArrayList<>();
 
     //进度条一
     Dialog progressDialog;
@@ -50,16 +50,16 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener{
         super.onCreate( savedInstanceState );
         setContentView( R.layout.sort_book );
 
-        recycler_book = (RecyclerView)findViewById( R.id.recycler_book );
+        recycler_book = (RecyclerView) findViewById( R.id.recycler_book );
         netFailed = findViewById( R.id.layout_net_failed1 );
-        arrow_back5 = (ImageView) findViewById( R.id.arrow_back5);
+        arrow_back5 = (ImageView) findViewById( R.id.arrow_back5 );
         arrow_back5.setOnClickListener( this );
 
-        SharedPreferences sp = getSharedPreferences( "data",MODE_PRIVATE );
-        String uname = sp.getString( "uname","" );
-        String token = sp.getString( "token","" );
-        Log.i( "Test", "uname is  " +uname);
-        Log.i( "Test", "token is  " +token );
+        SharedPreferences sp = getSharedPreferences( "data", MODE_PRIVATE );
+        String uname = sp.getString( "uname", "" );
+        String token = sp.getString( "token", "" );
+        Log.i( "Test", "uname is  " + uname );
+        Log.i( "Test", "token is  " + token );
         //初始化对象books
         SortGoodsRo books = new SortGoodsRo();
         //设置属性
@@ -69,13 +69,13 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener{
         books.setGoodsName( null );
 
         Gson gson = new Gson();
-        String jsonStr = gson.toJson( books,SortGoodsRo.class );
+        String jsonStr = gson.toJson( books, SortGoodsRo.class );
 
-        Log.i( TAG, "组成的Json串是: "+jsonStr );
-        initGoods(jsonStr);
+        Log.i( TAG, "组成的Json串是: " + jsonStr );
         //进度框显示方法一
-        progressDialog = DialogUIUtils.showLoadingDialog( SortBook.this,"正在查询..." );
+        progressDialog = DialogUIUtils.showLoadingDialog( SortBook.this, "正在查询..." );
         progressDialog.show();
+        initGoods( jsonStr );
     }
 
     //加载商品信息
@@ -88,7 +88,7 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener{
                     @Override
                     public void run() {
                         //取消进度框一
-                        dismiss(progressDialog);
+                        dismiss( progressDialog );
                         Log.i( TAG, "run: failed" );
                         recycler_book.setVisibility( View.GONE );
                         netFailed.setVisibility( View.VISIBLE );
@@ -101,24 +101,24 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener{
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i( TAG, "run: success" );
                 String responseData = response.body().string();
-                Log.i( TAG, "onResponse: " +responseData);
+                Log.i( TAG, "onResponse: " + responseData );
                 //开始解析返回数据
                 Log.i( TAG, "开始解析数据" );
                 Gson gson = new Gson();
                 //把属性给到对应的对象中
-                Goods goods = gson.fromJson( responseData,Goods.class );
+                Goods goods = gson.fromJson( responseData, Goods.class );
                 Log.i( TAG, "解析数据完毕" );
                 int flag = goods.getFlag();
-                Log.i( TAG, "flag " +flag);
+                Log.i( TAG, "flag " + flag );
                 goodsList = goods.getGoodsList();
-                Log.i( TAG, "goodsList" +goodsList);
+                // Log.i( TAG, "goodsList" +goodsList);
                 //flag判断
-                if(flag == 200){
+                if (flag == 200) {
                     runOnUiThread( new Runnable() {
                         @Override
                         public void run() {
                             //取消进度框一
-                            dismiss(progressDialog);
+                            dismiss( progressDialog );
                             Log.i( TAG, "run: 查询成功！" );
                             Toast.makeText( SortBook.this, "查询成功！", Toast.LENGTH_SHORT ).show();
                             //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
@@ -128,23 +128,21 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener{
                             recycler_book.setAdapter( adapter );
                         }
                     } );
-                }
-                else if(flag == 30001){
+                } else if (flag == 30001) {
                     runOnUiThread( new Runnable() {
                         @Override
                         public void run() {
                             //取消进度框一
-                            dismiss(progressDialog);
+                            dismiss( progressDialog );
                             Toast.makeText( SortBook.this, "登录信息无效，请重新登录！", Toast.LENGTH_SHORT ).show();
                         }
                     } );
-                }
-                else{
+                } else {
                     runOnUiThread( new Runnable() {
                         @Override
                         public void run() {
                             //取消进度框一
-                            dismiss(progressDialog);
+                            dismiss( progressDialog );
                             Toast.makeText( SortBook.this, "查询失败！", Toast.LENGTH_SHORT ).show();
                         }
                     } );
@@ -155,7 +153,7 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener{
 
 
     @Override
-    public void onClick(View view){
+    public void onClick(View view) {
         finish();
     }
 

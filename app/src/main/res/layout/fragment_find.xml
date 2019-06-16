@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#fff"
+    android:layout_marginBottom="50.5dp">
 
     <RelativeLayout
         android:id="@+id/headline"
@@ -104,21 +105,34 @@
     </RelativeLayout>
 
 
-    <com.example.a15927.bottombardemo.views.PullToRefreshAndPushToLoadView6
-        android:id="@+id/prpt"
-        android:padding="20dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="31dp">
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_view"
+        <!--上拉加载下拉刷新版本25-->
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/springView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
-            />
+            >
 
-    </com.example.a15927.bottombardemo.views.PullToRefreshAndPushToLoadView6>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_find"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </com.liaoinstan.springview.widget.SpringView>
+
+        <include
+            android:id="@+id/layout_net_failed_find"
+            layout="@layout/net_failed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+    </LinearLayout>
 
 </RelativeLayout>

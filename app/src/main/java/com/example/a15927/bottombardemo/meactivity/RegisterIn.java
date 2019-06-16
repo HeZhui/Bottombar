@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.MyTools.FileUtils;
 import com.example.a15927.bottombardemo.MyTools.ImageUtils;
+import com.example.a15927.bottombardemo.MyTools.MD5Utils;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -96,7 +97,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         back.setOnClickListener( this );
         comit_register = (Button) findViewById( R.id.register );
         comit_register.setOnClickListener( this );
-
     }
 
     @Override
@@ -182,8 +182,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         intent.putExtra( "crop", "true" );//
         intent.putExtra( "aspectX", 1 );//X方向上的比例
         intent.putExtra( "aspectY", 1 );//Y方向上的比例
-        intent.putExtra( "outputX", 150 );//裁剪区的X方向宽
-        intent.putExtra( "outputY", 150 );//裁剪区的Y方向宽
+        intent.putExtra( "outputX", 100 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 100 );//裁剪区的Y方向宽
         intent.putExtra( "scale", true );//是否保留比例
         intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
         intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM
@@ -278,7 +278,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                         //进度框显示方法一
                         progressDialog = DialogUIUtils.showLoadingDialog( RegisterIn.this, "正在注册" );
                         progressDialog.show();
-
                         //                        //进度条显示方法二
                         //                        dialog = new LoadingDialog(RegisterIn.this,R.layout.tips_load);
                         //                        //点击物理返回键是否可取消dialog
@@ -287,7 +286,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                         //                        dialog.setCanceledOnTouchOutside(true);
                         //                        //显示
                         //                        dialog.show();
-
                         register( inputUsername, inputpassword );
                     } else
                         Toast.makeText( RegisterIn.this, "两次密码不一致", Toast.LENGTH_SHORT ).show();
@@ -319,11 +317,12 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         userVO.setOpType( opType );
         userVO.setUid( uuid );
         userVO.setuname( uname );
-        userVO.setUpassword( upassword );
+        userVO.setUpassword( MD5Utils.getMD5( upassword ) );
         userVO.setUimage( uimages );
         userVO.setUphone( "15927305629" );
         userVO.setSex( 1 );
-
+        userVO.setQq( "1574367559" );
+        userVO.setWeixin( "hui18727067996" );
         //String转json
         Gson gson = new Gson();
         String JsonStr = gson.toJson( userVO, UserVO.class );

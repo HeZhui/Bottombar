@@ -16,18 +16,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.meactivity.About_us;
 import com.example.a15927.bottombardemo.meactivity.LoginSetting;
 import com.example.a15927.bottombardemo.meactivity.MeLogin;
+import com.example.a15927.bottombardemo.meactivity.MyForBuy;
+import com.example.a15927.bottombardemo.meactivity.MyShop;
 import com.example.a15927.bottombardemo.meactivity.UserInfor;
+
+import java.util.Collection;
 
 public class MeFragment extends Fragment {
     private String TAG = "Test";
     //初始化
     private RelativeLayout Login;
     private ImageView image_plus;
-    private TextView user,setting;
+    private TextView user;
+    private RelativeLayout  setting,forShop,forBuy,collection,about_us;
 
     private boolean login = false;
 
@@ -40,8 +47,11 @@ public class MeFragment extends Fragment {
         Login = (RelativeLayout) view.findViewById(R.id.login_me);
         image_plus = (ImageView)view.findViewById( R.id.image_plus ) ;
         user = (TextView)view.findViewById( R.id.user );
-
-        setting = (TextView)view.findViewById( R.id.setting );
+        forShop = (RelativeLayout) view.findViewById( R.id.my_shop );
+        forBuy = (RelativeLayout) view.findViewById( R.id.my_request );
+        collection = (RelativeLayout)view.findViewById( R.id.my_collect );
+        about_us = (RelativeLayout)view.findViewById( R.id.about_us );
+        setting = (RelativeLayout) view.findViewById( R.id.set_up );
         //bug:只要登录过一次,login==true
         //取出从登录界面存储的登录是否成功的标志
         SharedPreferences User = getActivity().getSharedPreferences( "data", Context.MODE_PRIVATE );
@@ -62,14 +72,6 @@ public class MeFragment extends Fragment {
             image_plus.setImageBitmap( bitmap );
         }
 
-        setting.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent_set = new Intent( getActivity(), LoginSetting.class );
-                startActivity( intent_set );
-            }
-        } );
-
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,8 +90,76 @@ public class MeFragment extends Fragment {
             }
         });
 
-        return view;
+        forShop.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(login == true){
+                    //进入我的店铺
+                    Intent shop = new Intent( getActivity(), MyShop.class );
+                    startActivity( shop );
+                }else{
+                    getActivity().runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText( getActivity(), "登录之后才能查看哦，请先登录账号！", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
+                }
+            }
+        } );
 
+        forBuy.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(login == true){
+                    //进入我的店铺
+                    Intent forBuy = new Intent( getActivity(), MyForBuy.class );
+                    startActivity( forBuy );
+                }else{
+                    getActivity().runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText( getActivity(), "登录之后才能查看哦，请先登录账号！", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
+                }
+            }
+        } );
+
+        collection.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(login == true){
+                    //进入我的店铺
+                    Intent collect = new Intent( getActivity(), Collection.class );
+                    startActivity( collect );
+                }else{
+                    getActivity().runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText( getActivity(), "登录之后才能查看哦，请先登录账号！", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
+                }
+            }
+        } );
+
+        about_us.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent as = new Intent( getActivity(), About_us.class );
+                startActivity( as );
+            }
+        } );
+
+        setting.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_set = new Intent( getActivity(), LoginSetting.class );
+                startActivity( intent_set );
+            }
+        } );
+        return view;
     }
 
 }

@@ -38,7 +38,7 @@ public class SortClothes extends AppCompatActivity implements View.OnClickListen
 
     private String url = "http://47.105.185.251:8081/Proj31/sort";
     private int QueryType = 1;//代表按照商品类别查询
-    private String goodsType = "衣服";
+    private String goodsType = "服饰";
     private List<ItemGoods> goodsList = new ArrayList<>(  );
 
     //进度条一

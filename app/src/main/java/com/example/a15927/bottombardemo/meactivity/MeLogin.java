@@ -69,12 +69,10 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
 //        };
 //    };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.me_login );
-
 
         back_arrow = (ImageView) findViewById( R.id.arrow_back );
         back_arrow.setOnClickListener( this );
@@ -93,7 +91,6 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
 
         forgetpassword = (TextView) findViewById( R.id.forget_to );
         forgetpassword.setOnClickListener( this );
-
     }
 
     @Override
@@ -119,29 +116,7 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                 break;
             default:
                 break;
-
         }
-
-        //        //定义一个保存数据的方法
-        //        sp = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE );
-        //        if (sp.getBoolean("ISCHECK", false)) {
-        //            in_username.setText(sp.getString("USERNAME", ""));
-        //            in_password.setText(sp.getString("PASSWORD", ""));
-        //            cb_mima.setChecked(true);
-        //        }
-        //
-        //        // checkbox添加监听事件。
-        //        cb_mima.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        //                if (cb_mima.isChecked()) {
-        //                    //sp.edit().putBoolean("ISCHECK", true).commit();
-        //                    in_password.setTransformationMethod( HideReturnsTransformationMethod.getInstance());
-        //                } else {
-        //                    //sp.edit().putBoolean("ISCHECK", false).commit();
-        //                    in_password.setTransformationMethod( PasswordTransformationMethod.getInstance());
-        //                }
-        //            }
-        //        });
     }
 
     //登录
@@ -220,15 +195,11 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                                 //UserCO userCO = new UserCO();
                                 Gson g = new Gson();
                                 UserCO userCO = g.fromJson( responseData, UserCO.class );
-                                //Log.i( "Test", userCO.toString() );
                                 int flag = userCO.getFlag();
                                 //Log.i( "Test", String.valueOf( flag ) );
-                                //String message = userCO.getMessage();
-                                //Log.i( "Test", message);
                                 String token = userCO.getToken();
                                 //由于token为空时,因为log打印的消息不可为空，所以会造成崩溃
                                 //Log.i( TAG, token);
-
                                 if (flag == 200) {
                                     //登录成功标志
                                     login = true;

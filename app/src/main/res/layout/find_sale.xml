@@ -32,7 +32,7 @@
         android:textSize="20sp"/>
 
     <TextView
-        android:id="@+id/comit_sale"
+        android:id="@+id/commit_sale"
         android:layout_width="50dp"
         android:layout_height="38dp"
         android:text="提交"
@@ -46,7 +46,6 @@
 
     </RelativeLayout>
 
-    <!--de.hdodenhof.circleimageview.CircleImageView-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp">
@@ -54,8 +53,8 @@
         <ImageView
             android:id="@+id/addopt_photoright"
             android:clickable="true"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:src="@drawable/swap"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>
@@ -69,7 +68,7 @@
         <TextView
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:text="商品名称: "
             android:gravity="center"
             android:textColor="@color/gray"
@@ -84,6 +83,7 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:textSize="18sp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/text_name"
             android:layout_toEndOf="@+id/text_name"/>
 
@@ -97,7 +97,7 @@
         <TextView
             android:id="@+id/text_price"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:gravity="center"
@@ -127,7 +127,7 @@
         <TextView
             android:id="@+id/text_differ"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="商品分类: "
@@ -144,7 +144,10 @@
             android:spinnerMode="dropdown"
             android:layout_alignTop="@+id/text_differ"
             android:layout_toRightOf="@+id/text_differ"
-            android:layout_toEndOf="@+id/text_differ">
+            android:layout_toEndOf="@+id/text_differ"
+            android:textAlignment="center"
+            android:overlapAnchor="false"
+            android:layout_marginLeft="5dp">
         </Spinner>
 
     </RelativeLayout>
@@ -157,7 +160,7 @@
         <TextView
             android:id="@+id/mobilephone_number"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:text="联系方式: "
             android:gravity="center"
             android:textColor="@color/gray"
@@ -186,7 +189,7 @@
         <TextView
             android:id="@+id/text_description"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:text="关于描述: "
             android:gravity="center"
             android:textColor="@color/gray"
