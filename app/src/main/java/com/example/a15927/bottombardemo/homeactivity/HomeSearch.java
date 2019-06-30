@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
-import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
+import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
+import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -30,7 +30,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
+import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 public class HomeSearch extends AppCompatActivity {
     private String TAG = "Test";
@@ -163,7 +163,7 @@ public class HomeSearch extends AppCompatActivity {
                                 //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( HomeSearch.this, LinearLayoutManager.VERTICAL, false );
                                 recycler_search.setLayoutManager( layoutManager );
-                                GoodsAdapter adapter = new GoodsAdapter( goodsList );
+                                GoodsAdapter adapter = new GoodsAdapter( HomeSearch.this,goodsList );
                                 recycler_search.setAdapter( adapter );
                             }
                         } );

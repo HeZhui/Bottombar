@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
+import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -136,7 +136,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                             //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
                             LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
                             recycler_home.setLayoutManager( layoutManager );
-                            GoodsAdapter adapter = new GoodsAdapter( goodsList );
+                            GoodsAdapter adapter = new GoodsAdapter( getActivity(),goodsList );
                             recycler_home.setAdapter( adapter );
                         }
                     } );

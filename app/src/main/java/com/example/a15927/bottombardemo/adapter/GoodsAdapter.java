@@ -1,5 +1,7 @@
-package com.example.a15927.bottombardemo.findactivity;
+package com.example.a15927.bottombardemo.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
+import com.example.a15927.bottombardemo.item.ItemAcitivity;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ import java.util.List;
  */
 
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
+    private Context mContext;
     private List<ItemGoods> mgoodsList;
 
     //内部类ViewHolder
@@ -44,7 +48,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
 
     //构造函数
     //这个方法用于把眼展示的数据源传进来，并赋值给一份全局变量mgoodsList,后续的操作都基于这个数据源
-    public GoodsAdapter(List<ItemGoods> goodsList) {
+    public GoodsAdapter(Context context,List<ItemGoods> goodsList) {
+        mContext = context;
         mgoodsList = goodsList;
     }
 
@@ -52,11 +57,21 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
     @Override
     //此方法用于创建ViewHolder的实例
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //动态加载布局 ，   首先将goods_item布局加载进来，
+        //动态加载布局 ，首先将goods_item布局加载进来，
         View view = LayoutInflater.from( parent.getContext() )
                 .inflate( R.layout.goods_item,parent,false );
         //再创建ViewHolder的实例，并将加载的布局传入到构造函数中，
-        ViewHolder holder = new ViewHolder( view );
+        final ViewHolder holder = new ViewHolder( view );
+        //点击事件
+        view.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = holder.getAdapterPosition();
+                Intent intent = new Intent( mContext, ItemAcitivity.class );
+                intent.putExtra( "positionList",mgoodsList.get( position ).toString() );
+                mContext.startActivity( intent );
+            }
+        } );
         //最后将ViewHolder的实例返回
         return holder;
     }

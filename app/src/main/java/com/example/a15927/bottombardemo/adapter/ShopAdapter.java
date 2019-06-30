@@ -1,4 +1,4 @@
-package com.example.a15927.bottombardemo.findactivity;
+package com.example.a15927.bottombardemo.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

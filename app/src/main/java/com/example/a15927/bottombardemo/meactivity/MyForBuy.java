@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.findactivity.ShopAdapter;
-import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
+import com.example.a15927.bottombardemo.adapter.ShopAdapter;
+import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -28,7 +28,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
+import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 public class MyForBuy extends AppCompatActivity {
     private String TAG = "Test";

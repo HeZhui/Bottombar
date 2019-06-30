@@ -18,7 +18,6 @@
 
     </style>
 
-
     <!-- 进度条对话框 -->
     <style name="loading_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>

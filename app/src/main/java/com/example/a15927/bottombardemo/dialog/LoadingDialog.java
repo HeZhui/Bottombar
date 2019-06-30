@@ -1,4 +1,4 @@
-package com.example.a15927.bottombardemo.functiontools;
+package com.example.a15927.bottombardemo.dialog;
 
 import android.content.Context;
 import android.os.Bundle;

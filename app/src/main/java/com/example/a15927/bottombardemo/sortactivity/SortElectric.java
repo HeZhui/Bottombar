@@ -10,16 +10,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.a15927.bottombardemo.MyTools.GetListsUtils;
+import com.example.a15927.bottombardemo.Utils.GetListsUtils;
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
-import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
+import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
+import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
+import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 public class SortElectric extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "Test";
@@ -82,7 +82,7 @@ public class SortElectric extends AppCompatActivity implements View.OnClickListe
                             //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
                             LinearLayoutManager layoutManager = new LinearLayoutManager( SortElectric.this );
                             recycler_electric.setLayoutManager( layoutManager );
-                            GoodsAdapter adapter = new GoodsAdapter( goodsList );
+                            GoodsAdapter adapter = new GoodsAdapter( SortElectric.this,goodsList );
                             recycler_electric.setAdapter( adapter );
                         }
                     } );

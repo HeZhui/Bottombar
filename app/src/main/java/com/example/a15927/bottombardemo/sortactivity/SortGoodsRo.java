@@ -5,7 +5,6 @@ package com.example.a15927.bottombardemo.sortactivity;
  */
 
 public class SortGoodsRo {
-
     private String token;
     private String goodsType; //可以根据类别查义
     private String goodsName; //可以根据商品名称

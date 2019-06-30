@@ -19,13 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.a15927.bottombardemo.MyTools.FileUtils;
-import com.example.a15927.bottombardemo.MyTools.ImageUtils;
+import com.example.a15927.bottombardemo.Utils.FileUtils;
+import com.example.a15927.bottombardemo.Utils.ImageUtils;
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
-import com.example.a15927.bottombardemo.functiontools.GoodsBack;
+import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.GoodsPut;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
+import com.example.a15927.bottombardemo.functiontools.UserCO;
 import com.google.gson.Gson;
 import com.longsh.optionframelibrary.OptionBottomDialog;
 
@@ -39,7 +39,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
+import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 public class FindSale extends AppCompatActivity implements View.OnClickListener {
     private ImageView photo_taken, back_sale;
@@ -333,9 +333,9 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                 Log.i( "Test", responseData );
                 //json转String
                 Gson re_gson = new Gson();
-                GoodsBack goodsBack = re_gson.fromJson( responseData, GoodsBack.class );
-                Log.i( "Test", goodsBack.toString() );
-                int flag = goodsBack.getFlag();
+                UserCO buyBack = re_gson.fromJson( responseData, UserCO.class );
+                Log.i( "Test", buyBack.toString() );
+                int flag = buyBack.getFlag();
                 if (flag == 200) {
                     runOnUiThread( new Runnable() {
                         @Override

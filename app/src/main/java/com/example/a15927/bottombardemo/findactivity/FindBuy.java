@@ -14,9 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
-import com.example.a15927.bottombardemo.functiontools.GoodsBack;
+import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
+import com.example.a15927.bottombardemo.functiontools.UserCO;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -170,7 +170,7 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener {
                 //解析Json数据
                 Log.i( "Test", "开始解析" );
                 Gson gson = new Gson();
-                GoodsBack goodsBack = gson.fromJson( responseData, GoodsBack.class );
+                UserCO goodsBack = gson.fromJson( responseData, UserCO.class );
                 Log.i( "Test", "解析完毕" );
                 flag = goodsBack.getFlag();
                 //成功获取返回消息

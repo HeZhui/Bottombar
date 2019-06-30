@@ -1,4 +1,4 @@
-package com.example.a15927.bottombardemo.MyTools;
+package com.example.a15927.bottombardemo.Utils;
 
 import java.security.MessageDigest;
 

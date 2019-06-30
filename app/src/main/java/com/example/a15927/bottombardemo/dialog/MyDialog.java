@@ -1,4 +1,4 @@
-package com.example.a15927.bottombardemo.meactivity;
+package com.example.a15927.bottombardemo.dialog;
 
 import android.app.Activity;
 import android.support.v7.app.ActionBar;

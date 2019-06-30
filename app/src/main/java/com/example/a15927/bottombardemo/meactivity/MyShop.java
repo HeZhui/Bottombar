@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
-import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
+import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
+import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -28,7 +28,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
+import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 public class MyShop extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "Test";
@@ -129,7 +129,7 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                                 Toast.makeText( MyShop.this, "查询成功！", Toast.LENGTH_SHORT ).show();
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( MyShop.this, LinearLayoutManager.VERTICAL, false );
                                 recyclerView_shop.setLayoutManager( layoutManager );
-                                GoodsAdapter adapter = new GoodsAdapter( goodsList );
+                                GoodsAdapter adapter = new GoodsAdapter(MyShop.this, goodsList );
                                 recyclerView_shop.setAdapter( adapter );
                             }
                         } );

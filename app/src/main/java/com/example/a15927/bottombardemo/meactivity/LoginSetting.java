@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.MainActivity;
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.dialog.MyDialog;
 
 public class LoginSetting extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "Test";

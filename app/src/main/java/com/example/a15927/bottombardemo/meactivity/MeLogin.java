@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.MainActivity;
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
+import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserBO;
 import com.example.a15927.bottombardemo.functiontools.UserCO;
@@ -35,7 +35,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
+import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 
 public class MeLogin extends AppCompatActivity implements View.OnClickListener {

@@ -20,9 +20,9 @@ import android.widget.Toast;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.findactivity.FindBuy;
 import com.example.a15927.bottombardemo.findactivity.FindSale;
-import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
-import com.example.a15927.bottombardemo.findactivity.ShopAdapter;
-import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
+import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
+import com.example.a15927.bottombardemo.adapter.ShopAdapter;
+import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -41,7 +41,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.a15927.bottombardemo.functiontools.DialogUIUtils.dismiss;
+import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 public class FindFragment extends Fragment implements View.OnClickListener {
     private String TAG = "Test";
@@ -302,7 +302,7 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                                 dismiss( progressDialog );
                                 Log.i( TAG, "run: success" );
                                 if(statue == 1){
-                                    goodsAdapter = new GoodsAdapter( newGoodsList );
+                                    goodsAdapter = new GoodsAdapter( getActivity(),newGoodsList );
                                     recyclerView.setAdapter( goodsAdapter );
                                 }
                                 if(statue == 2){

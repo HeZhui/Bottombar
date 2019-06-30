@@ -84,6 +84,8 @@
         </activity>
         <activity android:name=".meactivity.CollectionInfor">
         </activity>
+        <activity android:name=".item.ItemAcitivity">
+        </activity>
     </application>
 
 </manifest>
