@@ -19,7 +19,7 @@
             android:background="@color/white"
             android:hint=" 搜索物品"
             android:maxLines="3"
-            android:textColor="@color/gray"
+            android:textColor="@color/black"
             android:textSize="15sp"/>
 
         <TextView

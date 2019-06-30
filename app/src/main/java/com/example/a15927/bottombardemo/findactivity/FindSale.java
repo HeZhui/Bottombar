@@ -26,7 +26,6 @@ import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.GoodsBack;
 import com.example.a15927.bottombardemo.functiontools.GoodsPut;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
-import com.example.a15927.bottombardemo.functiontools.UserVO;
 import com.google.gson.Gson;
 import com.longsh.optionframelibrary.OptionBottomDialog;
 
@@ -61,7 +60,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
 
     //下拉框
     private Spinner spinner_sale;
-    private static int spinner_position;
+    private static int spinner_position = 1;
 
     //进度条一
     Dialog progressDialog;
@@ -107,7 +106,6 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
             }
         } );
     }
-
 
     @Override
     public void onClick(View view) {
@@ -165,7 +163,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                 //获取填写的商品描述
                 String goods_description = text_description.getText().toString().trim();
 
-                if(( goods_name == null|| goods_name.isEmpty())  && ( goods_price == null || goods_price.isEmpty()) ){
+                if(( goods_name == null|| goods_name.isEmpty())  || ( goods_price == null || goods_price.isEmpty()) ){
                     Toast.makeText( FindSale.this, "请填写完整的商品信息", Toast.LENGTH_SHORT ).show();
                 }else{
                     //进度框显示方法一
@@ -190,8 +188,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         intent.putExtra( "crop", "true" );//
         intent.putExtra( "aspectX", 1 );//X方向上的比例
         intent.putExtra( "aspectY", 1 );//Y方向上的比例
-        intent.putExtra( "outputX", 100 );//裁剪区的X方向宽
-        intent.putExtra( "outputY", 100 );//裁剪区的Y方向宽
+        intent.putExtra( "outputX", 60 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 60 );//裁剪区的Y方向宽
         intent.putExtra( "scale", true );//是否保留比例
         intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
         intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM
@@ -206,18 +204,15 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         startActivityForResult( intent, CROP_IMAGE );
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    //将拍摄的照片的照片显示出来
                     //需要对拍摄的照片进行处理编辑
                     //拍照成功的话，就调用BitmapFactory的decodeStream()方法把图片解析成Bitmap对象，然后显示
-                    Log.i( TAG, "onActivityResult TakePhoto : "+imageUri );
                     //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-                    //photo_taken.setImageBitmap( bitmap );
+                    Log.i( TAG, "onActivityResult TakePhoto : "+imageUri );
                     //设置照片存储文件及剪切图片
                     File saveFile = ImageUtils.getTempFile();
                     //filePath = ImageUtils.getTempFile();
@@ -238,8 +233,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
-//                        photo_taken.setImageBitmap(bitmap);
+                        //Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        //photo_taken.setImageBitmap(bitmap);
                         //设置照片存储文件及剪切图片
                         File saveFile = ImageUtils.setTempFile( FindSale.this );
                         //filePath = ImageUtils.getTempFile();
@@ -255,7 +250,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                     // 通过图片URI拿到剪切图片
                     //bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
                     //通过FileName拿到图片
-                    //filePath = ImageUtils.getTempFile();
+                    filePath = ImageUtils.getTempFile();
                     Bitmap bitmap = BitmapFactory.decodeFile( filePath.toString() );
                     //把裁剪后的图片展示出来
                     photo_taken.setImageBitmap( bitmap );
@@ -268,21 +263,24 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
     }
 
     public void comitsale(String goods_name, String goods_price, String mobile_phone, String goods_description) {
-
-
         //构造部分属性
         GoodsPut goodsPut = new GoodsPut();
         String goodsID = UUID.randomUUID().toString().replaceAll( "-", "" );
-        UserVO userVO = new UserVO();
         String uuid = UUID.randomUUID().toString().replaceAll( "-", "" );
 //        Resources res = getResources();
 //        Bitmap bmp = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
         filePath = ImageUtils.getTempFile( );
-        //Log.i( TAG, "comitsale: filePath is "+filePath.toString() );
-        Bitmap bmp =BitmapFactory.decodeFile( filePath.toString() );
-        //bitmp转bytes
-        byte[] uimages = FileUtils.Bitmap2Bytes( bmp );
-
+        byte[] uimages = null;
+        if(filePath.toString() == null){
+            uimages = null;
+            Toast.makeText( this, "您还没有物品的照片呢，请给您的物品拍个照吧！", Toast.LENGTH_SHORT ).show();
+            return;
+        }else {
+            Log.i( TAG, "comitsale: filePath is "+filePath.toString() );
+            Bitmap bmp =BitmapFactory.decodeFile( filePath.toString() );
+            //bitmp转bytes
+            uimages = FileUtils.Bitmap2Bytes( bmp );
+        }
         //取出token
         SharedPreferences sp = getSharedPreferences( "data", MODE_PRIVATE );
         String uname = sp.getString( "uname", "" );
@@ -298,13 +296,13 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         goodsPut.setPrice( Float.parseFloat( goods_price ) );
         goodsPut.setUnit( "本" );
         goodsPut.setQuality( 1 );
-        goodsPut.setUserid( uuid );
         goodsPut.setGoodsImg( uimages );
         goodsPut.setUname( uname );
         goodsPut.setUphone( mobile_phone );
         goodsPut.setSex( 0 );
         goodsPut.setQq( "1574367589" );
         goodsPut.setWeixin( "15645681259" );
+        goodsPut.setUserid( uuid );
         goodsPut.setToken( token );
 
         //组成Json串
@@ -369,71 +367,4 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
             }
         } );
     }
-
-    //    public void sendGoodsData(String url, final String goodsJsonStr){
-    //        //创建OkHttpClient对象。
-    //        OkHttpClient client = new OkHttpClient();
-    //        //请求体
-    //        RequestBody requestBody = new FormBody.Builder()
-    //                .add( "reqJson", goodsJsonStr)
-    //                .build();
-    //        //发送请求
-    //        Request request = new Request.Builder()
-    //                .url(url)
-    //                .post(requestBody )
-    //                .build();
-    //        //异步执行，获取返回结果
-    //        client.newCall( request ).enqueue( new Callback() {
-    //            @Override
-    //            public void onFailure(Call call, IOException e) {
-    //                Log.d("Test","获取数据失败了"+e.toString());
-    //                runOnUiThread( new Runnable() {
-    //                    @Override
-    //                    public void run() {
-    //                        Toast.makeText( FindSale.this, "数据错误", Toast.LENGTH_SHORT ).show();
-    //                    }
-    //                } );
-    //            }
-    //
-    //            @Override
-    //            public void onResponse(Call call, Response response) throws IOException {
-    //                Log.d("Test","获取数据成功了");
-    //                //获取后台返回结果
-    //                final String responseData = response.body().string();
-    //                Log.i( "Test",responseData );
-    //                //json转String
-    //                Goodsback goodsback = new Goodsback();
-    //                Gson re_gson = new Gson();
-    //                goodsback = re_gson.fromJson( responseData,Goodsback.class );
-    //                Log.i( "Test", goodsback.toString() );
-    //                int flag = goodsback.getFlag();
-    //                if(flag == 200){
-    //                    runOnUiThread( new Runnable() {
-    //                        @Override
-    //                        public void run() {
-    //                            Toast.makeText( FindSale.this,"发布成功",Toast.LENGTH_SHORT ).show();
-    //                        }
-    //                    } );
-    //                }
-    //                else if(flag == 30001){
-    //                    runOnUiThread( new Runnable() {
-    //                        @Override
-    //                        public void run() {
-    //                            Toast.makeText( FindSale.this,"登录信息已无效",Toast.LENGTH_SHORT ).show();
-    //                        }
-    //                    } );
-    //                }
-    //                else{
-    //                    runOnUiThread( new Runnable() {
-    //                        @Override
-    //                        public void run() {
-    //                            Toast.makeText( FindSale.this,"商品发布出错",Toast.LENGTH_SHORT ).show();
-    //                        }
-    //                    } );
-    //                }
-    //            }
-    //        } );
-    //
-    //    }
-
 }

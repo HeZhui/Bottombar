@@ -182,8 +182,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         intent.putExtra( "crop", "true" );//
         intent.putExtra( "aspectX", 1 );//X方向上的比例
         intent.putExtra( "aspectY", 1 );//Y方向上的比例
-        intent.putExtra( "outputX", 100 );//裁剪区的X方向宽
-        intent.putExtra( "outputY", 100 );//裁剪区的Y方向宽
+        intent.putExtra( "outputX", 60 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 60 );//裁剪区的Y方向宽
         intent.putExtra( "scale", true );//是否保留比例
         intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
         intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM
@@ -229,8 +229,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        //                        photo_taken.setImageBitmap(bitmap);
+                        //Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        //takephoto.setImageBitmap(bitmap);
                         //设置照片存储文件及剪切图片
                         File saveFile = ImageUtils.setTempFile( RegisterIn.this );
                         filePath = ImageUtils.getTempFile();

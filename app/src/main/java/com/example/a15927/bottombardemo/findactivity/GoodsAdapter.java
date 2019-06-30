@@ -68,12 +68,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
         ItemGoods goods = mgoodsList.get( position );
         //设置数据
         byte[] img = goods.getGoodsImg();
-        Bitmap bitmap = BitmapFactory.decodeByteArray( img,0,img.length,null );
-        holder.goods_img.setImageBitmap( bitmap );
+        if(img.length == 0){
+            holder.goods_img.setImageResource( R.drawable.kimg );
+        }
+        else{
+            Bitmap bitmap = BitmapFactory.decodeByteArray( img,0,img.length,null );
+            holder.goods_img.setImageBitmap( bitmap );
+        }
         holder.goodsID.setText( goods.getGoodsID() );
         holder.goodsName.setText( goods.getGoodsName() );
         holder.goods_price.setText( ""+goods.getPrice() );
-        holder.goods_quality.setText( ""+ (int)goods.getQuality() );
+        holder.goods_quality.setText( ""+ goods.getQuality() );
         holder.goods_unit.setText( goods.getUnit() );
     }
 

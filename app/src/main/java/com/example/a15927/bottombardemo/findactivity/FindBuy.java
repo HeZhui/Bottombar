@@ -27,7 +27,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-
 public class FindBuy extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "Test";
     private EditText name_buy, phone_buy, description_buy;

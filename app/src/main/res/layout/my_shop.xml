@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             />
+
         <include
             android:id="@+id/nothing_find"
             layout="@layout/nothingfind"
@@ -61,7 +62,6 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             />
-
     </LinearLayout>
 
 </RelativeLayout>

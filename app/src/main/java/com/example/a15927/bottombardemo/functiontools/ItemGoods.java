@@ -1,7 +1,5 @@
 package com.example.a15927.bottombardemo.functiontools;
 
-import java.util.Arrays;
-
 /**
  * Created by Administrator on 2019/3/28.
  */
@@ -22,6 +20,7 @@ public class ItemGoods {
     private String weixin;
     private String goodsTypeName; //所属类名（可选字段）
     private int sex;
+    private String description;
 
     public int getOpType() {
         return opType;
@@ -143,24 +142,11 @@ public class ItemGoods {
         this.sex = sex;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "opType=" + opType +
-                ", goodsID='" + goodsID + '\'' +
-                ", goodsType='" + goodsType + '\'' +
-                ", goodsName='" + goodsName + '\'' +
-                ", price=" + price +
-                ", unit='" + unit + '\'' +
-                ", quality=" + quality +
-                ", userid='" + userid + '\'' +
-                ", goodsImg=" + Arrays.toString( goodsImg ) +
-                ", uname='" + uname + '\'' +
-                ", uphone='" + uphone + '\'' +
-                ", qq='" + qq + '\'' +
-                ", weixin='" + weixin + '\'' +
-                ", goodsTypeName='" + goodsTypeName + '\'' +
-                ", sex=" + sex +
-                '}';
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

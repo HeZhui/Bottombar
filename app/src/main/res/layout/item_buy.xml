@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="5dp">
+
+    <TextView
+        android:id="@+id/user"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="用户名"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="2dp"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_ima"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="2dp"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/user"
+        android:background="@drawable/kimg"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_toRightOf="@+id/user_ima">
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="商品名称:"
+            android:textSize="15sp"
+            android:layout_below="@+id/ID"
+            />
+
+        <TextView
+            android:id="@+id/shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="goods_name"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/goodsID"
+            android:layout_toRightOf="@+id/text_name"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/text_diff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_name"
+            android:gravity="center"
+            android:text="商品分类:"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/diff"
+            android:layout_below="@+id/shop_name"
+            android:layout_toRightOf="@+id/text_diff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:text="buy_type"/>
+
+        <TextView
+            android:id="@+id/text_phone"
+            android:layout_below="@id/text_diff"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="联系方式:"/>
+
+        <TextView
+            android:id="@+id/buy_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/text_phone"
+            android:layout_below="@+id/diff"
+            android:text="user_phone"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5sp"/>
+
+        <TextView
+            android:id="@+id/text_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/buy_phone"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="备注:"
+            />
+
+        <TextView
+            android:id="@+id/buy_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/text_des"
+            android:layout_below="@+id/buy_phone"
+            android:text="暂时没有备注哦！"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5sp"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

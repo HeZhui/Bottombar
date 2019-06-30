@@ -177,9 +177,9 @@ public class HomeSearch extends AppCompatActivity {
                                 net_failed.setVisibility( View.GONE );
                                 nothing_find.setVisibility( View.VISIBLE );
                                 if (login == true) {
-                                    Toast.makeText( HomeSearch.this, "登录信息无效，请重新登录！", Toast.LENGTH_SHORT ).show();
+                                    Toast.makeText( HomeSearch.this, "登录信息已无效，请重新登录！", Toast.LENGTH_SHORT ).show();
                                 } else {
-                                    Toast.makeText( HomeSearch.this, "请先登录哦！", Toast.LENGTH_SHORT ).show();
+                                    Toast.makeText( HomeSearch.this, "您还没有登录，请先登录哦！", Toast.LENGTH_SHORT ).show();
                                 }
 
                             }

@@ -21,6 +21,7 @@ import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.findactivity.FindBuy;
 import com.example.a15927.bottombardemo.findactivity.FindSale;
 import com.example.a15927.bottombardemo.findactivity.GoodsAdapter;
+import com.example.a15927.bottombardemo.findactivity.ShopAdapter;
 import com.example.a15927.bottombardemo.functiontools.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
@@ -61,6 +62,8 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     public int pageSize = 5;
     //用来标记当前页面处于的状态   1---摊位  2---求购
     private int statue = 1;
+    //由于记录上次的state状态
+    private int statueLast = 1;
     //查询类型
     private int opTypebuy = 90004;
     //token
@@ -114,7 +117,7 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         springView.setListener( new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                //page = 1;
+                page = 1;
                 checkType = 2;
                 getData();
                 springView.onFinishFreshAndLoad();
@@ -219,9 +222,11 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getData() {
-        //如若刷新
-        if (checkType == 2) {
+        //当statue的状态发生变化时
+        if(statueLast != statue){
             page = 1;
+            newGoodsList.clear();
+            Log.i( TAG, "getData: 清空后的数组为" +newGoodsList);
         }
         final UserBuy userBuy = new UserBuy();
         userBuy.setOpType( opTypebuy );
@@ -232,6 +237,8 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         userBuy.setCondition( statue );
         Gson gson_buy = new Gson();
         String userBuyJson = gson_buy.toJson( userBuy, UserBuy.class );
+        //记录上次的state状态
+        statueLast = statue;
         //发送OkHttp请求
         PostWith.sendPostWithOkhttp( urlbuy, userBuyJson, new Callback() {
             @Override
@@ -287,7 +294,6 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                             newGoodsList.add( Goodslist.get( i ) );
                         }
                     }
-
                     if (flag == 200) {
                         getActivity().runOnUiThread( new Runnable() {
                             @Override
@@ -295,8 +301,14 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                                 //取消进度框一
                                 dismiss( progressDialog );
                                 Log.i( TAG, "run: success" );
-                                goodsAdapter = new GoodsAdapter( newGoodsList );
-                                recyclerView.setAdapter( goodsAdapter );
+                                if(statue == 1){
+                                    goodsAdapter = new GoodsAdapter( newGoodsList );
+                                    recyclerView.setAdapter( goodsAdapter );
+                                }
+                                if(statue == 2){
+                                    ShopAdapter shopAdapter = new ShopAdapter( newGoodsList );
+                                    recyclerView.setAdapter( shopAdapter );
+                                }
                                 Toast.makeText( getActivity(), "查询成功！", Toast.LENGTH_SHORT ).show();
                             }
                         } );

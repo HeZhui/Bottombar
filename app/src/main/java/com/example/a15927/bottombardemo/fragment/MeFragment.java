@@ -20,13 +20,12 @@ import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.meactivity.About_us;
+import com.example.a15927.bottombardemo.meactivity.CollectionInfor;
 import com.example.a15927.bottombardemo.meactivity.LoginSetting;
 import com.example.a15927.bottombardemo.meactivity.MeLogin;
 import com.example.a15927.bottombardemo.meactivity.MyForBuy;
 import com.example.a15927.bottombardemo.meactivity.MyShop;
 import com.example.a15927.bottombardemo.meactivity.UserInfor;
-
-import java.util.Collection;
 
 public class MeFragment extends Fragment {
     private String TAG = "Test";
@@ -131,7 +130,7 @@ public class MeFragment extends Fragment {
             public void onClick(View view) {
                 if(login == true){
                     //进入我的店铺
-                    Intent collect = new Intent( getActivity(), Collection.class );
+                    Intent collect = new Intent( getActivity(), CollectionInfor.class );
                     startActivity( collect );
                 }else{
                     getActivity().runOnUiThread( new Runnable() {

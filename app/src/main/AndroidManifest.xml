@@ -76,13 +76,13 @@
         </activity>
         <activity android:name=".meactivity.LoginSetting">
         </activity>
-        <activity android:name=".meactivity.MyShopActivity">
+        <activity android:name=".meactivity.MyShop">
         </activity>
         <activity android:name=".meactivity.MyForBuy">
         </activity>
         <activity android:name=".meactivity.About_us">
         </activity>
-        <activity android:name=".meactivity.Collection">
+        <activity android:name=".meactivity.CollectionInfor">
         </activity>
     </application>
 
