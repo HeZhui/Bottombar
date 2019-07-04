@@ -19,9 +19,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.Utils.FileUtils;
 import com.example.a15927.bottombardemo.Utils.ImageUtils;
-import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.GoodsPut;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -166,9 +166,6 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                 if(( goods_name == null|| goods_name.isEmpty())  || ( goods_price == null || goods_price.isEmpty()) ){
                     Toast.makeText( FindSale.this, "请填写完整的商品信息", Toast.LENGTH_SHORT ).show();
                 }else{
-                    //进度框显示方法一
-                    progressDialog = DialogUIUtils.showLoadingDialog( FindSale.this,"正在发布商品" );
-                    progressDialog.show();
                     comitsale( goods_name, goods_price, mobile_phone, goods_description );
                 }
                 break;
@@ -271,7 +268,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
 //        Bitmap bmp = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
         filePath = ImageUtils.getTempFile( );
         byte[] uimages = null;
-        if(filePath.toString() == null){
+        if(filePath == null){
             uimages = null;
             Toast.makeText( this, "您还没有物品的照片呢，请给您的物品拍个照吧！", Toast.LENGTH_SHORT ).show();
             return;
@@ -309,7 +306,9 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         Gson gson = new Gson();
         String goodsJsonStr = gson.toJson( goodsPut, GoodsPut.class );
         Log.i( "Test", goodsJsonStr.toString() );
-
+        //进度框显示方法一
+        progressDialog = DialogUIUtils.showLoadingDialog( FindSale.this,"正在发布商品" );
+        progressDialog.show();
         PostWith postWith = new PostWith();
         postWith.sendPostWithOkhttp( url, goodsJsonStr, new Callback() {
             @Override

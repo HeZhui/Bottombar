@@ -1,7 +1,10 @@
 package com.example.a15927.bottombardemo.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
+import com.example.a15927.bottombardemo.item.ItemBuyActivity;
 
 import java.util.List;
 
@@ -19,6 +23,7 @@ import java.util.List;
  */
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
+    private Context mContext;
     private List<ItemGoods> mgoodsList;
 
     //内部类ViewHolder
@@ -44,7 +49,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     //构造函数
     //这个方法用于把眼展示的数据源传进来，并赋值给一份全局变量mgoodsList,后续的操作都基于这个数据源
-    public ShopAdapter(List<ItemGoods> goodsList) {
+    public ShopAdapter(Context context,List<ItemGoods> goodsList) {
+        mContext = context;
         mgoodsList = goodsList;
     }
 
@@ -53,7 +59,20 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         //动态加载布局 ，   首先将item_buy布局加载进来，
         View view = LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_buy, parent, false );
         //再创建ViewHolder的实例，并将加载的布局传入到构造函数中，
-        ShopAdapter.ViewHolder holder = new ShopAdapter.ViewHolder( view );
+        final ShopAdapter.ViewHolder holder = new ShopAdapter.ViewHolder( view );
+        //点击事件
+        view.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = holder.getAdapterPosition();
+                Intent intent = new Intent( mContext, ItemBuyActivity.class );
+                ItemGoods itemBuy = mgoodsList.get( position );
+                Bundle data = new Bundle(  );
+                data.putSerializable( "itemBuy",itemBuy );
+                intent.putExtras( data );
+                mContext.startActivity( intent );
+            }
+        } );
         //最后将ViewHolder的实例返回
         return holder;
     }
@@ -65,7 +84,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         holder.user.setText( goods.getUname() );
         //设置数据
         byte[] img = goods.getGoodsImg();
-        if(img.length == 0){
+        if(img == null){
             holder.user_img.setImageResource( R.drawable.kimg );
         }else{
             Bitmap bitmap = BitmapFactory.decodeByteArray( img, 0, img.length, null );

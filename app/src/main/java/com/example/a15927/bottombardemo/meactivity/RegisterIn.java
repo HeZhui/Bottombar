@@ -3,6 +3,7 @@ package com.example.a15927.bottombardemo.meactivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,10 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.Utils.FileUtils;
 import com.example.a15927.bottombardemo.Utils.ImageUtils;
 import com.example.a15927.bottombardemo.Utils.MD5Utils;
-import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserCO;
@@ -300,18 +301,18 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         image.putString( "filePath", filePath.toString() );
         Log.i( "Test", "filePath is " + filePath.toString() );
         image.commit();//提交
-
+        Bitmap bitmap = null;
+        //通过uri获取
         //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-        Bitmap bitmap =BitmapFactory.decodeFile( filePath.toString() );
-//        //压缩图片
-//        Bitmap cropBitMap = FileUtils.zoomBitmap( bitmap, 200, 200 );
-
+        if (filePath == null) {
+            Resources res = getResources();
+            bitmap = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
+        }else{
+            bitmap =BitmapFactory.decodeFile( filePath.toString() );
+        }
         //生成部分属性
         UserVO userVO = new UserVO();
         String uuid = UUID.randomUUID().toString().replaceAll( "-","" );
-        //Resources res = getResources();
-       // Bitmap bitmap = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
-
         //bitmp转bytes
         byte[] uimages = FileUtils.Bitmap2Bytes( bitmap );
         userVO.setOpType( opType );

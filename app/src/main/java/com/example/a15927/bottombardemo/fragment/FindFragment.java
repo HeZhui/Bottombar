@@ -52,8 +52,6 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerView;
     private SpringView springView;
     private View netFailedLayout;
-    //商品适配
-    private GoodsAdapter goodsAdapter;
     //分页状态
     public int page = 1;
     //当前分页  1------加载，  2-----------刷新
@@ -302,11 +300,11 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                                 dismiss( progressDialog );
                                 Log.i( TAG, "run: success" );
                                 if(statue == 1){
-                                    goodsAdapter = new GoodsAdapter( getActivity(),newGoodsList );
+                                    GoodsAdapter goodsAdapter = new GoodsAdapter( getActivity(),newGoodsList );
                                     recyclerView.setAdapter( goodsAdapter );
                                 }
                                 if(statue == 2){
-                                    ShopAdapter shopAdapter = new ShopAdapter( newGoodsList );
+                                    ShopAdapter shopAdapter = new ShopAdapter(getActivity(), newGoodsList );
                                     recyclerView.setAdapter( shopAdapter );
                                 }
                                 Toast.makeText( getActivity(), "查询成功！", Toast.LENGTH_SHORT ).show();

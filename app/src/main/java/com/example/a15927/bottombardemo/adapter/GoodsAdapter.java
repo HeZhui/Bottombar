@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
-import com.example.a15927.bottombardemo.item.ItemAcitivity;
+import com.example.a15927.bottombardemo.item.ItemGoodsActivity;
 
 import java.util.List;
 
@@ -67,8 +68,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
-                Intent intent = new Intent( mContext, ItemAcitivity.class );
-                intent.putExtra( "positionList",mgoodsList.get( position ).toString() );
+                Bundle data = new Bundle(  );
+                ItemGoods itemGoods = mgoodsList.get( position );
+                data.putSerializable( "goodsList",itemGoods );
+                Intent intent = new Intent( mContext, ItemGoodsActivity.class );
+                intent.putExtras( data );
                 mContext.startActivity( intent );
             }
         } );
@@ -83,7 +87,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
         ItemGoods goods = mgoodsList.get( position );
         //设置数据
         byte[] img = goods.getGoodsImg();
-        if(img.length == 0){
+        if(img == null){
             holder.goods_img.setImageResource( R.drawable.kimg );
         }
         else{

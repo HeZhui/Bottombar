@@ -1,10 +1,13 @@
 package com.example.a15927.bottombardemo.functiontools;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 /**
  * Created by Administrator on 2019/3/28.
  */
 
-public class ItemGoods {
+public class ItemGoods implements Serializable {
     private int opType;     //操作类型（发布，维护等）
     private String goodsID;  //ID
     private String goodsType; //商品所属类
@@ -148,5 +151,27 @@ public class ItemGoods {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemGoods{" +
+                "opType=" + opType +
+                ", goodsID='" + goodsID + '\'' +
+                ", goodsType='" + goodsType + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", price=" + price +
+                ", unit='" + unit + '\'' +
+                ", quality=" + quality +
+                ", userid='" + userid + '\'' +
+                ", goodsImg=" + Arrays.toString( goodsImg ) +
+                ", uname='" + uname + '\'' +
+                ", uphone='" + uphone + '\'' +
+                ", qq='" + qq + '\'' +
+                ", weixin='" + weixin + '\'' +
+                ", goodsTypeName='" + goodsTypeName + '\'' +
+                ", sex=" + sex +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

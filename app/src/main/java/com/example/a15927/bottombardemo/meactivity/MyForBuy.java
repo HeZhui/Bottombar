@@ -126,7 +126,7 @@ public class MyForBuy extends AppCompatActivity {
                                 Toast.makeText( MyForBuy.this, "查询成功！", Toast.LENGTH_SHORT ).show();
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( MyForBuy.this,LinearLayoutManager.VERTICAL,false );
                                 recycler_buy.setLayoutManager( layoutManager );
-                                ShopAdapter adapter = new ShopAdapter( goodsList );
+                                ShopAdapter adapter = new ShopAdapter(MyForBuy.this, goodsList );
                                 recycler_buy.setAdapter( adapter );
                             }
                         } );

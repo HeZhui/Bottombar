@@ -84,7 +84,9 @@
         </activity>
         <activity android:name=".meactivity.CollectionInfor">
         </activity>
-        <activity android:name=".item.ItemAcitivity">
+        <activity android:name=".item.ItemGoodsActivity">
+        </activity>
+        <activity android:name=".item.ItemBuyActivity">
         </activity>
     </application>
 
