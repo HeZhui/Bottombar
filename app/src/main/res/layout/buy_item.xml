@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:text="未定义"
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"/>
 
             </RelativeLayout>
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:text="未定义"
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     />
             </RelativeLayout>
@@ -137,9 +137,20 @@
                     android:layout_height="wrap_content"
                     android:text="未定义"
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     />
+
+                <TextView
+                    android:id="@+id/uint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/qualitynum"
+                    android:layout_marginLeft="5dp"
+                    android:text="单位"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"/>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -163,7 +174,41 @@
                     android:layout_height="wrap_content"
                     android:text="未定义"
                     android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/pricenum"
+                    android:text="元"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/gname_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品名称："
+                    android:textSize="18sp"
                     android:layout_margin="10dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/goodsname"
+                    android:layout_toRightOf="@+id/gname_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未定义"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     />
             </RelativeLayout>

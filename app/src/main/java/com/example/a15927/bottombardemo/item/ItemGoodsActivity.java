@@ -17,11 +17,21 @@ public class ItemGoodsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.item_goods );
+        setContentView( R.layout.buy_item );
         init();
         Intent intent = getIntent();
         ItemGoods itemGoods = (ItemGoods) intent.getSerializableExtra( "goodsList" );
+        adapterGoodsInfor(itemGoods);
         Log.i( TAG, "onCreate: " +itemGoods.getGoodsName());
+    }
+
+    private void adapterGoodsInfor(ItemGoods itemGoods) {
+        String goodsName = itemGoods.getGoodsName();
+        String goodsId = itemGoods.getGoodsID();
+        String goodsType = itemGoods.getGoodsTypeName();
+        float price = itemGoods.getPrice();
+
+
     }
 
     private void init() {

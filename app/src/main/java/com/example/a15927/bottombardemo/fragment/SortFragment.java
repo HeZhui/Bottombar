@@ -10,12 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.sortactivity.SortBook;
-import com.example.a15927.bottombardemo.sortactivity.SortCamera;
-import com.example.a15927.bottombardemo.sortactivity.SortClothes;
-import com.example.a15927.bottombardemo.sortactivity.SortElectric;
-import com.example.a15927.bottombardemo.sortactivity.SortMakeup;
-import com.example.a15927.bottombardemo.sortactivity.SortSports;
+import com.example.a15927.bottombardemo.sortactivity.Sort;
 
 public class SortFragment extends Fragment implements View.OnClickListener{
     private RelativeLayout electric;
@@ -54,33 +49,41 @@ public class SortFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view){
+        Intent intent = new Intent( getActivity(), Sort.class );
         switch (view.getId()){
             case R.id.rc_electric:
-                Intent intent_electric = new Intent(getActivity(),SortElectric.class);
-                startActivity( intent_electric );
+//                Intent intent_electric = new Intent(getActivity(),SortElectric.class);
+//                startActivity( intent_electric );
+                intent.putExtra( "type","electric" );
                 break;
             case R.id.rc_make_up:
-                Intent intent_makeup = new Intent(getActivity(),SortMakeup.class);
-                startActivity( intent_makeup );
+//                Intent intent_makeup = new Intent(getActivity(),SortMakeup.class);
+//                startActivity( intent_makeup );
+                intent.putExtra( "type","makeup" );
                 break;
             case R.id.rc_clothes:
-                Intent intent_clothes = new Intent(getActivity(),SortClothes.class);
-                startActivity( intent_clothes );
+//                Intent intent_clothes = new Intent(getActivity(),SortClothes.class);
+//                startActivity( intent_clothes );
+                intent.putExtra( "type","clothes" );
                 break;
             case R.id.rc_sports:
-                Intent intent_sports = new Intent(getActivity(),SortSports.class);
-                startActivity( intent_sports );
+//                Intent intent_sports = new Intent(getActivity(),SortSports.class);
+//                startActivity( intent_sports );
+                intent.putExtra( "type","sports" );
                 break;
             case R.id.rc_book:
-                Intent intent_book = new Intent(getActivity(),SortBook.class);
-                startActivity( intent_book );
+//                Intent intent_book = new Intent(getActivity(),SortBook.class);
+//                startActivity( intent_book );
+                intent.putExtra( "type","book" );
                 break;
             case R.id.rc_camera:
-                Intent intent_camera = new Intent(getActivity(),SortCamera.class);
-                startActivity( intent_camera );
+//                Intent intent_camera = new Intent(getActivity(),SortCamera.class);
+//                startActivity( intent_camera );
+                intent.putExtra( "type","camera" );
                 break;
             default:
                 break;
         }
+        startActivity( intent );
     }
 }

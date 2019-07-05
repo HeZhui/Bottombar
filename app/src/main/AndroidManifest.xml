@@ -88,6 +88,8 @@
         </activity>
         <activity android:name=".item.ItemBuyActivity">
         </activity>
+        <activity android:name=".sortactivity.Sort">
+        </activity>
     </application>
 
 </manifest>

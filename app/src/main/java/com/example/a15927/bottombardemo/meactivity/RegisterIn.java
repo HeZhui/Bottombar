@@ -306,7 +306,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
         if (filePath == null) {
             Resources res = getResources();
-            bitmap = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
+            bitmap = BitmapFactory.decodeResource( res, R.drawable.person );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
         }else{
             bitmap =BitmapFactory.decodeFile( filePath.toString() );
         }

@@ -1,6 +1,7 @@
 package com.example.a15927.bottombardemo.sortactivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
@@ -29,17 +31,17 @@ import okhttp3.Response;
 
 import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
-
-public class SortBook extends AppCompatActivity implements View.OnClickListener {
+public class Sort extends AppCompatActivity {
     private String TAG = "Test";
 
-    private RecyclerView recycler_book;
+    private RecyclerView recycler_sort;
     private View netFailed;
-    private ImageView arrow_back5;
+    private ImageView arrow_back_sort;
+    private TextView text_sort;
 
     private String url = "http://47.105.185.251:8081/Proj31/sort";
     private int QueryType = 1;//代表按照商品类别查询
-    private String goodsType = "书籍";
+    private String goodsType;
     private List<ItemGoods> goodsList = new ArrayList<>();
 
     //进度条一
@@ -48,19 +50,56 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.sort_book );
+        setContentView( R.layout.sort );
 
+        Intent intent = getIntent();
+        String type = intent.getStringExtra( "type" );
+        Log.i( TAG, "onCreate: type is " +type);
 
-        recycler_book = (RecyclerView) findViewById( R.id.recycler_book );
-        netFailed = findViewById( R.id.layout_net_failed1 );
-        arrow_back5 = (ImageView) findViewById( R.id.arrow_back5 );
-        arrow_back5.setOnClickListener( this );
+        text_sort = (TextView)findViewById( R.id.text_sort );
+        recycler_sort = (RecyclerView) findViewById( R.id.recycler_sort );
+        netFailed = findViewById( R.id.layout_net_failed_sort );
+        arrow_back_sort = (ImageView) findViewById( R.id.arrow_back_sort );
+        arrow_back_sort.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        } );
 
         SharedPreferences sp = getSharedPreferences( "data", MODE_PRIVATE );
         String uname = sp.getString( "uname", "" );
         String token = sp.getString( "token", "" );
         Log.i( "Test", "uname is  " + uname );
         Log.i( "Test", "token is  " + token );
+        switch (type){
+            case "electric":
+                goodsType = "电器";
+                text_sort.setText( "分类：电器" );
+                break;
+            case "makeup":
+                goodsType = "日常用品";
+                text_sort.setText( "分类：日常用品" );
+                break;
+            case "clothes":
+                goodsType = "服饰";
+                text_sort.setText( "分类：服饰" );
+                break;
+            case "sports":
+                goodsType = "体育用品";
+                text_sort.setText( "分类：体育用品" );
+                break;
+            case "book":
+                goodsType = "书籍";
+                text_sort.setText( "分类：书籍" );
+                break;
+            case "camera":
+                goodsType = "数码";
+                text_sort.setText( "分类：数码" );
+                break;
+            default:
+                break;
+        }
         //初始化对象books
         SortGoodsRo books = new SortGoodsRo();
         //设置属性
@@ -74,7 +113,7 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener 
 
         Log.i( TAG, "组成的Json串是: " + jsonStr );
         //进度框显示方法一
-        progressDialog = DialogUIUtils.showLoadingDialog( SortBook.this, "正在查询..." );
+        progressDialog = DialogUIUtils.showLoadingDialog( Sort.this, "正在查询..." );
         progressDialog.show();
         initGoods( jsonStr );
     }
@@ -91,9 +130,9 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener 
                         //取消进度框一
                         dismiss( progressDialog );
                         Log.i( TAG, "run: failed" );
-                        recycler_book.setVisibility( View.GONE );
+                        recycler_sort.setVisibility( View.GONE );
                         netFailed.setVisibility( View.VISIBLE );
-                        Toast.makeText( SortBook.this, "当前网络不给力哦！", Toast.LENGTH_SHORT ).show();
+                        Toast.makeText( Sort.this, "当前网络不给力哦！", Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }
@@ -121,12 +160,12 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener 
                             //取消进度框一
                             dismiss( progressDialog );
                             Log.i( TAG, "run: 查询成功！" );
-                            Toast.makeText( SortBook.this, "查询成功！", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( Sort.this, "查询成功！", Toast.LENGTH_SHORT ).show();
                             //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
-                            LinearLayoutManager layoutManager = new LinearLayoutManager( SortBook.this );
-                            recycler_book.setLayoutManager( layoutManager );
-                            GoodsAdapter adapter = new GoodsAdapter( SortBook.this,goodsList );
-                            recycler_book.setAdapter( adapter );
+                            LinearLayoutManager layoutManager = new LinearLayoutManager( Sort.this );
+                            recycler_sort.setLayoutManager( layoutManager );
+                            GoodsAdapter adapter = new GoodsAdapter( Sort.this,goodsList );
+                            recycler_sort.setAdapter( adapter );
                         }
                     } );
                 } else if (flag == 30001) {
@@ -135,7 +174,7 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener 
                         public void run() {
                             //取消进度框一
                             dismiss( progressDialog );
-                            Toast.makeText( SortBook.this, "登录信息无效，请重新登录！", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( Sort.this, "登录信息无效，请重新登录！", Toast.LENGTH_SHORT ).show();
                         }
                     } );
                 } else {
@@ -144,18 +183,11 @@ public class SortBook extends AppCompatActivity implements View.OnClickListener 
                         public void run() {
                             //取消进度框一
                             dismiss( progressDialog );
-                            Toast.makeText( SortBook.this, "查询失败！", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( Sort.this, "查询失败！", Toast.LENGTH_SHORT ).show();
                         }
                     } );
                 }
             }
         } );
     }
-
-
-    @Override
-    public void onClick(View view) {
-        finish();
-    }
-
 }

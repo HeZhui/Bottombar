@@ -13,7 +13,7 @@ public class ItemBuyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.buy_item );
+        setContentView( R.layout.item_goods );
         init();
         Intent intent = getIntent();
         ItemGoods itemBuy = (ItemGoods) intent.getSerializableExtra( "itemBuy" );

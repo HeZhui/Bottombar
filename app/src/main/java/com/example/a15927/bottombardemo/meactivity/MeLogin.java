@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.MainActivity;
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.Utils.MD5Utils;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserBO;
@@ -142,7 +143,7 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
             //设置属性值
             userBO.setOpType( opType );
             userBO.setUname( username );
-            userBO.setUpassword( password );
+            userBO.setUpassword( MD5Utils.getMD5(password) );
             //封装为json串
             Gson gson = new Gson();
             String userJsonStr = gson.toJson( userBO, UserBO.class );
@@ -284,7 +285,6 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                         Toast.makeText( MeLogin.this, "数据错误", Toast.LENGTH_SHORT ).show();
                     }
                 } );
-
             }
 
             @Override
