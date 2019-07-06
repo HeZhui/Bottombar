@@ -23,7 +23,7 @@ public class ItemGoods implements Serializable {
     private String weixin;
     private String goodsTypeName; //所属类名（可选字段）
     private int sex;
-    private String description;
+    private String description;  //求购中属性
 
     public int getOpType() {
         return opType;

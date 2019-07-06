@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/title_g"
+        android:id="@+id/title_b"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
         <ImageView
-            android:id="@+id/back_sg"
+            android:id="@+id/back_s"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/arrow_back"
@@ -22,7 +21,7 @@
             android:id="@+id/back"
             android:clickable="true"
             android:layout_marginLeft="2dp"
-            android:layout_toRightOf="@+id/back_sg"
+            android:layout_toRightOf="@+id/back_s"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="返回"
@@ -56,6 +55,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/g_img"
                     android:layout_width="180dp"
                     android:layout_height="150dp"
                     android:background="@drawable/kimg"
@@ -64,87 +64,127 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/numb"
+                android:id="@+id/g_num"
                 android:layout_below="@+id/img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 >
 
                 <TextView
-                    android:id="@+id/num"
+                    android:id="@+id/g_num_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="求购编号："
+                    android:text="商品ID："
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
-                    android:layout_centerVertical="true"/>
+                    android:layout_margin="8dp"
+                    android:layout_centerVertical="true"
+                    />
 
                 <TextView
-                    android:id="@+id/num_txt"
-                    android:layout_toRightOf="@+id/num"
+                    android:id="@+id/g_goods_id"
+                    android:layout_toRightOf="@+id/g_num_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未定义"
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
-                    android:layout_centerVertical="true"/>
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"
+                    />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/gname"
+                android:id="@+id/g_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/gname_text"
+                    android:id="@+id/g_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="求购商品："
+                    android:text="商品名称："
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="8dp"
                     android:layout_centerVertical="true"/>
 
                 <TextView
-                    android:id="@+id/goodsname"
-                    android:layout_toRightOf="@+id/gname_text"
+                    android:id="@+id/g_goods_name"
+                    android:layout_toRightOf="@+id/g_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未定义"
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
                     />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/qualit"
+                android:id="@+id/g_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/qualit_text"
+                    android:id="@+id/g_type_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="求购类型："
+                    android:text="商品类型："
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="8dp"
                     android:layout_centerVertical="true"/>
 
                 <TextView
-                    android:id="@+id/qualitynum"
-                    android:layout_toRightOf="@+id/qualit_text"
+                    android:id="@+id/g_typeName"
+                    android:layout_toRightOf="@+id/g_type_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未定义"
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
                     />
+
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/gprice"
+                android:id="@+id/quality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/quality_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品数量："
+                    android:textSize="18sp"
+                    android:layout_margin="8dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/g_quality_num"
+                    android:layout_toRightOf="@+id/quality_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未定义"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:id="@+id/uint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/g_quality_num"
+                    android:layout_marginLeft="5dp"
+                    android:text="单位"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/g_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -152,23 +192,188 @@
                     android:id="@+id/price_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="联系方式："
+                    android:text="商品价格："
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="8dp"
                     android:layout_centerVertical="true"/>
 
                 <TextView
-                    android:id="@+id/pricenum"
+                    android:id="@+id/price_num"
                     android:layout_toRightOf="@+id/price_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未定义"
                     android:textSize="18sp"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/price_num"
+                    android:text="元"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/g_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/g_user_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发布者名称："
+                    android:textSize="18sp"
+                    android:layout_margin="8dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/g_username"
+                    android:layout_toRightOf="@+id/g_user_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未定义"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
                     />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/g_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/g_id_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发布者ID："
+                    android:textSize="18sp"
+                    android:layout_margin="8dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/g_id_user"
+                    android:layout_toRightOf="@+id/g_id_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未定义"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/g_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/g_phone_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系方式："
+                    android:textSize="18sp"
+                    android:layout_margin="8dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/g_phone_user"
+                    android:layout_toRightOf="@+id/g_phone_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未定义"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/g_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/g_qq_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系QQ："
+                    android:textSize="18sp"
+                    android:layout_margin="8dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/g_qq_user"
+                    android:layout_toRightOf="@+id/g_qq_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未定义"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/g_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/g_weixin_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系微信："
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/g_weixin_user"
+                    android:layout_toRightOf="@+id/g_weixin_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未定义"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/g_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/g_description_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="关于商品的说明："
+                    android:textSize="18sp"
+                    android:layout_margin="8dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/g_description_goods"
+                    android:layout_toRightOf="@+id/g_description_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未定义"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

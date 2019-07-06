@@ -67,8 +67,12 @@ public class MeFragment extends Fragment {
             user.setText( username );
             user.setTextSize( 20 );
             user.setTextColor( Color.parseColor("#000000") );
-            Bitmap bitmap = BitmapFactory.decodeFile( filePath );
-            image_plus.setImageBitmap( bitmap );
+            if(filePath == null){
+                image_plus.setImageResource( R.drawable.person );
+            }else {
+                Bitmap bitmap = BitmapFactory.decodeFile( filePath );
+                image_plus.setImageBitmap( bitmap );
+            }
         }
 
         Login.setOnClickListener(new View.OnClickListener() {
