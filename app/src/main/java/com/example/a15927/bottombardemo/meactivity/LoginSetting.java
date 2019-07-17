@@ -19,6 +19,7 @@ public class LoginSetting extends AppCompatActivity implements View.OnClickListe
     private String TAG = "Test";
     private ImageView back_login;
     private TextView login_out,back,safety;
+    boolean login = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -33,6 +34,10 @@ public class LoginSetting extends AppCompatActivity implements View.OnClickListe
         login_out = (TextView)findViewById( R.id.login_out );
         login_out.setOnClickListener( this );
 
+        SharedPreferences User = getSharedPreferences( "data", Context.MODE_PRIVATE );
+        //如果未找到该值，则使用get方法中传入的默认值false代替
+        login = User.getBoolean( "login", false );
+        Log.i( TAG, "MeFragment: login is "+login );
     }
 
     @Override
@@ -45,8 +50,12 @@ public class LoginSetting extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.safety:
-                Intent safe = new Intent( LoginSetting.this,ResetPassword.class );
-                startActivity( safe );
+                if(login == false){
+                    Toast.makeText( this, "您处于未登录状态，无法进入查看！", Toast.LENGTH_SHORT ).show();
+                }else{
+                    Intent safe = new Intent( LoginSetting.this,ResetPassword.class );
+                    startActivity( safe );
+                }
                 break;
             case R.id.login_out:
                 checkOut();
@@ -57,10 +66,6 @@ public class LoginSetting extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkOut() {
-        SharedPreferences User = getSharedPreferences( "data", Context.MODE_PRIVATE );
-        //如果未找到该值，则使用get方法中传入的默认值false代替
-        boolean login = User.getBoolean( "login", false );
-        Log.i( TAG, "MeFragment: login is "+login );
         if(login == true){
             //弹出一个弹框，询问是否退出
             MyDialog.show(this, "确定退出登录吗?", new MyDialog.OnConfirmListener() {

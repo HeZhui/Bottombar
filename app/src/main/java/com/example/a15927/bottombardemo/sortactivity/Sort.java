@@ -20,6 +20,9 @@ import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.google.gson.Gson;
+import com.liaoinstan.springview.container.DefaultFooter;
+import com.liaoinstan.springview.container.DefaultHeader;
+import com.liaoinstan.springview.widget.SpringView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ public class Sort extends AppCompatActivity {
 
     private RecyclerView recycler_sort;
     private View netFailed;
+    private SpringView springView_sort;
     private ImageView arrow_back_sort;
     private TextView text_sort;
 
@@ -43,6 +47,15 @@ public class Sort extends AppCompatActivity {
     private int QueryType = 1;//代表按照商品类别查询
     private String goodsType;
     private List<ItemGoods> goodsList = new ArrayList<>();
+    private List<ItemGoods> moreGoodsList = new ArrayList<>(  );
+
+    //分页状态
+    public int page = 1;
+    //当前分页  1------加载，  2-----------刷新
+    protected int checkType = 1;
+    //每页数目
+    public int pageSize = 5;
+    private String token;
 
     //进度条一
     Dialog progressDialog;
@@ -58,6 +71,7 @@ public class Sort extends AppCompatActivity {
 
         text_sort = (TextView)findViewById( R.id.text_sort );
         recycler_sort = (RecyclerView) findViewById( R.id.recycler_sort );
+        springView_sort = (SpringView) findViewById( R.id.springView_sort );
         netFailed = findViewById( R.id.layout_net_failed_sort );
         arrow_back_sort = (ImageView) findViewById( R.id.arrow_back_sort );
         arrow_back_sort.setOnClickListener( new View.OnClickListener() {
@@ -69,7 +83,7 @@ public class Sort extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences( "data", MODE_PRIVATE );
         String uname = sp.getString( "uname", "" );
-        String token = sp.getString( "token", "" );
+        token = sp.getString( "token", "" );
         Log.i( "Test", "uname is  " + uname );
         Log.i( "Test", "token is  " + token );
         switch (type){
@@ -100,26 +114,53 @@ public class Sort extends AppCompatActivity {
             default:
                 break;
         }
-        //初始化对象books
-        SortGoodsRo books = new SortGoodsRo();
+        initGoods( );
+        loadAndRefresh();
+    }
+
+    private void loadAndRefresh() {
+        springView_sort.setHeader( new DefaultHeader( this ) );
+        springView_sort.setFooter( new DefaultFooter( this ) );
+        springView_sort.setListener( new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                page = 1;
+                checkType = 2;
+                initGoods();
+                springView_sort.onFinishFreshAndLoad();
+            }
+
+            @Override
+            public void onLoadmore() {
+                page++;
+                checkType = 1;
+                Log.i( TAG, "onRefresh: page is " + page );
+                initGoods();
+                springView_sort.onFinishFreshAndLoad();
+            }
+        } );
+    }
+
+    //加载商品信息
+    private void initGoods() {
+        //初始化对象sort
+        SortGoodsRo sort = new SortGoodsRo();
         //设置属性
-        books.setToken( token );
-        books.setQueryType( QueryType );
-        books.setGoodsType( goodsType );
-        books.setGoodsName( null );
+        sort.setToken( token );
+        sort.setQueryType( QueryType );
+        sort.setGoodsType( goodsType );
+        sort.setGoodsName( null );
+        sort.setPageSize( pageSize );
+        sort.setPage( page );
+        sort.setCheckType( checkType );
 
         Gson gson = new Gson();
-        String jsonStr = gson.toJson( books, SortGoodsRo.class );
+        String jsonStr = gson.toJson( sort, SortGoodsRo.class );
 
         Log.i( TAG, "组成的Json串是: " + jsonStr );
         //进度框显示方法一
         progressDialog = DialogUIUtils.showLoadingDialog( Sort.this, "正在查询..." );
         progressDialog.show();
-        initGoods( jsonStr );
-    }
-
-    //加载商品信息
-    private void initGoods(String jsonStr) {
         //发送okhttp请求
         PostWith.sendPostWithOkhttp( url, jsonStr, new Callback() {
             @Override

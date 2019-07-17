@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +13,8 @@ import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 
 public class ItemBuyActivity extends AppCompatActivity {
     private String TAG = "Test";
-    private ImageView b_img;
-    private TextView b_id,b_goodsName,b_goodsType,b_userName,b_userId,b_phone,b_qq,b_weixin,b_description;
+    private ImageView b_img,back_g;
+    private TextView back,b_id,b_goodsName,b_goodsType,b_userName,b_userId,b_phone,b_qq,b_weixin,b_description;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -29,7 +30,7 @@ public class ItemBuyActivity extends AppCompatActivity {
         b_img.setImageBitmap( BitmapFactory.decodeByteArray( img_array,0,img_array.length,null ) );
         b_id.setText( itemBuy.getGoodsID() );
         b_goodsName.setText( itemBuy.getGoodsName() );
-        b_goodsType.setText( itemBuy.getGoodsName() );
+        b_goodsType.setText( itemBuy.getGoodsTypeName() );
         b_userName.setText( itemBuy.getUname() );
         b_userId.setText( itemBuy.getUserid() );
         b_phone.setText( itemBuy.getUphone() );
@@ -49,5 +50,19 @@ public class ItemBuyActivity extends AppCompatActivity {
         b_qq = (TextView)findViewById( R.id.b_qq_user );
         b_weixin = (TextView)findViewById( R.id.b_weixin_user );
         b_description =(TextView)findViewById( R.id.b_description_buy );
+        back_g = (ImageView)findViewById( R.id.back_g );
+        back_g.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        } );
+        back = (TextView)findViewById( R.id.back );
+        back.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        } );
     }
 }

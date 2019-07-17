@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,8 +15,8 @@ import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 
 public class ItemGoodsActivity extends AppCompatActivity {
     private String TAG= "Test";
-    private ImageView img;
-    private TextView g_goodsName,g_id,g_quality,g_uint,g_typeName,g_price,g_phone,g_qq,g_weixin,g_userId,g_userName,g_decription;
+    private ImageView img,back_s;
+    private TextView back,g_goodsName,g_id,g_quality,g_uint,g_typeName,g_price,g_phone,g_qq,g_weixin,g_userId,g_userName,g_decription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -67,5 +68,19 @@ public class ItemGoodsActivity extends AppCompatActivity {
         g_qq = (TextView)findViewById( R.id.g_qq_user );
         g_weixin = (TextView)findViewById( R.id.g_weixin_user );
         g_decription = (TextView)findViewById( R.id.g_description_goods );
+        back_s = (ImageView)findViewById( R.id.back_s );
+        back_s.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        } );
+        back = (TextView)findViewById( R.id.back );
+        back.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        } );
     }
 }

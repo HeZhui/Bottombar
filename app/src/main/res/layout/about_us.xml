@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_us"
         android:layout_marginTop="5dp"
-        android:text="        二手市场APP致力于用户的需求与商品信息的展示，是提供信息的APP，而不提供线上交易，交易可在线下自由进行。我们提供提供联系方式，包括QQ，微信和手机号码。"
+        android:text="        二手市场APP致力于用户的需求与商品信息的展示，是提供信息的APP，而不提供线上交易，交易可在线下自由进行。我们仅提供联系方式，包括QQ，微信和手机号码。"
         android:textColor="@color/gray"
         android:textSize="17sp"/>
 

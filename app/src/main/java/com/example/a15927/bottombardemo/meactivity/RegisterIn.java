@@ -2,7 +2,6 @@ package com.example.a15927.bottombardemo.meactivity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -180,7 +179,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         //uri权限
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.putExtra( "crop", "true" );//
+        intent.putExtra( "crop", "true" );
         intent.putExtra( "aspectX", 1 );//X方向上的比例
         intent.putExtra( "aspectY", 1 );//Y方向上的比例
         intent.putExtra( "outputX", 60 );//裁剪区的X方向宽
@@ -189,13 +188,11 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
         intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM
         //判断文件是否存在
-        //File saveToFile = ImageUtils.getTempFile();
         if (!saveToFile.getParentFile().exists()) {
             saveToFile.getParentFile().mkdirs();
         }
         //将剪切后的图片存储到此文件
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(saveToFile));
-        Log.i( "Test", "startImageCrop: " + "即将跳到剪切图片" );
         startActivityForResult( intent, CROP_IMAGE );
     }
 
@@ -230,8 +227,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        //Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        //takephoto.setImageBitmap(bitmap);
                         //设置照片存储文件及剪切图片
                         File saveFile = ImageUtils.setTempFile( RegisterIn.this );
                         filePath = ImageUtils.getTempFile();
@@ -297,10 +292,10 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
 
     public void register(String uname, String upassword) {
         //存储照片路径
-        SharedPreferences.Editor image = getSharedPreferences( "data", MODE_PRIVATE ).edit();
-        image.putString( "filePath", filePath.toString() );
-        Log.i( "Test", "filePath is " + filePath.toString() );
-        image.commit();//提交
+//        SharedPreferences.Editor image = getSharedPreferences( "data", MODE_PRIVATE ).edit();
+//        image.putString( "filePath", filePath.toString() );
+//        Log.i( "Test", "filePath is " + filePath.toString() );
+//        image.commit();//提交
         Bitmap bitmap = null;
         //通过uri获取
         //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
@@ -317,7 +312,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         byte[] uimages = FileUtils.Bitmap2Bytes( bitmap );
         userVO.setOpType( opType );
         userVO.setUid( uuid );
-        userVO.setuname( uname );
+        userVO.setUname( uname );
         userVO.setUpassword( MD5Utils.getMD5( upassword ) );
         userVO.setUimage( uimages );
         userVO.setUphone( "15927305629" );

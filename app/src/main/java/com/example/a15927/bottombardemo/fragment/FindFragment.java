@@ -18,11 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.findactivity.FindBuy;
-import com.example.a15927.bottombardemo.findactivity.FindSale;
+import com.example.a15927.bottombardemo.Utils.AppStr;
 import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
 import com.example.a15927.bottombardemo.adapter.ShopAdapter;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
+import com.example.a15927.bottombardemo.findactivity.FindBuy;
+import com.example.a15927.bottombardemo.findactivity.FindSale;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
@@ -237,11 +238,17 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         String userBuyJson = gson_buy.toJson( userBuy, UserBuy.class );
         //记录上次的state状态
         statueLast = statue;
+        //application全局变量
+        AppStr appStr = (AppStr)getActivity().getApplication();
+        appStr.setState( false );
         //发送OkHttp请求
         PostWith.sendPostWithOkhttp( urlbuy, userBuyJson, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i( TAG, "onFailure: " );
+                //application全局变量
+                AppStr appStr = (AppStr)getActivity().getApplication();
+                appStr.setState( true );
                 getActivity().runOnUiThread( new Runnable() {
                     @Override
                     public void run() {
@@ -269,6 +276,9 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                 int flag = goods.getFlag();
                 Log.i( TAG, "flag " + flag );
                 Goodslist = goods.getGoodsList();
+                //application全局变量
+                AppStr appStr = (AppStr)getActivity().getApplication();
+                appStr.setState( true );
                 if (Goodslist.size() == 0) {
                     getActivity().runOnUiThread( new Runnable() {
                         @Override

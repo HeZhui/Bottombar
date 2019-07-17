@@ -7,6 +7,7 @@ public class UserBuy {
     private int page;
     private int checkType; //查询方式       1----------加载               2----------------刷新
     private int condition;//区别是摊位（ 1 ），还是求购（ 2 ）
+
     public int getOpType() {
         return opType;
     }

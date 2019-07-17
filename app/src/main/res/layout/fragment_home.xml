@@ -87,12 +87,21 @@
         android:layout_marginBottom="50dp"
         >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_home"
+        <!--上拉加载下拉刷新版本25-->
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/springView_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="2dp">
-        </android.support.v7.widget.RecyclerView>
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp">
+            </android.support.v7.widget.RecyclerView>
+
+        </com.liaoinstan.springview.widget.SpringView>
 
         <include
             android:id="@+id/layout_net_failed"

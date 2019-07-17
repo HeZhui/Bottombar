@@ -1,16 +1,19 @@
 package com.example.a15927.bottombardemo;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.example.a15927.bottombardemo.Utils.AppStr;
+import com.example.a15927.bottombardemo.fragment.FindFragment;
 import com.example.a15927.bottombardemo.fragment.HomeFragment;
 import com.example.a15927.bottombardemo.fragment.MeFragment;
 import com.example.a15927.bottombardemo.fragment.SortFragment;
-import com.example.a15927.bottombardemo.fragment.FindFragment;
 
 public class MainActivity extends FragmentActivity implements BottomNavigationBar.OnTabSelectedListener{
 
@@ -133,37 +136,41 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
         //18. 但是呢，毕竟我们有四个选项，每个选项对应的是不同的Fragment切换，但是本质上如果选中了任何一个，其实做的事情和设置默认的Fragment做的
         //动作都是一样的，只不过是切换的Fragment不同而已，所以我们这里就需要判断一下，用户选中了哪一个Fragment。
         //如下，做了一个Switch case的判断结构，这个应该大家并不陌生，如果不记得的话，一定要复习一下java相关的内容
-
-        switch (position) {
-            //19. 之前我们说过了，这个子项的id也就是position是从0开始的，我们一共有四个选项，所以对应的也就是0，1，2，3
-            case 0:
-                //20. 当position为0的子项被选中时，也就是第一个子项被选中时，就是把HomeFragment加载进来，替换掉之前的，调用了replace方法就不用管之前的
-                //Fragment是哪一个，都会被直接替换掉的，也比较简单
-                HomeFragment homeFragment = new HomeFragment();
-                transaction.replace(R.id.ll_content, homeFragment);
-                break;
-            case 1:
-                //21. 当position为1的子项被选中时，也就是第二个子项被选中时，就是把SortFragment加载进来，替换掉之前的。
-                SortFragment sortFragment = new SortFragment();
-                transaction.replace(R.id.ll_content, sortFragment);
-                break;
-            case 2:
-                //22. 当position为2的子项被选中时，也就是第三个子项被选中时，就是把FindFragment加载进来，替换掉之前的。
-                FindFragment findFragment = new FindFragment();
-                transaction.replace(R.id.ll_content, findFragment);
-                break;
-            case 3:
-                //23. 当position为3的子项被选中时，也就是第四个子项被选中时，就是把MeFragment加载进来，替换掉之前的。
-                MeFragment meFragment = new MeFragment();
-                transaction.replace(R.id.ll_content, meFragment);
-                break;
-            default:
-                //24. 这个部分呢，因为用户要么就点击上面四个中的一个，要么就不点击，所以不会走到这里，所以就不定义放在这里就ok了
-                break;
+        AppStr appStr = (AppStr)getApplication();
+        if(appStr.isState() == true){
+            switch (position) {
+                //19. 之前我们说过了，这个子项的id也就是position是从0开始的，我们一共有四个选项，所以对应的也就是0，1，2，3
+                case 0:
+                    //20. 当position为0的子项被选中时，也就是第一个子项被选中时，就是把HomeFragment加载进来，替换掉之前的，调用了replace方法就不用管之前的
+                    //Fragment是哪一个，都会被直接替换掉的，也比较简单
+                    HomeFragment homeFragment = new HomeFragment();
+                    transaction.replace(R.id.ll_content, homeFragment);
+                    break;
+                case 1:
+                    //21. 当position为1的子项被选中时，也就是第二个子项被选中时，就是把SortFragment加载进来，替换掉之前的。
+                    SortFragment sortFragment = new SortFragment();
+                    transaction.replace(R.id.ll_content, sortFragment);
+                    break;
+                case 2:
+                    //22. 当position为2的子项被选中时，也就是第三个子项被选中时，就是把FindFragment加载进来，替换掉之前的。
+                    FindFragment findFragment = new FindFragment();
+                    transaction.replace(R.id.ll_content, findFragment);
+                    break;
+                case 3:
+                    //23. 当position为3的子项被选中时，也就是第四个子项被选中时，就是把MeFragment加载进来，替换掉之前的。
+                    MeFragment meFragment = new MeFragment();
+                    transaction.replace(R.id.ll_content, meFragment);
+                    break;
+                default:
+                    //24. 这个部分呢，因为用户要么就点击上面四个中的一个，要么就不点击，所以不会走到这里，所以就不定义放在这里就ok了
+                    break;
+            }
+            //25. 通过上面的条件判断呢，不管用户选择的是哪一个，都已经被捕获了，然后剩下的，直接把这件“事务”提交（commit）就好了。
+            transaction.commit();
+        }else {
+            Log.i( "Test", "onTabSelected: 当前线程未完成，暂不允许跳转到其他活动或碎片！" );
+            Toast.makeText( this, "当前页面暂未加载完成！请傻等一会儿！", Toast.LENGTH_SHORT ).show();
         }
-        //25. 通过上面的条件判断呢，不管用户选择的是哪一个，都已经被捕获了，然后剩下的，直接把这件“事务”提交（commit）就好了。
-        transaction.commit();
-
         //26. 至此，基本上整个的流程就走通了，然后大家就可以在这个结构的基础之上把自己的代码做进一步的完善了，MainActivity中定义了这样的一个结构，
         //但是用户可见的大部分都是四个Fragment中的其中一个，也就是如果我们需要定义什么布局，直接去相对应的Fragment中去定义就好，但是这并不意味着
         //MainActivity就可以高枕无忧了，前面也说过，Fragment并没有Activity自由，而且也并没有Activity那样的“权利”，所以，后面在Fragment中所定义的

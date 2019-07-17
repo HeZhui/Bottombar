@@ -52,12 +52,13 @@
             <RelativeLayout
                 android:id="@+id/img_g"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
 
                 <ImageView
                     android:id="@+id/g_img"
-                    android:layout_width="180dp"
-                    android:layout_height="150dp"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
                     android:background="@drawable/kimg"
                     android:layout_centerInParent="true"/>
 
@@ -68,6 +69,7 @@
                 android:layout_below="@+id/img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 >
 
                 <TextView
@@ -89,6 +91,9 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     />
 
             </RelativeLayout>
@@ -96,7 +101,8 @@
             <RelativeLayout
                 android:id="@+id/g_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/g_name_text"
@@ -116,13 +122,15 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
                     />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/g_type"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/g_type_txt"
@@ -142,6 +150,7 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
                     />
 
             </RelativeLayout>
@@ -149,7 +158,8 @@
             <RelativeLayout
                 android:id="@+id/quality"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/quality_text"
@@ -179,14 +189,16 @@
                     android:layout_marginLeft="5dp"
                     android:text="单位"
                     android:textSize="18sp"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"/>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/g_price"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/price_text"
@@ -206,6 +218,7 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -214,19 +227,21 @@
                     android:text="元"
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"/>
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/g_user"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/g_user_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="发布者名称："
+                    android:text="发布者："
                     android:textSize="18sp"
                     android:layout_margin="8dp"
                     android:layout_centerVertical="true"/>
@@ -240,13 +255,15 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
                     />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/g_id"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/g_id_txt"
@@ -268,13 +285,15 @@
                     android:layout_centerVertical="true"
                     android:singleLine="true"
                     android:ellipsize="end"
+                    android:layout_marginRight="2dp"
                     />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/g_phone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/g_phone_txt"
@@ -294,13 +313,15 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
                     />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/g_qq"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/g_qq_txt"
@@ -320,13 +341,15 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
                     />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/g_weixin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/g_weixin_txt"
@@ -346,13 +369,15 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
                     />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/g_description"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:id="@+id/g_description_txt"
@@ -372,6 +397,7 @@
                     android:textSize="18sp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
                     />
             </RelativeLayout>
         </LinearLayout>

@@ -31,7 +31,7 @@ public class LogoActivity extends AppCompatActivity {
         mar = (ImageView) findViewById( R.id.mar );
         fle_text = (TextView) findViewById( R.id.fle_text );
         startAlphaAnimation();
-        myhander.postDelayed( r,2500 );
+        myhander.postDelayed( r,500 );
 //        preferences=getSharedPreferences("user", Context.MODE_PRIVATE);
 //        boolean isSplashShown = preferences.getBoolean("isSplashShown",false);
 //        if(isSplashShown){
@@ -53,7 +53,7 @@ public class LogoActivity extends AppCompatActivity {
 
     public void  startAlphaAnimation(){
         AlphaAnimation alphaAnimation = new AlphaAnimation( 0.1f,1.0f );
-        alphaAnimation.setDuration( 3000 );//开始动画
+        alphaAnimation.setDuration( 1000 );//开始动画
         iv_logo.startAnimation( alphaAnimation );
         fle.startAnimation( alphaAnimation );
         fle_text.startAnimation( alphaAnimation );
@@ -78,6 +78,4 @@ public class LogoActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
-
-
 }

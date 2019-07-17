@@ -42,12 +42,20 @@
         android:layout_below="@+id/title_sort"
         >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_sort"
+        <!--上拉加载下拉刷新版本25-->
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/springView_sort"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"
+            >
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_sort"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+
+        </com.liaoinstan.springview.widget.SpringView>
         <include
             android:id="@+id/layout_net_failed_sort"
             layout="@layout/net_failed"

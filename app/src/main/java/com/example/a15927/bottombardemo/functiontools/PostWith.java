@@ -16,7 +16,7 @@ public class PostWith {
     public static String TAG = "Test";
 
     //OkHttp的post网络请求函数
-    public static void  sendPostWithOkhttp( String url,  String JsonStr,okhttp3.Callback callback){
+    public static void  sendPostWithOkhttp( String url,String JsonStr,okhttp3.Callback callback){
         //创建实例对象
         OkHttpClient okHttpClient = new OkHttpClient();
 //        //数据类型为json格式

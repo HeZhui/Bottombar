@@ -140,7 +140,6 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                                 break;
                             case 1:
                                 //相册选择逻辑
-//                                Intent picsIn = new Intent( Intent.ACTION_GET_CONTENT );
                                 Intent picsIn = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 //picsIn.setType( "image/*" );//设置选择的数据类型为图片类型
                                 startActivityForResult( picsIn, CHOOSE_PHOTO );
@@ -172,12 +171,13 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    //通过URI获取图片并裁剪存入之前的地址
     private void startImageCrop(File saveToFile,Uri uri) {
         if(uri == null){
             return ;
         }
         Intent intent = new Intent( "com.android.camera.action.CROP" );
-        Log.i( TAG, "startImageCrop: " + "执行到压缩图片了" + "uri is " + uri );
+        Log.i( TAG, "startImageCrop: " + "执行到裁剪图片了" + "uri is " + uri );
         intent.setDataAndType( uri, "image/*" );//设置Uri及类型
         //uri权限
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -185,19 +185,21 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         intent.putExtra( "crop", "true" );//
         intent.putExtra( "aspectX", 1 );//X方向上的比例
         intent.putExtra( "aspectY", 1 );//Y方向上的比例
-        intent.putExtra( "outputX", 60 );//裁剪区的X方向宽
-        intent.putExtra( "outputY", 60 );//裁剪区的Y方向宽
+        intent.putExtra( "outputX", 100 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 100 );//裁剪区的Y方向宽
         intent.putExtra( "scale", true );//是否保留比例
-        intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
-        intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM
+        intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );//图片的输出格式
+        intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回
+        /*
+        * return-data:是将结果保存在data中返回，在onActivityResult中，直接调用intent.getdata()就可以获取值了，这里设为fase，就是不让它保存在data中
+        *MediaStore.EXTRA_OUTPUT：由于我们不让它保存在Intent的data域中，但我们总要有地方来保存我们的图片，这个参数就是转移保存地址的，对应Value中保存的URI就是指定的保存地址。
+        */
         //判断文件是否存在
-        //File saveToFile = ImageUtils.getTempFile();
         if (!saveToFile.getParentFile().exists()) {
             saveToFile.getParentFile().mkdirs();
         }
         //将剪切后的图片存储到此文件
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(saveToFile));
-        Log.i( TAG, "startImageCrop: " + "即将跳到剪切图片" );
         startActivityForResult( intent, CROP_IMAGE );
     }
 
@@ -227,11 +229,9 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                         Cursor cursor = getContentResolver().query(imageUri,
                                 filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
                         cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String path = cursor.getString(columnIndex);  //获取照片路径
+//                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                        String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        //Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        //photo_taken.setImageBitmap(bitmap);
                         //设置照片存储文件及剪切图片
                         File saveFile = ImageUtils.setTempFile( FindSale.this );
                         //filePath = ImageUtils.getTempFile();
@@ -244,14 +244,16 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
             case CROP_IMAGE:
                 if(resultCode == RESULT_OK){
                     Log.i( TAG, "onActivityResult: CROP_IMAGE" + "进入了CROP");
-                    // 通过图片URI拿到剪切图片
-                    //bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-                    //通过FileName拿到图片
                     filePath = ImageUtils.getTempFile();
-                    Bitmap bitmap = BitmapFactory.decodeFile( filePath.toString() );
+                    //将图片转换为RGB-565形式，会节省部分空间
+                    BitmapFactory.Options options2 = new BitmapFactory.Options();
+                    options2.inPreferredConfig = Bitmap.Config.RGB_565;
+                    Bitmap bitmap = BitmapFactory.decodeFile( filePath.toString() , options2);
+                    //下面进行压缩图片
+                    Bitmap bit = ImageUtils.getImage( filePath.toString() );
+                    Log.i( TAG, "压缩之后的比特数为: "+bit.getByteCount() );
                     //把裁剪后的图片展示出来
                     photo_taken.setImageBitmap( bitmap );
-                    //ImageUtils.Compress( bitmap );
                 }
                 break;
             default:
@@ -264,8 +266,6 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         GoodsPut goodsPut = new GoodsPut();
         String goodsID = UUID.randomUUID().toString().replaceAll( "-", "" );
         String uuid = UUID.randomUUID().toString().replaceAll( "-", "" );
-//        Resources res = getResources();
-//        Bitmap bmp = BitmapFactory.decodeResource( res, R.drawable.chen );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
         filePath = ImageUtils.getTempFile( );
         byte[] uimages = null;
         if(filePath == null){
