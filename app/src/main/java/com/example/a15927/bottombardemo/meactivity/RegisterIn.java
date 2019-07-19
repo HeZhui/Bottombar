@@ -2,8 +2,6 @@ package com.example.a15927.bottombardemo.meactivity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -21,9 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.Utils.FileUtils;
 import com.example.a15927.bottombardemo.Utils.ImageUtils;
 import com.example.a15927.bottombardemo.Utils.MD5Utils;
+import com.example.a15927.bottombardemo.Utils.PostPicToYun;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserCO;
@@ -146,7 +144,17 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                 } );
                 break;
             case R.id.register:
-                allcomit();
+                String yunFlag = PostPicToYun.getYunFlag();
+                Log.i( "Test", "onClick: "+yunFlag );
+                String picUrl = PostPicToYun.getPicUrl();
+                Log.i( "Test", "onClick: "+picUrl );
+                if(yunFlag != null && yunFlag.equals( "OK" )){
+                    if(picUrl != null || picUrl.length() > 20){
+                        allcomit(picUrl);
+                    }
+                }else{
+                    Log.i( "Test", "onClick: 上传失败！");
+                }
                 break;
             case R.id.arrow_back:
                 finish();
@@ -182,8 +190,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         intent.putExtra( "crop", "true" );
         intent.putExtra( "aspectX", 1 );//X方向上的比例
         intent.putExtra( "aspectY", 1 );//Y方向上的比例
-        intent.putExtra( "outputX", 60 );//裁剪区的X方向宽
-        intent.putExtra( "outputY", 60 );//裁剪区的Y方向宽
+        intent.putExtra( "outputX", 500 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 500 );//裁剪区的Y方向宽
         intent.putExtra( "scale", true );//是否保留比例
         intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
         intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM
@@ -220,13 +228,13 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                     try {
                         imageUri = data.getData(); //获取系统返回的照片的Uri
                         Log.i( "Test", "onActivityResult: uriImage is " +imageUri );
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(imageUri,
-                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String path = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
+//                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//                        Cursor cursor = getContentResolver().query(imageUri,
+//                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+//                        cursor.moveToFirst();
+//                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                        String path = cursor.getString(columnIndex);  //获取照片路径
+//                        cursor.close();
                         //设置照片存储文件及剪切图片
                         File saveFile = ImageUtils.setTempFile( RegisterIn.this );
                         filePath = ImageUtils.getTempFile();
@@ -241,10 +249,11 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                     Log.i( "Test", "onActivityResult: CROP_IMAGE" + "进入了CROP");
                     // 通过图片URI拿到剪切图片
                     //bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-                    //通过FileName拿到图片
+                    //通过FileName拿到裁剪图片
                     Bitmap bitmap = BitmapFactory.decodeFile( filePath.toString() );
                     //把裁剪后的图片展示出来
                     takephoto.setImageBitmap( bitmap );
+                    PostPicToYun.PostPic( RegisterIn.this,filePath );
                     //ImageUtils.Compress( bitmap );
                 }
                 break;
@@ -254,7 +263,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
     }
 
     //注册
-    public void allcomit() {
+    public void allcomit(String picUrl) {
+        Log.i( "Test", "allcomit: " +picUrl);
         String inputUsername = input_username.getText().toString().trim();
         String inputpassword = input_password.getText().toString().trim();
         String confirmpassword = password_confirm.getText().toString().trim();
@@ -282,7 +292,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                         //                        dialog.setCanceledOnTouchOutside(true);
                         //                        //显示
                         //                        dialog.show();
-                        register( inputUsername, inputpassword );
+                        register( inputUsername, inputpassword ,picUrl);
                     } else
                         Toast.makeText( RegisterIn.this, "两次密码不一致", Toast.LENGTH_SHORT ).show();
                 }
@@ -290,31 +300,27 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    public void register(String uname, String upassword) {
-        //存储照片路径
-//        SharedPreferences.Editor image = getSharedPreferences( "data", MODE_PRIVATE ).edit();
-//        image.putString( "filePath", filePath.toString() );
-//        Log.i( "Test", "filePath is " + filePath.toString() );
-//        image.commit();//提交
-        Bitmap bitmap = null;
+    public void register(String uname, String upassword ,String picUrl) {
+//        Bitmap bitmap = null;
         //通过uri获取
         //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
-        if (filePath == null) {
-            Resources res = getResources();
-            bitmap = BitmapFactory.decodeResource( res, R.drawable.person );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
-        }else{
-            bitmap =BitmapFactory.decodeFile( filePath.toString() );
-        }
+//        if (filePath == null) {
+//            Resources res = getResources();
+//            bitmap = BitmapFactory.decodeResource( res, R.drawable.person );//从drawable中取一个图片（以后大家需要从相册中取，或者相机中取）。
+//        }else{
+//            bitmap =BitmapFactory.decodeFile( filePath.toString() );
+//        }
         //生成部分属性
         UserVO userVO = new UserVO();
         String uuid = UUID.randomUUID().toString().replaceAll( "-","" );
-        //bitmp转bytes
-        byte[] uimages = FileUtils.Bitmap2Bytes( bitmap );
+//        //bitmp转bytes
+//        byte[] uimages = FileUtils.Bitmap2Bytes( bitmap );
         userVO.setOpType( opType );
         userVO.setUid( uuid );
         userVO.setUname( uname );
         userVO.setUpassword( MD5Utils.getMD5( upassword ) );
-        userVO.setUimage( uimages );
+//        userVO.setUimage( uimages );
+        userVO.setPicDir( picUrl );
         userVO.setUphone( "15927305629" );
         userVO.setSex( 1 );
         userVO.setQq( "1574367559" );

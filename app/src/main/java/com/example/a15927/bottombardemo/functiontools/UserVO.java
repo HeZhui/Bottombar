@@ -1,14 +1,14 @@
 package com.example.a15927.bottombardemo.functiontools;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class UserVO implements Serializable {
     private int opType;//操作类型
     private String uid;
     private String uname;
     private String upassword;
-    private byte[] uimage;
+//    private byte[] uimage;
+    private String picDir;
     private String uphone;
     private int sex;
     private String qq;
@@ -47,12 +47,20 @@ public class UserVO implements Serializable {
         this.upassword = upassword;
     }
 
-    public byte[] getUimage() {
-        return uimage;
+//    public byte[] getUimage() {
+//        return uimage;
+//    }
+//
+//    public void setUimage(byte[] uimage) {
+//        this.uimage = uimage;
+//    }
+
+    public String getPicDir() {
+        return picDir;
     }
 
-    public void setUimage(byte[] uimage) {
-        this.uimage = uimage;
+    public void setPicDir(String picDir) {
+        this.picDir = picDir;
     }
 
     public String getUphone() {
@@ -102,7 +110,7 @@ public class UserVO implements Serializable {
                 ", uid='" + uid + '\'' +
                 ", uname='" + uname + '\'' +
                 ", upassword='" + upassword + '\'' +
-                ", uimage=" + Arrays.toString( uimage ) +
+                ", picDir='" + picDir + '\'' +
                 ", uphone='" + uphone + '\'' +
                 ", sex=" + sex +
                 ", qq='" + qq + '\'' +

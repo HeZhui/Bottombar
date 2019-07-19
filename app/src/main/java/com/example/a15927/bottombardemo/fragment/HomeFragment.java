@@ -170,10 +170,8 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                 goodsList = goods.getGoodsList();
                 AppStr appStr = (AppStr)getActivity().getApplication();
                 appStr.setState( true );
-                if(goodsList == null){
-                    Toast.makeText( getActivity(), "出现错误", Toast.LENGTH_SHORT ).show();
-                }
-                else{
+                //flag判断
+                if (flag == 200) {
                     if(goodsList.size() == 0){
                         getActivity().runOnUiThread( new Runnable() {
                             @Override
@@ -197,37 +195,34 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                                 moreGoodsList.add( goodsList.get( i ) );
                             }
                         }
-                        //flag判断
-                        if (flag == 200) {
-                            //切换到主线程
-                            getActivity().runOnUiThread( new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.i( "Test", "run: 查询成功" );
-                                    Toast.makeText( getActivity(), "查询成功", Toast.LENGTH_SHORT ).show();
-                                    //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
-                                    LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
-                                    recycler_home.setLayoutManager( layoutManager );
-                                    GoodsAdapter adapter = new GoodsAdapter( getActivity(), moreGoodsList );
-                                    recycler_home.setAdapter( adapter );
-                                }
-                            } );
-                        } else if (flag == 30001) {
-                            getActivity().runOnUiThread( new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText( getActivity(), "登录信息已失效,请再次登录！", Toast.LENGTH_SHORT ).show();
-                                }
-                            } );
-                        } else {
-                            getActivity().runOnUiThread( new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText( getActivity(), "出现错误，查询失败", Toast.LENGTH_SHORT ).show();
-                                }
-                            } );
-                        }
+                        //切换到主线程
+                        getActivity().runOnUiThread( new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.i( "Test", "run: 查询成功" );
+                                Toast.makeText( getActivity(), "查询成功", Toast.LENGTH_SHORT ).show();
+                                //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
+                                LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
+                                recycler_home.setLayoutManager( layoutManager );
+                                GoodsAdapter adapter = new GoodsAdapter( getActivity(), moreGoodsList );
+                                recycler_home.setAdapter( adapter );
+                            }
+                        } );
                     }
+                } else if (flag == 30001) {
+                    getActivity().runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText( getActivity(), "登录信息已失效,请再次登录！", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
+                } else {
+                    getActivity().runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText( getActivity(), "出现错误，查询失败", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
                 }
             }
         } );
@@ -240,9 +235,9 @@ public class HomeFragment extends Fragment implements OnBannerListener {
 //        //放标题的集合
 //        list_title = new ArrayList<>();
 
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg");
+        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_032500.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg
+        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_031014.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg
+        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_030733.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg");
 //        list_title.add("");
 //        list_title.add("");

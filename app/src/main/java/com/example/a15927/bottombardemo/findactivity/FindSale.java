@@ -3,7 +3,6 @@ package com.example.a15927.bottombardemo.findactivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -185,10 +184,10 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         intent.putExtra( "crop", "true" );//
         intent.putExtra( "aspectX", 1 );//X方向上的比例
         intent.putExtra( "aspectY", 1 );//Y方向上的比例
-        intent.putExtra( "outputX", 100 );//裁剪区的X方向宽
-        intent.putExtra( "outputY", 100 );//裁剪区的Y方向宽
+        intent.putExtra( "outputX", 500 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 500 );//裁剪区的Y方向宽
         intent.putExtra( "scale", true );//是否保留比例
-        intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );//图片的输出格式
+        intent.putExtra( "outputFormat", Bitmap.CompressFormat.JPEG.toString() );//图片的输出格式
         intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回
         /*
         * return-data:是将结果保存在data中返回，在onActivityResult中，直接调用intent.getdata()就可以获取值了，这里设为fase，就是不让它保存在data中
@@ -225,13 +224,13 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                     try {
                         imageUri = data.getData(); //获取系统返回的照片的Uri
                         Log.i( TAG, "onActivityResult: uriImage is " +imageUri );
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(imageUri,
-                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
+//                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//                        Cursor cursor = getContentResolver().query(imageUri,
+//                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+//                        cursor.moveToFirst();
 //                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 //                        String path = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
+//                        cursor.close();
                         //设置照片存储文件及剪切图片
                         File saveFile = ImageUtils.setTempFile( FindSale.this );
                         //filePath = ImageUtils.getTempFile();

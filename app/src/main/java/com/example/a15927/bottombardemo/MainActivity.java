@@ -19,6 +19,10 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
 
     //本项目中需要使用到Google推出的BottomBar：BottomNavigationBar，所以这里先new一个对象mBottomNavigationBar。
     private BottomNavigationBar mBottomNavigationBar;
+    private HomeFragment homeFragment;
+    private SortFragment sortFragment;
+    private FindFragment findFragment;
+    private MeFragment meFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +120,41 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
         //但是Activity并没有理由拒绝，所以只要你申请就批准，准许你开始你的事务beginTransaction（），想干啥干啥吧!
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         //7. 这句话是new了一个HomeFragment的对象，毕竟这个方法是需要控制HomeFragment的
-        HomeFragment homeFragment = new HomeFragment();
+//        HomeFragment homeFragment = new HomeFragment();
+        //添加（add）和显示（show）配合隐藏（hide）来使用，这样首先避免相同类型的fragment的重复添加        此方式是将fragment隐藏而非重建
+        if(homeFragment == null){
+            homeFragment = new HomeFragment();
+            transaction.add( R.id.ll_content,homeFragment );
+        }
+        //隐藏所有的fragment
+        hideAllFragment();
+        //显示默认fragment
+        transaction.show( homeFragment );
         //8. 好的，事务已经下达：replace(R.id.ll_content, homeFragment)，就是把HomeFragment替换到一个id为ll_content的控件之中
         //那么这个ll_content又是何许人也呢？按住ctrl左键点击，就找到对应的控件了，也就是界面上部分的那一大块空白区域，嗯，这正是我们想要的
         //然后事务拟定好了的话，就直接提交（commit）。
         //然后这件事就愉快的结束了。
-        transaction.replace(R.id.ll_content, homeFragment).commit();
+//        transaction.replace(R.id.ll_content, homeFragment).commit();
+        transaction.commit();
+    }
+
+    //隐藏所有的fragment
+    private void hideAllFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(homeFragment != null){
+            transaction.hide( homeFragment );
+        }
+        if(sortFragment != null){
+            transaction.hide( sortFragment );
+        }
+        if(findFragment != null){
+            transaction.hide( findFragment );
+        }
+        if(meFragment != null){
+            transaction.hide( meFragment );
+        }
+        transaction.commit();
     }
 
     @Override
@@ -141,25 +174,54 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
             switch (position) {
                 //19. 之前我们说过了，这个子项的id也就是position是从0开始的，我们一共有四个选项，所以对应的也就是0，1，2，3
                 case 0:
+                    //添加（add）和显示（show）配合隐藏（hide）来使用，这样首先避免相同类型的fragment的重复添加      此方式是将fragment隐藏而非重建
+                    if(homeFragment == null){
+                        homeFragment = new HomeFragment();
+                        transaction.add( R.id.ll_content,homeFragment );
+                    }
+                    hideAllFragment();
+                    transaction.show( homeFragment );
                     //20. 当position为0的子项被选中时，也就是第一个子项被选中时，就是把HomeFragment加载进来，替换掉之前的，调用了replace方法就不用管之前的
                     //Fragment是哪一个，都会被直接替换掉的，也比较简单
-                    HomeFragment homeFragment = new HomeFragment();
-                    transaction.replace(R.id.ll_content, homeFragment);
+//                    HomeFragment homeFragment = new HomeFragment();
+//                    transaction.replace(R.id.ll_content, homeFragment);
                     break;
                 case 1:
+                    //添加（add）和显示（show）配合隐藏（hide）来使用，这样首先避免相同类型的fragment的重复添加        此方式是将fragment隐藏而非重建
+                    if(sortFragment == null){
+                        sortFragment = new SortFragment();
+                        transaction.add( R.id.ll_content,sortFragment );
+                    }
+                    hideAllFragment();
+                    transaction.show( sortFragment );
+
                     //21. 当position为1的子项被选中时，也就是第二个子项被选中时，就是把SortFragment加载进来，替换掉之前的。
-                    SortFragment sortFragment = new SortFragment();
-                    transaction.replace(R.id.ll_content, sortFragment);
+//                    SortFragment sortFragment = new SortFragment();
+//                    transaction.replace(R.id.ll_content, sortFragment);
                     break;
                 case 2:
+                    //添加（add）和显示（show）配合隐藏（hide）来使用，这样首先避免相同类型的fragment的重复添加     此方式是将fragment隐藏而非重建
+                    if (findFragment == null){
+                        findFragment = new FindFragment();
+                        transaction.add( R.id.ll_content,findFragment );
+                    }
+                    hideAllFragment();
+                    transaction.show( findFragment );
                     //22. 当position为2的子项被选中时，也就是第三个子项被选中时，就是把FindFragment加载进来，替换掉之前的。
-                    FindFragment findFragment = new FindFragment();
-                    transaction.replace(R.id.ll_content, findFragment);
+//                    FindFragment findFragment = new FindFragment();
+//                    transaction.replace(R.id.ll_content, findFragment);
                     break;
                 case 3:
+                    //添加（add）和显示（show）配合隐藏（hide）来使用，这样首先避免相同类型的fragment的重复添加  此方式是将fragment隐藏而非重建
+                    if (meFragment == null){
+                        meFragment = new MeFragment();
+                        transaction.add( R.id.ll_content,meFragment );
+                    }
+                    hideAllFragment();
+                    transaction.show( meFragment );
                     //23. 当position为3的子项被选中时，也就是第四个子项被选中时，就是把MeFragment加载进来，替换掉之前的。
-                    MeFragment meFragment = new MeFragment();
-                    transaction.replace(R.id.ll_content, meFragment);
+//                    MeFragment meFragment = new MeFragment();
+//                    transaction.replace(R.id.ll_content, meFragment);
                     break;
                 default:
                     //24. 这个部分呢，因为用户要么就点击上面四个中的一个，要么就不点击，所以不会走到这里，所以就不定义放在这里就ok了
@@ -169,7 +231,7 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
             transaction.commit();
         }else {
             Log.i( "Test", "onTabSelected: 当前线程未完成，暂不允许跳转到其他活动或碎片！" );
-            Toast.makeText( this, "当前页面暂未加载完成！请傻等一会儿！", Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, "当前页面暂未加载完成！请傻等一会儿！", Toast.LENGTH_LONG ).show();
         }
         //26. 至此，基本上整个的流程就走通了，然后大家就可以在这个结构的基础之上把自己的代码做进一步的完善了，MainActivity中定义了这样的一个结构，
         //但是用户可见的大部分都是四个Fragment中的其中一个，也就是如果我们需要定义什么布局，直接去相对应的Fragment中去定义就好，但是这并不意味着
@@ -185,6 +247,7 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
     //重写里面所有的方法，否则就会报错，如果不理解的话，还是要再复习一下java相关内容咯
     @Override
     public void onTabUnselected(int position) {
+
     }
 
     @Override

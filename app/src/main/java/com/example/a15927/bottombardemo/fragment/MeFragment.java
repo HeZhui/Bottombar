@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.Utils.AppStr;
-import com.example.a15927.bottombardemo.Utils.FileUtils;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserCheck;
@@ -87,8 +85,8 @@ public class MeFragment extends Fragment {
             String username = User.getString( "uname","" );
             Log.i( TAG, "MeFragment: username is "+username );
             user.setText( username );
-            user.setTextSize( 20 );
-            user.setTextColor( Color.parseColor("#eeeeee") );
+            user.setTextSize( 22 );
+            user.setTextColor( Color.parseColor("#0895e7") );
 
             //设置属性
             UserCheck userCheck = new UserCheck();
@@ -240,8 +238,8 @@ public class MeFragment extends Fragment {
                                 dismiss( progressDialog );
                                 Log.i( TAG, "run: success" );
                                 Toast.makeText( getActivity(), "查询成功！", Toast.LENGTH_SHORT ).show();
-                                Bitmap bitmap = FileUtils.Bytes2Bimap( userInfo.getUimage());
-                                image_plus.setImageBitmap( bitmap );
+//                                Bitmap bitmap = FileUtils.Bytes2Bimap( userInfo.getUimage());
+//                                image_plus.setImageBitmap( bitmap );
                             }
                             else if (flag == 30001){
                                 //取消进度框一

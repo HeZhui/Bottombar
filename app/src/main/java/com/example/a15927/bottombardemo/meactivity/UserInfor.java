@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.a15927.bottombardemo.R;
-import com.example.a15927.bottombardemo.Utils.FileUtils;
 import com.example.a15927.bottombardemo.Utils.ImageUtils;
 import com.example.a15927.bottombardemo.functiontools.UserVO;
 import com.longsh.optionframelibrary.OptionBottomDialog;
@@ -57,8 +56,8 @@ public class UserInfor extends AppCompatActivity implements View.OnClickListener
     }
 
     private void showUserInfo(UserVO userVO) {
-        Bitmap bitmap = FileUtils.Bytes2Bimap( userVO.getUimage() );
-        userImage.setImageBitmap( bitmap );
+//        Bitmap bitmap = FileUtils.Bytes2Bimap( userVO.getUimage() );
+//        userImage.setImageBitmap( bitmap );
         userId.setText( userVO.getUid() );
         userAccount.setText( userVO.getUname() );
         String gender = userVO.getSex() == 1 ? "男" : "女";

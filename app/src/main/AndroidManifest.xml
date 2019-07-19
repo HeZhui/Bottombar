@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     //联网
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     //读取外置存储卡
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -13,6 +15,7 @@
     <!-- <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/> -->
     <!-- //对SD操作 -->
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+
     //打开手机相册权限读取documents
     <application
         android:allowBackup="true"

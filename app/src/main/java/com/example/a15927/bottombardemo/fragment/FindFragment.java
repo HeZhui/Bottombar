@@ -279,66 +279,66 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                 //application全局变量
                 AppStr appStr = (AppStr)getActivity().getApplication();
                 appStr.setState( true );
-                if (Goodslist.size() == 0) {
-                    getActivity().runOnUiThread( new Runnable() {
-                        @Override
-                        public void run() {
-                            //取消进度框一
-                            dismiss( progressDialog );
-                            Toast.makeText( getActivity(), "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
-                        }
-                    } );
-                }
-                if (Goodslist.size() <= pageSize && Goodslist.size() != 0) {
-                    for (int i = 0; i < Goodslist.size(); i++) {
-                        boolean repeat = false;
-                        for (int j = 0; j < newGoodsList.size(); j++) {
-                            if (newGoodsList.get( j ).getGoodsID().equals( Goodslist.get( i ).getGoodsID() )) {
-                                repeat = true;
-                                break;
+                if (flag == 200) {
+                    if (Goodslist.size() == 0) {
+                        getActivity().runOnUiThread( new Runnable() {
+                            @Override
+                            public void run() {
+                                //取消进度框一
+                                dismiss( progressDialog );
+                                Toast.makeText( getActivity(), "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
+                            }
+                        } );
+                    }
+                    if (Goodslist.size() <= pageSize && Goodslist.size() != 0) {
+                        for (int i = 0; i < Goodslist.size(); i++) {
+                            boolean repeat = false;
+                            for (int j = 0; j < newGoodsList.size(); j++) {
+                                if (newGoodsList.get( j ).getGoodsID().equals( Goodslist.get( i ).getGoodsID() )) {
+                                    repeat = true;
+                                    break;
+                                }
+                            }
+                            if (repeat == false) {
+                                newGoodsList.add( Goodslist.get( i ) );
                             }
                         }
-                        if (repeat == false) {
-                            newGoodsList.add( Goodslist.get( i ) );
-                        }
-                    }
-                    if (flag == 200) {
                         getActivity().runOnUiThread( new Runnable() {
                             @Override
                             public void run() {
                                 //取消进度框一
                                 dismiss( progressDialog );
                                 Log.i( TAG, "run: success" );
-                                if(statue == 1){
-                                    GoodsAdapter goodsAdapter = new GoodsAdapter( getActivity(),newGoodsList );
+                                if (statue == 1) {
+                                    GoodsAdapter goodsAdapter = new GoodsAdapter( getActivity(), newGoodsList );
                                     recyclerView.setAdapter( goodsAdapter );
                                 }
-                                if(statue == 2){
-                                    ShopAdapter shopAdapter = new ShopAdapter(getActivity(), newGoodsList );
+                                if (statue == 2) {
+                                    ShopAdapter shopAdapter = new ShopAdapter( getActivity(), newGoodsList );
                                     recyclerView.setAdapter( shopAdapter );
                                 }
                                 Toast.makeText( getActivity(), "查询成功！", Toast.LENGTH_SHORT ).show();
                             }
                         } );
-                    } else if (flag == 30001) {
-                        getActivity().runOnUiThread( new Runnable() {
-                            @Override
-                            public void run() {
-                                //取消进度框一
-                                dismiss( progressDialog );
-                                Toast.makeText( getActivity(), "登录信息已失效，请重新登录！", Toast.LENGTH_SHORT ).show();
-                            }
-                        } );
-                    } else {
-                        getActivity().runOnUiThread( new Runnable() {
-                            @Override
-                            public void run() {
-                                //取消进度框一
-                                dismiss( progressDialog );
-                                Toast.makeText( getActivity(), "查询失败！", Toast.LENGTH_SHORT ).show();
-                            }
-                        } );
                     }
+                } else if (flag == 30001) {
+                    getActivity().runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            //取消进度框一
+                            dismiss( progressDialog );
+                            Toast.makeText( getActivity(), "登录信息已失效，请重新登录！", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
+                } else {
+                    getActivity().runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            //取消进度框一
+                            dismiss( progressDialog );
+                            Toast.makeText( getActivity(), "查询失败！", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
                 }
             }
         } );

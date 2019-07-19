@@ -29,7 +29,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // 轮播图的依赖
     //底部弹框的依赖
     //这个地方需要引用Bottombar的包
@@ -44,11 +43,17 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+//    compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.liaoinstan.springview:library:1.3.0'
     testCompile 'junit:junit:4.12'
-    compile 'top.zibin:Luban:1.1.2'
+    compile files('libs/cos-android-sdk-5.4.26.jar')
+    compile files('libs/bolts-tasks-1.4.0.jar')
+    compile files('libs/mid-sdk-4.06.jar')
+    compile files('libs/mta-android-sdk-3.4.7.jar')
+    compile files('libs/okhttp-3.9.0.jar')
+    compile files('libs/okio-1.13.0.jar')
+    compile files('libs/qcloud-foundation-1.5.11.jar')
 }

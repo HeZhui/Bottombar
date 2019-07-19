@@ -195,20 +195,44 @@ public class Sort extends AppCompatActivity {
                 // Log.i( TAG, "goodsList" +goodsList);
                 //flag判断
                 if (flag == 200) {
-                    runOnUiThread( new Runnable() {
-                        @Override
-                        public void run() {
-                            //取消进度框一
-                            dismiss( progressDialog );
-                            Log.i( TAG, "run: 查询成功！" );
-                            Toast.makeText( Sort.this, "查询成功！", Toast.LENGTH_SHORT ).show();
-                            //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
-                            LinearLayoutManager layoutManager = new LinearLayoutManager( Sort.this );
-                            recycler_sort.setLayoutManager( layoutManager );
-                            GoodsAdapter adapter = new GoodsAdapter( Sort.this,goodsList );
-                            recycler_sort.setAdapter( adapter );
+                    if(goodsList.size() == 0){
+                        runOnUiThread( new Runnable() {
+                            @Override
+                            public void run() {
+                                //取消进度框
+                                dismiss( progressDialog );
+                                Toast.makeText( Sort.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
+                            }
+                        } );
+                    }
+                    if(goodsList.size() <= pageSize && goodsList.size() != 0){
+                        for (int i = 0; i < goodsList.size(); i++) {
+                            boolean repeat = false;
+                            for (int j = 0; j < moreGoodsList.size(); j++) {
+                                if (moreGoodsList.get( j ).getGoodsID().equals( goodsList.get( i ).getGoodsID() )) {
+                                    repeat = true;
+                                    break;
+                                }
+                            }
+                            if (repeat == false) {
+                                moreGoodsList.add( goodsList.get( i ) );
+                            }
                         }
-                    } );
+                        runOnUiThread( new Runnable() {
+                            @Override
+                            public void run() {
+                                //取消进度框一
+                                dismiss( progressDialog );
+                                Log.i( TAG, "run: 查询成功！" );
+                                Toast.makeText( Sort.this, "查询成功！", Toast.LENGTH_SHORT ).show();
+                                //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
+                                LinearLayoutManager layoutManager = new LinearLayoutManager( Sort.this );
+                                recycler_sort.setLayoutManager( layoutManager );
+                                GoodsAdapter adapter = new GoodsAdapter( Sort.this,moreGoodsList );
+                                recycler_sort.setAdapter( adapter );
+                            }
+                        } );
+                    }
                 } else if (flag == 30001) {
                     runOnUiThread( new Runnable() {
                         @Override
