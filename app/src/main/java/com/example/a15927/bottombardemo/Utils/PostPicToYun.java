@@ -41,11 +41,11 @@ public class PostPicToYun {
     }
 
     public static void PostPic(Context context, File filePath){
-        String region = "ap-chengdu";//存储桶所在的地域
-        String url = "https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com";
-        String secretId = "AKIDTfdNr6E5KK5dvvnv54oOnJYVIyPe5S3T"; //永久密钥 secretId     AKIDTfdNr6E5KK5dvvnv54oOnJYVIyPe5S3T
-        String secretKey ="djfVFBQWYaVu7C6qTxKeV6WkjVGrRnRv"; //永久密钥 secretKey   djfVFBQWYaVu7C6qTxKeV6WkjVGrRnRv
-        String bucket = "pic-001-1259665619"; //格式：BucketName-APPID
+        String region = "";//存储桶所在的地域
+        String url = "";
+        String secretId = ""; //永久密钥 secretId     AKIDTfdNr6E5KK5dvvnv54oOnJYVIyPe5S3T
+        String secretKey =""; //永久密钥 secretKey   djfVFBQWYaVu7C6qTxKeV6WkjVGrRnRv
+        String bucket = ""; //格式：BucketName-APPID
 
         //创建 CosXmlServiceConfig 对象，根据需要修改默认的配置参数
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()
