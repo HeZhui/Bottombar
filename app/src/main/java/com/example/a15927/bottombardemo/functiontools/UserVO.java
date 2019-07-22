@@ -7,13 +7,13 @@ public class UserVO implements Serializable {
     private String uid;
     private String uname;
     private String upassword;
-//    private byte[] uimage;
     private String picDir;
     private String uphone;
     private int sex;
     private String qq;
     private String weixin;
     private String token; // 查询或更新用户时，需要用到token
+    private String ps;
 
     public int getOpType() {
         return opType;
@@ -46,14 +46,6 @@ public class UserVO implements Serializable {
     public void setUpassword(String upassword) {
         this.upassword = upassword;
     }
-
-//    public byte[] getUimage() {
-//        return uimage;
-//    }
-//
-//    public void setUimage(byte[] uimage) {
-//        this.uimage = uimage;
-//    }
 
     public String getPicDir() {
         return picDir;
@@ -103,6 +95,14 @@ public class UserVO implements Serializable {
         this.token = token;
     }
 
+    public String getPs() {
+        return ps;
+    }
+
+    public void setPs(String ps) {
+        this.ps = ps;
+    }
+
     @Override
     public String toString() {
         return "UserVO{" +
@@ -116,6 +116,7 @@ public class UserVO implements Serializable {
                 ", qq='" + qq + '\'' +
                 ", weixin='" + weixin + '\'' +
                 ", token='" + token + '\'' +
+                ", ps='" + ps + '\'' +
                 '}';
     }
 }

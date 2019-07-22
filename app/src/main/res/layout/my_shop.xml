@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
 
     <RelativeLayout
@@ -33,13 +34,12 @@
             />
     </RelativeLayout>
 
-
-    <LinearLayout
+    <!--上拉加载下拉刷新版本25-->
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/springView_shop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/title_shop"
-        >
+        android:layout_below="@+id/title_shop">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_shop"
@@ -47,21 +47,27 @@
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
 
-        <include
-            android:id="@+id/layout_net_failed_shop"
-            layout="@layout/net_failed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
+    </com.liaoinstan.springview.widget.SpringView>
 
-        <include
-            android:id="@+id/nothing_find"
-            layout="@layout/nothingfind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
-    </LinearLayout>
+
+    <include
+        android:id="@+id/layout_net_failed_shop"
+        layout="@layout/net_failed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="200dp"
+        android:layout_below="@+id/title_shop"
+        />
+
+    <include
+        android:id="@+id/nothing_find"
+        layout="@layout/nothingfind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="200dp"
+        android:layout_below="@+id/title_shop"
+        />
 
 </RelativeLayout>

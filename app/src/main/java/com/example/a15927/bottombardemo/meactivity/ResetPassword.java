@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.Utils.MD5Utils;
+import com.example.a15927.bottombardemo.Utils.TestAndVerify;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserCO;
@@ -130,7 +131,8 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
                     public void run() {
                         //取消进度框一
                         dismiss( progressDialog );
-                        Toast.makeText( ResetPassword.this, "亲，当前网络状况不好哦!", Toast.LENGTH_SHORT ).show();
+                        String errorData = TestAndVerify.judgeError( ResetPassword.this );
+                        Toast.makeText( ResetPassword.this, errorData, Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }

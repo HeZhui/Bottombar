@@ -34,12 +34,12 @@
     </RelativeLayout>
 
 
-    <LinearLayout
+    <!--上拉加载下拉刷新版本25-->
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/springView_col"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/title_collect"
-        >
+        android:layout_below="@+id/title_collect">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_collect"
@@ -47,13 +47,26 @@
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
 
-        <include
-            android:id="@+id/layout_net_failed_shop"
-            layout="@layout/net_failed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
-    </LinearLayout>
+    </com.liaoinstan.springview.widget.SpringView>
+
+    <include
+        android:id="@+id/net_failed_col"
+        layout="@layout/net_failed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@+id/title_collect"
+        android:layout_marginTop="200dp"
+        />
+
+    <include
+        android:id="@+id/col_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/nothingfind"
+        android:visibility="gone"
+        android:layout_marginTop="200dp"
+        android:layout_below="@+id/title_collect"
+        />
 
 </RelativeLayout>

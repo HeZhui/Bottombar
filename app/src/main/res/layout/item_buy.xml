@@ -6,20 +6,20 @@
 
     <TextView
         android:id="@+id/user"
-        android:layout_width="60dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="用户名"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="2dp"
         android:gravity="center"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:layout_gravity="center_horizontal"
         />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_ima"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginLeft="2dp"
         android:layout_centerVertical="true"
         android:layout_below="@+id/user"
@@ -40,6 +40,7 @@
             android:text="商品名称:"
             android:textSize="15sp"
             android:layout_below="@+id/ID"
+            android:layout_marginLeft="8dp"
             />
 
         <TextView
@@ -63,7 +64,8 @@
             android:gravity="center"
             android:text="商品分类:"
             android:layout_marginTop="5dp"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:layout_marginLeft="8dp"/>
 
         <TextView
             android:id="@+id/diff"
@@ -86,7 +88,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="15sp"
-            android:text="联系方式:"/>
+            android:text="联系方式:"
+            android:layout_marginLeft="8dp"/>
 
         <TextView
             android:id="@+id/buy_phone"
@@ -109,6 +112,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:text="备注:"
+            android:layout_marginLeft="8dp"
             />
 
         <TextView

@@ -2,8 +2,6 @@ package com.example.a15927.bottombardemo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.item.ItemBuyActivity;
@@ -83,12 +82,11 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         ItemGoods goods = mgoodsList.get( position );
         holder.user.setText( goods.getUname() );
         //设置数据
-        byte[] img = goods.getGoodsImg();
+        String img = goods.getGoodsImg();
         if(img == null){
             holder.user_img.setImageResource( R.drawable.kimg );
         }else{
-            Bitmap bitmap = BitmapFactory.decodeByteArray( img, 0, img.length, null );
-            holder.user_img.setImageBitmap( bitmap );
+            Glide.with( mContext ).load( goods.getGoodsImg() ).centerCrop().error( R.drawable.ic_launcher ).into( holder.user_img );
         }
         holder.goodsName.setText( goods.getGoodsName() );
         holder.goodsType.setText( goods.getGoodsTypeName() );

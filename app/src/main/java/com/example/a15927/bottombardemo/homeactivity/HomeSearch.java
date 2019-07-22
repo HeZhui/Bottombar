@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.Utils.TestAndVerify;
 import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
@@ -21,6 +22,7 @@ import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.sortactivity.SortGoodsRo;
 import com.google.gson.Gson;
+import com.liaoinstan.springview.widget.SpringView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class HomeSearch extends AppCompatActivity {
     private TextView quit_button;
     private RecyclerView recycler_search;
     private View net_failed, nothing_find;
+    private SpringView springView_homeSearch;
 
     private String url = "http://47.105.185.251:8081/Proj31/sort";
     private int QueryType = 2;//代表按照商品名称查询
@@ -57,7 +60,7 @@ public class HomeSearch extends AppCompatActivity {
         recycler_search = (RecyclerView) findViewById( R.id.recycler_search );
         net_failed = findViewById( R.id.net_failed_search );
         nothing_find = findViewById( R.id.nothing_find_search );
-
+        springView_homeSearch = (SpringView)findViewById( R.id.springView_homeSearch );
         quit_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +119,8 @@ public class HomeSearch extends AppCompatActivity {
                         recycler_search.setVisibility( View.GONE );
                         net_failed.setVisibility( View.VISIBLE );
                         nothing_find.setVisibility( View.GONE );
-                        Toast.makeText( HomeSearch.this, "当前网络不给力哦！", Toast.LENGTH_SHORT ).show();
+                        String errorData = TestAndVerify.judgeError( HomeSearch.this );
+                        Toast.makeText( HomeSearch.this, errorData, Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }

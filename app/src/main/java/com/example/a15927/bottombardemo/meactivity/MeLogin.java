@@ -18,22 +18,18 @@ import android.widget.Toast;
 import com.example.a15927.bottombardemo.MainActivity;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.Utils.MD5Utils;
+import com.example.a15927.bottombardemo.Utils.TestAndVerify;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserBO;
-import com.example.a15927.bottombardemo.functiontools.UserCO;
+import com.example.a15927.bottombardemo.functiontools.UserQuery;
+import com.example.a15927.bottombardemo.functiontools.UserVO;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
@@ -49,9 +45,6 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
     private String url = "http://47.105.185.251:8081/Proj31/login";//http://192.168.2.134:8081/Proj20/login
     private int opType = 90002;
     private String TAG = "Test";
-
-    //后台返回数据
-    public static String responseData;
 
     //判断是否是登录过
     private boolean login = false;
@@ -126,7 +119,10 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
         final String password = in_password.getText().toString().trim();
 
         //检验是否输入非法字符
-        checkName( username );
+        if(!TestAndVerify.checkName( username )){
+            Toast.makeText( this, "禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
+            return;
+        }
 
         //检查数据格式是否正确
         if (TextUtils.isEmpty( username ) | TextUtils.isEmpty( password )) {
@@ -136,145 +132,29 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                     Toast.makeText( MeLogin.this, "请检查并输入正确的用户名和密码", Toast.LENGTH_SHORT ).show();
                 }
             } );
-
         } else {
             //创建实例对象
             UserBO userBO = new UserBO();
             //设置属性值
             userBO.setOpType( opType );
             userBO.setUname( username );
-            userBO.setUpassword( MD5Utils.getMD5(password) );
+            userBO.setUpassword( MD5Utils.getMD5( password ) );
             //封装为json串
             Gson gson = new Gson();
             String userJsonStr = gson.toJson( userBO, UserBO.class );
             Log.i( TAG, "Login: userJsonStr  is " + userJsonStr );
 
             //进度框显示方法一
-            progressDialog = DialogUIUtils.showLoadingDialog( MeLogin.this,"正在登录" );
+            progressDialog = DialogUIUtils.showLoadingDialog( MeLogin.this, "正在登录" );
             progressDialog.show();
-
-            //progressDialog.setCancelable( true );
-
-//            //进度条显示方法二
-//            dialog = new LoadingDialog(MeLogin.this,R.layout.tips_load);
-//            //点击物理返回键是否可取消dialog
-//            dialog.setCancelable(true);
-//            //点击dialog之外 是否可取消
-//            dialog.setCanceledOnTouchOutside(true);
-//            //显示
-//            dialog.show();
-
             //发送请求
             //传递参数
-            PostWith.sendPostWithOkhttp( url, userJsonStr, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    //这里是子线程
-                    Log.d( TAG, "获取数据失败了" + e.toString() );
-                    runOnUiThread( new Runnable() {
-                        @Override
-                        public void run() {
-                            //取消进度框一
-                            dismiss(progressDialog);
-                            //取消进度条二
-                            //mHandler.sendEmptyMessage(1);
-                            Toast.makeText( MeLogin.this, "网络不给力！", Toast.LENGTH_SHORT ).show();
-                        }
-                    } );
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful()) {//回调的方法执行在子线程。
-                        Log.d( TAG, "获取数据成功了" );
-                        responseData = response.body().string();
-                        Log.i( TAG, "onResponse: responseData is " + responseData );
-                        runOnUiThread( new Runnable() {
-                            @Override
-                            public void run() {
-                                //json转String
-                                //UserCO userCO = new UserCO();
-                                Gson g = new Gson();
-                                UserCO userCO = g.fromJson( responseData, UserCO.class );
-                                int flag = userCO.getFlag();
-                                //Log.i( "Test", String.valueOf( flag ) );
-                                String token = userCO.getToken();
-                                //由于token为空时,因为log打印的消息不可为空，所以会造成崩溃
-                                //Log.i( TAG, token);
-                                if (flag == 200) {
-                                    //登录成功标志
-                                    login = true;
-                                    Log.i( TAG, "login_run: login is "+login );
-                                    //保存Token
-                                    final SharedPreferences.Editor editor = getSharedPreferences( "data", MODE_PRIVATE ).edit();
-                                    editor.putString( "uname", username );
-                                    editor.putString( "token", token );
-                                    //储存登录成功login标志
-                                    editor.putBoolean( "login",login );
-                                    editor.commit();
-                                    runOnUiThread( new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            //取消进度框一
-                                            dismiss(progressDialog);
-                                            //取消进度条二
-                                            //mHandler.sendEmptyMessage(1);
-
-                                            Toast.makeText( MeLogin.this, "登录成功", Toast.LENGTH_SHORT ).show();
-                                            Intent intent = new Intent( MeLogin.this, MainActivity.class );
-                                            startActivity( intent );
-                                        }
-                                    } );
-                                } else if (flag == 20005) {
-                                    runOnUiThread( new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            //取消进度框一
-                                            dismiss(progressDialog);
-                                            //取消进度条二
-                                            //mHandler.sendEmptyMessage(1);
-                                            Toast.makeText( MeLogin.this, "用户名或密码不正确，登录失败！", Toast.LENGTH_SHORT ).show();
-                                        }
-                                    } );
-                                } else {
-                                    runOnUiThread( new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            //取消进度框一
-                                            dismiss(progressDialog);
-                                            //取消进度条二
-                                            //mHandler.sendEmptyMessage(1);
-                                            Toast.makeText( MeLogin.this, "登录失败！", Toast.LENGTH_SHORT ).show();
-                                        }
-                                    } );
-                                }
-                            }
-                        } );
-                    }
-                }
-            } );
+            postDataLogin( username, userJsonStr );
         }
     }
 
-    public void postDataLogin(final String uname, String url, String userJsonStr) {
-        //异步请求
-        //执行post操作
-        //创建OkHttpClient的对象
-        OkHttpClient client = new OkHttpClient();
-
-        //数据类型为json格式
-        //        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        //        RequestBody requestBody = RequestBody.create(JSON, userJsonStr);
-        RequestBody requestBody = new FormBody.Builder()
-                .add( "reqJson", userJsonStr )
-                .build();
-
-        Request request = new Request.Builder()
-                .url( url )
-                .post( requestBody )
-                .build();
-
-        client.newCall( request ).enqueue( new Callback() {//enqueue方法是异步请求
+    public void postDataLogin(final String uname, String userJsonStr) {
+        PostWith.sendPostWithOkhttp( url, userJsonStr, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //这里是子线程
@@ -282,7 +162,8 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                 runOnUiThread( new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText( MeLogin.this, "数据错误", Toast.LENGTH_SHORT ).show();
+                        String errorData = TestAndVerify.judgeError( MeLogin.this );
+                        Toast.makeText( MeLogin.this, errorData, Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }
@@ -291,132 +172,52 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {//回调的方法执行在子线程。
                     Log.d( TAG, "获取数据成功了" );
-                    //Log.d("Test","response.code()=="+response.code());
-
                     final String str = response.body().string();
-                    Log.d( TAG, "response.body().string()==" + str );
-
-                    runOnUiThread( new Runnable() {
-                        @Override
-                        public void run() {
-                            //json转String
-                            UserCO userCO = new UserCO();
-                            Gson g = new Gson();
-                            userCO = g.fromJson( str, UserCO.class );
-                            //Log.i( "Test", userCO.toString() );
-                            int flag = userCO.getFlag();
-                            //Log.i( "Test", String.valueOf( flag ) );
-                            //String message = userCO.getMessage();
-                            //Log.i( "Test", message);
-                            String token = userCO.getToken();
-                            //由于token为空时,因为log打印的消息不可为空，所以会造成崩溃
-                            //Log.i( TAG, token);
-
-                            if (flag == 200) {
-                                //保存Token
-                                SharedPreferences.Editor editor = getSharedPreferences( "data", MODE_PRIVATE ).edit();
-                                editor.putString( "uname", uname );
-                                editor.putString( "token", token );
-                                editor.apply();
-                                runOnUiThread( new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText( MeLogin.this, "登录成功", Toast.LENGTH_SHORT ).show();
-                                    }
-                                } );
-                            } else if (flag == 20005) {
-                                runOnUiThread( new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText( MeLogin.this, "用户名或密码不正确，登录失败！", Toast.LENGTH_SHORT ).show();
-                                    }
-                                } );
-                            } else {
-                                runOnUiThread( new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText( MeLogin.this, "当登录失败！", Toast.LENGTH_SHORT ).show();
-                                    }
-                                } );
+                    Log.d( TAG, "response.body().string() is " + str );
+                    Gson gson = new Gson();
+                    UserQuery user = gson.fromJson( str,UserQuery.class );
+                    UserVO userVO = user.getUser();
+                    int flag = user.getFlag();
+                    if(flag == 200){
+                        //保存Token
+                        SharedPreferences.Editor editor = getSharedPreferences( "data", MODE_PRIVATE ).edit();
+                        login = true;
+                        editor.putBoolean( "login",login );
+                        editor.putString( "uname", uname );
+                        editor.putString( "token", user.getToken() );
+                        editor.putString( "picDir",userVO.getPicDir() );
+                        editor.putString( "ps",userVO.getPs());
+                        editor.putString( "uid",userVO.getUid() );
+                        editor.commit();
+                        runOnUiThread( new Runnable() {
+                            @Override
+                            public void run() {
+                                dismiss(progressDialog);
+                                Toast.makeText( MeLogin.this, "登录成功!", Toast.LENGTH_SHORT ).show();
+                                Intent intent = new Intent( MeLogin.this, MainActivity.class );
+                                startActivity( intent );
                             }
-                        }
-                    } );
+                        } );
+                    } else if (flag == 20005) {
+                        runOnUiThread( new Runnable() {
+                            @Override
+                            public void run() {
+                                dismiss(progressDialog);
+                                Toast.makeText( MeLogin.this, "用户名或密码不正确，登录失败！", Toast.LENGTH_SHORT ).show();
+                            }
+                        } );
+                    } else {
+                        runOnUiThread( new Runnable() {
+                            @Override
+                            public void run() {
+                                dismiss(progressDialog);
+                                Toast.makeText( MeLogin.this, "登录失败！", Toast.LENGTH_SHORT ).show();
+                            }
+                        } );
+                    }
                 }
             }
-        } );
-
+        });
     }
-
-    private void showResponse(final String msg) {
-        runOnUiThread( new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText( MeLogin.this, msg, Toast.LENGTH_SHORT ).show();
-            }
-        } );
-    }
-
-    //是否输入非法字符
-    public void checkName(String str) {
-        String regEx = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？ ]";
-        Pattern p = Pattern.compile( regEx );
-        Matcher m = p.matcher( str );
-        if (m.find()) {
-            Toast.makeText( MeLogin.this, "禁止输入非法符号！", Toast.LENGTH_LONG ).show();
-        }
-    }
-
-
-    //    private String checkDataValid(String account,String pwd){
-    //        if(TextUtils.isEmpty(account) | TextUtils.isEmpty(pwd)|account.trim().equals( "" ))
-    //            return "用户名或密码不能为空";
-    //        if(account.length() != 11 && !account.contains("@"))
-    //            return "用户名不是有效的登录账号";
-    //        return "";
-    //    }
-
-    //    //过滤特殊字符
-    //    public static String stringFilter(String str) throws PatternSyntaxException {
-    //        String regEx = "[/\\:*?<>|\"\n\t ]";
-    //        Pattern p = Pattern.compile(regEx);
-    //        Matcher m = p.matcher(str);
-    //        return m.replaceAll("").trim();
-    //    }
-
-
-    //    public void TextWatch(final EditText in){
-    //
-    //      in.addTextChangedListener( new TextWatcher() {
-    //                    private int cou = 0;
-    //                    int selectionEnd = 0;
-    //
-    //                    @Override
-    //                    public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
-    //                        cou = before + count;
-    //                        String editable = in.getText().toString();
-    //                        String str = stringFilter( editable );//过滤特殊字符
-    //                        if(!editable.equals( "" )){
-    //                            in.setText( str );
-    //                        }
-    //                        in.setSelection( in.length() );
-    //                        cou = in.length();
-    //                    }
-    //
-    //                    @Override
-    //                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-    //
-    //                    }
-    //
-    //                    @Override
-    //                    public void afterTextChanged(Editable editable) {
-    //                        if(cou > MaxLength){
-    //                            selectionEnd = in.getSelectionEnd();
-    //                            editable.delete(MaxLength,selectionEnd);
-    //                        }
-    //                    }
-    //                } );
-    //      }
-
-
 }
 

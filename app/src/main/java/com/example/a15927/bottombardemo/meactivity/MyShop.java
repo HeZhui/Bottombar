@@ -12,13 +12,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.Utils.TestAndVerify;
 import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
-import com.example.a15927.bottombardemo.functiontools.UserCheck;
+import com.example.a15927.bottombardemo.functiontools.UserBuy;
 import com.google.gson.Gson;
+import com.liaoinstan.springview.container.DefaultFooter;
+import com.liaoinstan.springview.container.DefaultHeader;
+import com.liaoinstan.springview.widget.SpringView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,13 +39,24 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
     private ImageView back_shop;
     private RecyclerView recyclerView_shop;
     private View netFailed, nothing_find;
+    private SpringView springView_shop;
 
-    private int state = 1;    //摊位
     private boolean login;
-    private List<ItemGoods> goodsList = new ArrayList<>();
     private String url = "http://47.105.185.251:8081/Proj31/shopandbuy";
+
     //进度条一
     Dialog progressDialog;
+
+    private int state = 1;    //摊位
+    //分页状态
+    public int page = 1;
+    //当前分页  1------加载，  2-----------刷新
+    protected int checkType = 1;
+    //每页数目
+    public int pageSize = 5;
+    private List<ItemGoods> goodsList = new ArrayList<>();
+    private List<ItemGoods> moreGoodsList = new ArrayList<>(  );
+    GoodsAdapter adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +68,46 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
         recyclerView_shop = (RecyclerView) findViewById( R.id.recycler_shop );
         netFailed = findViewById( R.id.layout_net_failed_shop );
         nothing_find = findViewById( R.id.nothing_find );
+        springView_shop = (SpringView)findViewById( R.id.springView_shop );
 
+        postRequest();
+
+        springView_shop.setHeader( new DefaultHeader( MyShop.this ) );
+        springView_shop.setFooter( new DefaultFooter( MyShop.this ) );
+        springView_shop.setListener( new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                page = 1;
+                checkType = 2;
+                postRequest();
+                springView_shop.onFinishFreshAndLoad();
+            }
+
+            @Override
+            public void onLoadmore() {
+                page++;
+                checkType = 1;
+                postRequest();
+                springView_shop.onFinishFreshAndLoad();
+            }
+        } );
+    }
+
+    private void postRequest( ) {
         SharedPreferences sp = getSharedPreferences( "data", MODE_PRIVATE );
-        String uname = sp.getString( "uname", "" );
         String token = sp.getString( "token", "" );
         login = sp.getBoolean( "login", false );
-        Log.i( TAG, "uname is  " + uname );
         Log.i( TAG, "token is  " + token );
         Log.i( TAG, "login is  " + login );
         Gson gson = new Gson();
-        UserCheck userCheck = new UserCheck();
-        userCheck.setUsername( uname );
-        userCheck.setToken( token );
-        userCheck.setState( state );
-        String jsonStr = gson.toJson( userCheck, UserCheck.class );
+        UserBuy shop = new UserBuy();
+        shop.setPageSize( pageSize );
+        shop.setPage( page );
+        shop.setCheckType( checkType );
+        shop.setToken(token);
+        shop.setCondition( state );
+
+        String jsonStr = gson.toJson( shop, UserBuy.class );
         //进度框显示方法一
         progressDialog = DialogUIUtils.showLoadingDialog( MyShop.this, "正在查询..." );
         progressDialog.show();
@@ -83,7 +124,8 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                         recyclerView_shop.setVisibility( View.GONE );
                         nothing_find.setVisibility( View.GONE );
                         netFailed.setVisibility( View.VISIBLE );
-                        Toast.makeText( MyShop.this, "当前网络不给力哦！", Toast.LENGTH_SHORT ).show();
+                        String errorData = TestAndVerify.judgeError( MyShop.this );
+                        Toast.makeText( MyShop.this, errorData, Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }
@@ -102,21 +144,63 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                 int flag = goods.getFlag();
                 Log.i( TAG, "flag " + flag );
                 goodsList = goods.getGoodsList();
-                if (goodsList.size() == 0) {
-                    runOnUiThread( new Runnable() {
-                        @Override
-                        public void run() {
-                            //取消进度框一
-                            dismiss( progressDialog );
-                            Log.i( TAG, "onResponse: goodsList's size is 0" );
-                            recyclerView_shop.setVisibility( View.GONE );
-                            netFailed.setVisibility( View.GONE );
-                            nothing_find.setVisibility( View.VISIBLE );
-                            Toast.makeText( MyShop.this, "您的店铺目前没有任何商品哦！", Toast.LENGTH_SHORT ).show();
+                if (flag == 200) {
+                    if (goodsList.size() == 0) {
+                        if(page == 1){
+                            runOnUiThread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    //取消进度框一
+                                    dismiss( progressDialog );
+                                    recyclerView_shop.setVisibility( View.GONE );
+                                    netFailed.setVisibility( View.GONE );
+                                    nothing_find.setVisibility( View.VISIBLE );
+                                    Toast.makeText( MyShop.this, "您的店铺目前没有任何商品哦！", Toast.LENGTH_SHORT ).show();
+                                }
+                            } );
+                        }else{
+                            runOnUiThread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    //取消进度框一
+                                    dismiss( progressDialog );
+                                    Toast.makeText( MyShop.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
+                                }
+                            } );
                         }
-                    } );
-                } else {
-                    if (flag == 200) {
+                    } else {
+                        //刷新消息应该显示在最上面
+                        if(checkType == 2){
+                            boolean repeat  = false;
+//                            if(moreGoodsList != null){
+                                for(int i = 0; i < moreGoodsList.size(); i++ ){
+                                    for(int j = 0; j< goodsList.size(); j++){
+                                        if(goodsList.get( j ).getGoodsID().equals( moreGoodsList.get( i).getGoodsID() )){
+                                            repeat = true;
+                                            break;
+                                        }
+                                    }
+                                    if(repeat == false){
+                                        goodsList.add( moreGoodsList.get( i ) );
+                                    }
+                                }
+//                            }
+                        }
+                        //下拉加载
+                        if(checkType == 1){
+                            for (int i = 0; i < goodsList.size(); i++) {
+                                boolean repeat = false;
+                                for (int j = 0; j < moreGoodsList.size(); j++) {
+                                    if (moreGoodsList.get( j ).getGoodsID().equals( goodsList.get( i ).getGoodsID() )) {
+                                        repeat = true;
+                                        break;
+                                    }
+                                }
+                                if (repeat == false) {
+                                    moreGoodsList.add( goodsList.get( i ) );
+                                }
+                            }
+                        }
                         runOnUiThread( new Runnable() {
                             @Override
                             public void run() {
@@ -126,43 +210,51 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                                 recyclerView_shop.setVisibility( View.VISIBLE );
                                 netFailed.setVisibility( View.GONE );
                                 nothing_find.setVisibility( View.GONE );
-                                Toast.makeText( MyShop.this, "查询成功！", Toast.LENGTH_SHORT ).show();
+                                if (checkType == 1){
+                                    Toast.makeText( MyShop.this, "加载成功！", Toast.LENGTH_SHORT ).show();
+                                }else{
+                                    Toast.makeText( MyShop.this, "刷新成功！", Toast.LENGTH_SHORT ).show();
+                                }
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( MyShop.this, LinearLayoutManager.VERTICAL, false );
                                 recyclerView_shop.setLayoutManager( layoutManager );
-                                GoodsAdapter adapter = new GoodsAdapter(MyShop.this, goodsList );
+                                if(checkType == 1){
+                                    adapter = new GoodsAdapter(MyShop.this, moreGoodsList );
+                                } else {
+                                    adapter = new GoodsAdapter(MyShop.this, goodsList );
+                                }
                                 recyclerView_shop.setAdapter( adapter );
                             }
                         } );
-                    } else if (flag == 30001) {
-                        runOnUiThread( new Runnable() {
-                            @Override
-                            public void run() {
-                                //取消进度框一
-                                dismiss( progressDialog );
-                                Log.i( TAG, "run: token is invalid" );
-                                recyclerView_shop.setVisibility( View.VISIBLE );
-                                netFailed.setVisibility( View.GONE );
-                                nothing_find.setVisibility( View.GONE );
-                                if (login == true) {
-                                    Toast.makeText( MyShop.this, "登录信息已无效，请重新登录！", Toast.LENGTH_SHORT ).show();
-                                } else {
-                                    Toast.makeText( MyShop.this, "您还没有登录，请先登录账户哦！", Toast.LENGTH_SHORT ).show();
-                                }
-                            }
-                        } );
-                    } else {
-                        runOnUiThread( new Runnable() {
-                            @Override
-                            public void run() {
-                                //取消进度框一
-                                dismiss( progressDialog );
-                                recyclerView_shop.setVisibility( View.VISIBLE );
-                                netFailed.setVisibility( View.GONE );
-                                nothing_find.setVisibility( View.GONE );
-                                Toast.makeText( MyShop.this, "查询失败！", Toast.LENGTH_SHORT ).show();
-                            }
-                        } );
                     }
+                } else if (flag == 30001) {
+                    runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            //取消进度框一
+                            dismiss( progressDialog );
+                            Log.i( TAG, "run: token is invalid" );
+                            recyclerView_shop.setVisibility( View.VISIBLE );
+                            netFailed.setVisibility( View.GONE );
+                            nothing_find.setVisibility( View.GONE );
+                            if (login == true) {
+                                Toast.makeText( MyShop.this, "登录信息已无效，请重新登录！", Toast.LENGTH_SHORT ).show();
+                            } else {
+                                Toast.makeText( MyShop.this, "您还没有登录，请先登录账户哦！", Toast.LENGTH_SHORT ).show();
+                            }
+                        }
+                    } );
+                } else {
+                    runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            //取消进度框一
+                            dismiss( progressDialog );
+                            recyclerView_shop.setVisibility( View.VISIBLE );
+                            netFailed.setVisibility( View.GONE );
+                            nothing_find.setVisibility( View.GONE );
+                            Toast.makeText( MyShop.this, "查询失败！", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
                 }
             }
         } );

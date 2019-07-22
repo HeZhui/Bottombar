@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.Utils.TestAndVerify;
-import com.example.a15927.bottombardemo.adapter.ShopAdapter;
+import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
@@ -34,15 +34,14 @@ import okhttp3.Response;
 
 import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
-public class MyForBuy extends AppCompatActivity {
+public class CollectionInf extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "Test";
-    private RecyclerView recycler_buy;
-    private View net_failed_buy;
-    private SpringView springView_myBuy;
-    private View nothing_find_buy;
-    private ImageView back_buy;
+    private ImageView col_back;
+    private SpringView springView_col;
+    private RecyclerView recycler_collect;
+    private View net_failed_col,col_nothing;
 
-    private int state = 2; //求购
+    private int state = 3; //收藏
     //分页状态
     public int page = 1;
     //当前分页  1------加载，  2-----------刷新
@@ -51,77 +50,76 @@ public class MyForBuy extends AppCompatActivity {
     public int pageSize = 5;
     private List<ItemGoods> goodsList = new ArrayList<>();
     private List<ItemGoods> moreGoodsList = new ArrayList<>(  );
-    ShopAdapter adapter = null;
+    GoodsAdapter adapter = null;
 
     private boolean login;
 
     private String url = "http://47.105.185.251:8081/Proj31/shopandbuy";
     //进度条一
     Dialog progressDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.my_for_buy );
-        //绑定控件
+        setContentView( R.layout.collection );
+
         initView();
-        //获取数据
-        getData();
-        springView_myBuy.setHeader( new DefaultHeader( MyForBuy.this ) );
-        springView_myBuy.setFooter( new DefaultFooter( MyForBuy.this ) );
-        springView_myBuy.setListener( new SpringView.OnFreshListener() {
+
+        getCol();
+
+        springView_col.setHeader( new DefaultHeader( CollectionInf.this ) );
+        springView_col.setFooter( new DefaultFooter( CollectionInf.this ) );
+        springView_col.setListener( new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
                 page = 1;
                 checkType = 2;
-                getData();
-                springView_myBuy.onFinishFreshAndLoad();
+                getCol();
+                springView_col.onFinishFreshAndLoad();
             }
 
             @Override
             public void onLoadmore() {
                 page++;
                 checkType = 1;
-                getData();
-                springView_myBuy.onFinishFreshAndLoad();
+                getCol();
+                springView_col.onFinishFreshAndLoad();
             }
         } );
     }
 
-    private void getData() {
+    /*
+     *获取收藏的物品信息
+     */
+    private void getCol() {
         SharedPreferences sp = getSharedPreferences( "data", MODE_PRIVATE );
         String token = sp.getString( "token", "" );
+        String uid = sp.getString( "uid","" );
         login = sp.getBoolean( "login", false );
         Log.i( TAG, "token is  " + token );
         Log.i( TAG, "login is  " + login );
         Gson gson = new Gson();
-        UserBuy myBuy = new UserBuy();
-        myBuy.setPageSize( pageSize );
-        myBuy.setPage( page );
-        myBuy.setCheckType( checkType );
-        myBuy.setToken(token);
-        myBuy.setCondition( state );
-        String jsonStr = gson.toJson( myBuy, UserBuy.class );
+        UserBuy col = new UserBuy();
+        col.setPageSize( pageSize );
+        col.setPage( page );
+        col.setCheckType( checkType );
+        col.setToken(token);
+        col.setUserid( uid );
+        col.setCondition( state );
+        String reqJson = gson.toJson( col,UserBuy.class );
         //进度框显示方法一
-        progressDialog = DialogUIUtils.showLoadingDialog( MyForBuy.this, "正在查询..." );
+        progressDialog = DialogUIUtils.showLoadingDialog( CollectionInf.this, "正在查询..." );
         progressDialog.show();
-        //发送数据
-        PostWith.sendPostWithOkhttp( url, jsonStr, new Callback() {
+        PostWith.sendPostWithOkhttp( url, reqJson, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread( new Runnable() {
-                    @Override
-                    public void run() {
-                        //取消进度框一
-                        dismiss( progressDialog );
-                        Log.i( TAG, "onFailure: 获取数据失败！" );
-                        recycler_buy.setVisibility( View.GONE );
-                        net_failed_buy.setVisibility( View.VISIBLE );
-                        nothing_find_buy.setVisibility( View.GONE );
-                        String errorData = TestAndVerify.judgeError( MyForBuy.this );
-                        Toast.makeText( MyForBuy.this, errorData, Toast.LENGTH_SHORT ).show();
-                    }
-                } );
+                //取消进度框一
+                dismiss( progressDialog );
+                Log.i( TAG, "onFailure: 获取数据失败！" );
+                recycler_collect.setVisibility( View.GONE );
+                net_failed_col.setVisibility( View.VISIBLE );
+                col_nothing.setVisibility( View.GONE );
+                String errorData = TestAndVerify.judgeError( CollectionInf.this );
+                Toast.makeText( CollectionInf.this, errorData, Toast.LENGTH_SHORT ).show();
             }
 
             @Override
@@ -141,10 +139,10 @@ public class MyForBuy extends AppCompatActivity {
                                 public void run() {
                                     //取消进度框一
                                     dismiss( progressDialog );
-                                    recycler_buy.setVisibility( View.GONE );
-                                    net_failed_buy.setVisibility( View.GONE );
-                                    nothing_find_buy.setVisibility( View.VISIBLE );
-                                    Toast.makeText( MyForBuy.this, "您暂时没有任何想买的东西哦！", Toast.LENGTH_SHORT ).show();
+                                    recycler_collect.setVisibility( View.GONE );
+                                    net_failed_col.setVisibility( View.GONE );
+                                    col_nothing.setVisibility( View.VISIBLE );
+                                    Toast.makeText( CollectionInf.this, "您暂时没有任何想买的东西哦！", Toast.LENGTH_SHORT ).show();
                                 }
                             } );
                         }else{
@@ -153,10 +151,7 @@ public class MyForBuy extends AppCompatActivity {
                                 public void run() {
                                     //取消进度框一
                                     dismiss( progressDialog );
-//                                    recycler_buy.setVisibility( View.GONE );
-//                                    net_failed_buy.setVisibility( View.GONE );
-//                                    nothing_find_buy.setVisibility( View.GONE );
-                                    Toast.makeText( MyForBuy.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
+                                    Toast.makeText( CollectionInf.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
                                 }
                             } );
                         }
@@ -199,52 +194,52 @@ public class MyForBuy extends AppCompatActivity {
                                 //取消进度框一
                                 dismiss( progressDialog );
                                 Log.i( TAG, "run: 查询成功！" );
-                                recycler_buy.setVisibility( View.VISIBLE );
-                                net_failed_buy.setVisibility( View.GONE );
-                                nothing_find_buy.setVisibility( View.GONE );
+                                recycler_collect.setVisibility( View.VISIBLE );
+                                net_failed_col.setVisibility( View.GONE );
+                                col_nothing.setVisibility( View.GONE );
                                 if(checkType == 1){
-                                    Toast.makeText( MyForBuy.this, "加载成功！", Toast.LENGTH_SHORT ).show();
+                                    Toast.makeText( CollectionInf.this, "加载成功！", Toast.LENGTH_SHORT ).show();
                                 }else{
-                                    Toast.makeText( MyForBuy.this, "刷新成功！", Toast.LENGTH_SHORT ).show();
+                                    Toast.makeText( CollectionInf.this, "刷新成功！", Toast.LENGTH_SHORT ).show();
                                 }
-                                LinearLayoutManager layoutManager = new LinearLayoutManager( MyForBuy.this,LinearLayoutManager.VERTICAL,false );
-                                recycler_buy.setLayoutManager( layoutManager );
+                                LinearLayoutManager layoutManager = new LinearLayoutManager( CollectionInf.this,LinearLayoutManager.VERTICAL,false );
+                                recycler_collect.setLayoutManager( layoutManager );
                                 if(checkType == 1){
-                                    adapter = new ShopAdapter(MyForBuy.this, goodsList );
+                                    adapter = new GoodsAdapter(CollectionInf.this, goodsList );
                                 }else{
-                                    adapter = new ShopAdapter(MyForBuy.this, moreGoodsList );
+                                    adapter = new GoodsAdapter(CollectionInf.this, moreGoodsList );
                                 }
-                                recycler_buy.setAdapter( adapter );
+                                recycler_collect.setAdapter( adapter );
                             }
                         } );
                     }
-                }else if (flag == 30001){
+                }else if(flag == 30001){
                     runOnUiThread( new Runnable() {
                         @Override
                         public void run() {
                             //取消进度框一
                             dismiss( progressDialog );
                             Log.i( TAG, "run: token is invalid" );
-                            recycler_buy.setVisibility( View.VISIBLE );
-                            net_failed_buy.setVisibility( View.GONE );
-                            nothing_find_buy.setVisibility( View.GONE );
+                            recycler_collect.setVisibility( View.VISIBLE );
+                            net_failed_col.setVisibility( View.GONE );
+                            col_nothing.setVisibility( View.GONE );
                             if(login == true){
-                                Toast.makeText( MyForBuy.this, "登录信息已无效，请重新登录！", Toast.LENGTH_SHORT ).show();
+                                Toast.makeText( CollectionInf.this, "登录信息已无效，请重新登录！", Toast.LENGTH_SHORT ).show();
                             }else{
-                                Toast.makeText( MyForBuy.this, "您还没有登录账号，请先登录哦！", Toast.LENGTH_SHORT ).show();
+                                Toast.makeText( CollectionInf.this, "您还没有登录账号，请先登录哦！", Toast.LENGTH_SHORT ).show();
                             }
                         }
                     } );
-                }else {
+                }else{
                     runOnUiThread( new Runnable() {
                         @Override
                         public void run() {
                             //取消进度框一
                             dismiss( progressDialog );
-                            recycler_buy.setVisibility( View.VISIBLE );
-                            net_failed_buy.setVisibility( View.GONE );
-                            nothing_find_buy.setVisibility( View.GONE );
-                            Toast.makeText( MyForBuy.this, "查询失败！", Toast.LENGTH_SHORT ).show();
+                            recycler_collect.setVisibility( View.VISIBLE );
+                            net_failed_col.setVisibility( View.GONE );
+                            col_nothing.setVisibility( View.GONE );
+                            Toast.makeText( CollectionInf.this, "查询失败！", Toast.LENGTH_SHORT ).show();
                         }
                     } );
                 }
@@ -252,20 +247,27 @@ public class MyForBuy extends AppCompatActivity {
         } );
     }
 
-    //绑定控件
+    /*
+     *初始化绑定控件
+     */
     private void initView() {
-        recycler_buy = (RecyclerView) findViewById( R.id.recycler_buy );
-        net_failed_buy = findViewById( R.id.layout_net_failed_buy );
-        nothing_find_buy = findViewById( R.id.buy_nothing );
-        springView_myBuy = (SpringView)findViewById( R.id.springView_myBuy );
-        back_buy = (ImageView) findViewById( R.id.back_buy );
-        back_buy.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //结束此活动
-                finish();
-            }
-        } );
+        col_back = (ImageView)findViewById( R.id.back_collect );
+        col_back.setOnClickListener( this );
+        springView_col = (SpringView)findViewById( R.id.springView_col );
+        recycler_collect = (RecyclerView)findViewById( R.id.recycler_collect );
+        net_failed_col = findViewById( R.id.net_failed_col );
+        col_nothing = findViewById( R.id.col_nothing );
+    }
 
+    /*
+    *控件的监听事件
+    */
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.back_collect:
+                finish();
+                break;
+        }
     }
 }

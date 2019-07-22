@@ -40,12 +40,11 @@ public class PostPicToYun {
         return picUrl;
     }
 
-    public static void PostPic(Context context, File filePath){
-        String region = "ap-chengdu";//存储桶所在的地域
-        String url = "https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com";
-        String secretId = "AKIDTfdNr6E5KK5dvvnv54oOnJYVIyPe5S3T"; //永久密钥 secretId     AKIDTfdNr6E5KK5dvvnv54oOnJYVIyPe5S3T
-        String secretKey ="djfVFBQWYaVu7C6qTxKeV6WkjVGrRnRv"; //永久密钥 secretKey   djfVFBQWYaVu7C6qTxKeV6WkjVGrRnRv
-        String bucket = "pic-001-1259665619"; //格式：BucketName-APPID
+    public static void PostPic(Context context, File filePath,String typePic){
+        String region = "";//存储桶所在的地域
+        String secretId = ""; //永久密钥 secretId
+        String secretKey =""; //永久密钥 secretKey
+        String bucket = ""; //格式：BucketName-APPID
 
         //创建 CosXmlServiceConfig 对象，根据需要修改默认的配置参数
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()
@@ -63,12 +62,12 @@ public class PostPicToYun {
         //初始化CosXmlService 服务类，用来操作各种 COS 服务
         CosXmlService cosXmlService = new CosXmlService(context, serviceConfig, credentialProvider);
 
-        uploadObject(bucket,cosXmlService,context,filePath);
+        uploadObject(bucket,cosXmlService,context,filePath,typePic);
         //        downloadObject( cosXmlService );
     }
 
     //上传对象
-    public static void uploadObject(String bucket,CosXmlService cosXmlService,Context context,File filePath){
+    public static void uploadObject(String bucket, CosXmlService cosXmlService, final Context context, File filePath,String typePic){
         // 初始化 TransferConfig
         TransferConfig transferConfig = new TransferConfig.Builder().build();
         /**
@@ -83,11 +82,16 @@ public class PostPicToYun {
 
         //初始化 TransferManager
         TransferManager transferManager = new TransferManager(cosXmlService, transferConfig);
-
-        String cosPath = "picDemo/"+ImageUtils.getName(); //即对象到 COS 上的绝对路径, 格式如 cosPath = "text.txt";           "对象键"
+        String cosPath = null;
+        if(typePic != null && typePic.equals( "reg" )){
+            cosPath = "bottomBarDemo/regPic/"+ImageUtils.getName(); //即对象到 COS 上的绝对路径, 格式如 cosPath = "text.txt";           "对象键"
+        }
+        if(typePic != null && typePic.equals( "goods" )){
+            cosPath = "bottomBarDemo/goodsPic/"+ImageUtils.getName(); //即对象到 COS 上的绝对路径, 格式如 cosPath = "text.txt";           "对象键"
+        }
         String srcPath = null;
         if(filePath == null){
-            Toast.makeText( context, "文件地址为空！", Toast.LENGTH_SHORT ).show();
+            Toast.makeText( context, "存储图片文件地址为空！", Toast.LENGTH_SHORT ).show();
             return ;
         }else{
             srcPath = filePath.toString(); // 如 srcPath=Environment.getExternalStorageDirectory().getPath() + "/text.txt";  "本地文件的绝对路径"
@@ -128,12 +132,18 @@ public class PostPicToYun {
                 //对象地址
                 Log.i(TAG, "onSuccess: accessUrl is "+cOSXMLUploadTaskResult.accessUrl );
                 picUrl = cOSXMLUploadTaskResult.accessUrl;
+                //application全局变量
+                AppStr appStr = (AppStr)context.getApplicationContext();
+                appStr.setState( true );
             }
 
             @Override
             public void onFail(CosXmlRequest request, CosXmlClientException exception, CosXmlServiceException serviceException) {
                 yunFlag = (exception == null ? serviceException.getHttpMessage() : exception.errorMessage);
                 Log.d(TAG,  "Failed: " + (exception == null ? serviceException.getMessage() : exception.toString()));
+                //application全局变量
+                AppStr appStr = (AppStr)context.getApplicationContext();
+                appStr.setState( true );
             }
         });
         //设置任务状态回调, 可以查看任务过程

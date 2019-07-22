@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="分类"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="20sp"
             android:layout_centerInParent="true"/>
 
@@ -52,8 +52,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Image_electric"
                 android:layout_centerHorizontal="true"
-                android:text="电器"
-                android:textSize="20sp"/>
+                android:text="电器数码"
+                android:textSize="18sp"/>
 
         </RelativeLayout>
 
@@ -65,7 +65,7 @@
             android:background="#fff"/>
 
         <RelativeLayout
-            android:id="@+id/rc_make_up"
+            android:id="@+id/rc_dayLife"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="2dp"
@@ -79,15 +79,14 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/make_up"/>
-
+                android:src="@drawable/day_life"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Image_make_up"
                 android:layout_centerHorizontal="true"
-                android:text="化妆品"
-                android:textSize="20sp"/>
+                android:text="日常用品"
+                android:textSize="18sp"/>
         </RelativeLayout>
 
 
@@ -118,8 +117,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="衣服"
-                android:textSize="20sp"
+                android:text="服饰"
+                android:textSize="18sp"
                 android:layout_below="@+id/image_clothes"
                 android:layout_centerHorizontal="true"/>
 
@@ -153,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="运动"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_below="@+id/image_sports"
                 android:layout_centerHorizontal="true"/>
         </RelativeLayout>
@@ -188,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="书籍"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_below="@+id/image_book"
                 android:layout_centerHorizontal="true"/>
 
@@ -203,7 +202,7 @@
             />
 
         <RelativeLayout
-            android:id="@+id/rc_camera"
+            android:id="@+id/rc_qiTa"
             android:clickable="true"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -216,7 +215,7 @@
                 android:id="@+id/image_camera"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/camera"
+                android:background="@drawable/qita"
                 android:layout_centerInParent="true"/>
 
             <TextView
@@ -224,8 +223,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/image_camera"
                 android:layout_centerHorizontal="true"
-                android:text="数码"
-                android:textSize="20sp"/>
+                android:text="其他"
+                android:textSize="18sp"/>
         </RelativeLayout>
 
     </LinearLayout>

@@ -1,18 +1,17 @@
 package com.example.a15927.bottombardemo.item;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 
 public class ItemBuyActivity extends AppCompatActivity {
-    private String TAG = "Test";
     private ImageView b_img,back_g;
     private TextView back,b_id,b_goodsName,b_goodsType,b_userName,b_userId,b_phone,b_qq,b_weixin,b_description;
     @Override
@@ -26,8 +25,7 @@ public class ItemBuyActivity extends AppCompatActivity {
     }
 
     private void adapterBuyInfo(ItemGoods itemBuy) {
-        byte[] img_array = itemBuy.getGoodsImg();
-        b_img.setImageBitmap( BitmapFactory.decodeByteArray( img_array,0,img_array.length,null ) );
+        Glide.with( ItemBuyActivity.this ).load( itemBuy.getGoodsImg() ).centerCrop().error( R.drawable.ic_launcher ).into( b_img );
         b_id.setText( itemBuy.getGoodsID() );
         b_goodsName.setText( itemBuy.getGoodsName() );
         b_goodsType.setText( itemBuy.getGoodsTypeName() );

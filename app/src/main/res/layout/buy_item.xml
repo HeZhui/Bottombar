@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fbfafb">
+    android:background="#fbfafb"
+    >
 
     <RelativeLayout
         android:id="@+id/title_g"
@@ -46,7 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_g"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -340,5 +342,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>

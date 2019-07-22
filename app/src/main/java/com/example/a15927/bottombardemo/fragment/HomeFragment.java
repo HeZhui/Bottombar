@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.a15927.bottombardemo.R;
 import com.example.a15927.bottombardemo.Utils.AppStr;
+import com.example.a15927.bottombardemo.Utils.TestAndVerify;
 import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
 import com.example.a15927.bottombardemo.functiontools.Goods;
 import com.example.a15927.bottombardemo.functiontools.ItemGoods;
@@ -57,7 +58,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
     private int opTypebuy  = 90004;
     private  String urlbuy = "http://47.105.185.251:8081/Proj31/buy";
     private SpringView springView_home;
-    private View netFailedLayout;
+    private View netFailedLayout,home_nothing;
     //分页状态
     public int page = 1;
     //当前分页  1------加载，  2-----------刷新
@@ -66,7 +67,6 @@ public class HomeFragment extends Fragment implements OnBannerListener {
     public int pageSize = 5;
     private String token;
     private int statue = 1;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,6 +81,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
 
         banner = (Banner) view.findViewById(R.id.banner);
         netFailedLayout = view.findViewById( R.id.layout_net_failed );
+        home_nothing = view.findViewById( R.id.home_nothing );
         recycler_home = (RecyclerView) view.findViewById( R.id.recycler_home );
         springView_home = (SpringView) view.findViewById( R.id.springView_home );
         search_button = (ImageView)view.findViewById(R.id.image_search) ;
@@ -100,6 +101,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
             }
         });
         initGoods();
+        //上拉刷新，下拉加载功能实现
         springView_home.setHeader( new DefaultHeader( getActivity() ) );
         springView_home.setFooter( new DefaultFooter( getActivity() ) );
         springView_home.setListener( new SpringView.OnFreshListener() {
@@ -124,6 +126,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
         return view;
     }
 
+    //获取数据
     private void initGoods() {
         UserBuy userBuy = new UserBuy();
         userBuy.setOpType( opTypebuy );
@@ -148,8 +151,10 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                     @Override
                     public void run() {
                         recycler_home.setVisibility( View.GONE );
-                        Toast.makeText( getActivity(), "当前网络不给力哦！", Toast.LENGTH_SHORT ).show();
                         netFailedLayout.setVisibility( View.VISIBLE );
+                        home_nothing.setVisibility( View.GONE );
+                        String errorData = TestAndVerify.judgeError( getActivity() );
+                        Toast.makeText( getActivity(), errorData, Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }
@@ -173,14 +178,28 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                 //flag判断
                 if (flag == 200) {
                     if(goodsList.size() == 0){
-                        getActivity().runOnUiThread( new Runnable() {
-                            @Override
-                            public void run() {
-                                //取消进度框一
-                                //dismiss( progressDialog );
-                                Toast.makeText( getActivity(), "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
-                            }
-                        } );
+                        if(page == 1){
+                            getActivity().runOnUiThread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    //取消进度框一
+                                    //dismiss( progressDialog );
+                                    recycler_home.setVisibility( View.GONE );
+                                    netFailedLayout.setVisibility( View.GONE );
+                                    home_nothing.setVisibility( View.VISIBLE );
+                                    Toast.makeText( getActivity(), "暂时没有商品展示哦！", Toast.LENGTH_SHORT ).show();
+                                }
+                            } );
+                        }else{
+                            getActivity().runOnUiThread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    //取消进度框一
+                                    //dismiss( progressDialog );
+                                    Toast.makeText( getActivity(), "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
+                                }
+                            } );
+                        }
                     }
                     if(goodsList.size() <= pageSize && goodsList.size() != 0){
                         for (int i = 0; i < goodsList.size(); i++) {
@@ -200,7 +219,14 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                             @Override
                             public void run() {
                                 Log.i( "Test", "run: 查询成功" );
-                                Toast.makeText( getActivity(), "查询成功", Toast.LENGTH_SHORT ).show();
+                                recycler_home.setVisibility( View.VISIBLE );
+                                netFailedLayout.setVisibility( View.GONE );
+                                home_nothing.setVisibility( View.GONE );
+                                if(checkType == 1){
+                                    Toast.makeText( getActivity(), "加载成功", Toast.LENGTH_SHORT ).show();
+                                }else{
+                                    Toast.makeText( getActivity(), "刷新成功", Toast.LENGTH_SHORT ).show();
+                                }
                                 //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity() );
                                 recycler_home.setLayoutManager( layoutManager );
@@ -228,7 +254,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
         } );
     }
 
-
+    //加载轮播
     private void initView() {
         //放图片地址的集合
         list_path = new ArrayList<>();
@@ -238,7 +264,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
         list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_032500.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg
         list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_031014.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg
         list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_030733.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg");
+        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190720_093147.jpg");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg
 //        list_title.add("");
 //        list_title.add("");
 //        list_title.add("");

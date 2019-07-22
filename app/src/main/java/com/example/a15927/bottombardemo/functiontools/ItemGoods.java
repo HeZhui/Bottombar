@@ -1,7 +1,6 @@
 package com.example.a15927.bottombardemo.functiontools;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  * Created by Administrator on 2019/3/28.
@@ -14,16 +13,18 @@ public class ItemGoods implements Serializable {
     private String goodsName; //商品名
     private float price;       // 价格
     private String unit;      //单位
-    private float quality;   //数量
+    private int quality;   //数量
     private String userid;   //发布人ID
-    private byte[] goodsImg; //商品图片
+    private String goodsImg; //商品图片
     private String uname;
     private String uphone;
     private String qq;
     private String weixin;
     private String goodsTypeName; //所属类名（可选字段）
     private int sex;
-    private String description;  //求购中属性
+    private String description;
+    private String Token;
+
 
     public int getOpType() {
         return opType;
@@ -73,11 +74,11 @@ public class ItemGoods implements Serializable {
         this.unit = unit;
     }
 
-    public float getQuality() {
+    public int getQuality() {
         return quality;
     }
 
-    public void setQuality(float quality) {
+    public void setQuality(int quality) {
         this.quality = quality;
     }
 
@@ -89,11 +90,11 @@ public class ItemGoods implements Serializable {
         this.userid = userid;
     }
 
-    public byte[] getGoodsImg() {
+    public String getGoodsImg() {
         return goodsImg;
     }
 
-    public void setGoodsImg(byte[] goodsImg) {
+    public void setGoodsImg(String goodsImg) {
         this.goodsImg = goodsImg;
     }
 
@@ -153,6 +154,14 @@ public class ItemGoods implements Serializable {
         this.description = description;
     }
 
+    public String getToken() {
+        return Token;
+    }
+
+    public void setToken(String Token) {
+        this.Token = Token;
+    }
+
     @Override
     public String toString() {
         return "ItemGoods{" +
@@ -164,7 +173,7 @@ public class ItemGoods implements Serializable {
                 ", unit='" + unit + '\'' +
                 ", quality=" + quality +
                 ", userid='" + userid + '\'' +
-                ", goodsImg=" + Arrays.toString( goodsImg ) +
+                ", goodsImg='" + goodsImg + '\'' +
                 ", uname='" + uname + '\'' +
                 ", uphone='" + uphone + '\'' +
                 ", qq='" + qq + '\'' +
@@ -172,6 +181,7 @@ public class ItemGoods implements Serializable {
                 ", goodsTypeName='" + goodsTypeName + '\'' +
                 ", sex=" + sex +
                 ", description='" + description + '\'' +
+                ", Token='" + Token + '\'' +
                 '}';
     }
 }

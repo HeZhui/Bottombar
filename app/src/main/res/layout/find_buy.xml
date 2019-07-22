@@ -157,7 +157,7 @@
             android:id="@+id/description_buy"
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:maxLines="3"
+            android:maxLines="2"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/text_description_buy"
             android:layout_alignTop="@+id/text_description_buy"/>

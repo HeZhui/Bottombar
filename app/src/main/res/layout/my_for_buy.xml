@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <RelativeLayout
         android:id="@+id/title_buy"
@@ -33,12 +34,12 @@
     </RelativeLayout>
 
 
-    <LinearLayout
+    <!--上拉加载下拉刷新版本25-->
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/springView_myBuy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/title_buy"
-        >
+        android:layout_below="@+id/title_buy">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_buy"
@@ -46,21 +47,27 @@
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
 
-        <include
-            android:id="@+id/layout_net_failed_buy"
-            layout="@layout/net_failed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
+    </com.liaoinstan.springview.widget.SpringView>
 
-        <include
-            android:id="@+id/buy_nothing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/nothingfind"
-            android:visibility="gone"
-            />
-    </LinearLayout>
+
+    <include
+        android:id="@+id/layout_net_failed_buy"
+        layout="@layout/net_failed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="200dp"
+        android:layout_below="@+id/title_buy"
+        />
+
+    <include
+        android:id="@+id/buy_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/nothingfind"
+        android:visibility="gone"
+        android:layout_marginTop="200dp"
+        android:layout_below="@+id/title_buy"
+        />
 
 </RelativeLayout>

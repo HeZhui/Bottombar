@@ -104,35 +104,40 @@
 
     </RelativeLayout>
 
-
-    <LinearLayout
+    <!--上拉加载下拉刷新版本25-->
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/springView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp">
+        android:layout_below="@+id/headline"
+        >
 
-        <!--上拉加载下拉刷新版本25-->
-        <com.liaoinstan.springview.widget.SpringView
-            android:id="@+id/springView"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_find"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_find"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-
-        </com.liaoinstan.springview.widget.SpringView>
-
-        <include
-            android:id="@+id/layout_net_failed_find"
-            layout="@layout/net_failed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
             />
-    </LinearLayout>
+
+    </com.liaoinstan.springview.widget.SpringView>
+
+    <include
+        android:id="@+id/layout_net_failed_find"
+        layout="@layout/net_failed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="180dp"
+        android:layout_below="@+id/headline"
+        />
+
+    <include
+        android:id="@+id/find_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/nothingfind"
+        android:visibility="gone"
+        android:layout_marginTop="180dp"
+        android:layout_below="@+id/headline"
+        />
 
 </RelativeLayout>

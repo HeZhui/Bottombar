@@ -8,7 +8,6 @@ public class GoodsBuy {
     private int opType;
     private String goodsName;
     private String goodsType;
-    private String phone;
     private String description;
     private String token;
     private String userid;
@@ -34,14 +33,6 @@ public class GoodsBuy {
 
     public void setGoodsType(String goodsType) {
         this.goodsType = goodsType;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getDescription() {

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/title_search"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorPrimary"
@@ -18,7 +18,7 @@
             android:layout_marginLeft="10dp"
             android:background="@color/white"
             android:hint=" 搜索物品"
-            android:maxLines="3"
+            android:maxLines="2"
             android:textColor="@color/black"
             android:textSize="15sp"/>
 
@@ -46,10 +46,13 @@
             android:src="@drawable/search"/>
     </RelativeLayout>
 
-    <LinearLayout
+    <!--上拉加载下拉刷新版本25-->
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/springView_homeSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_below="@+id/title_search"
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_search"
@@ -57,19 +60,25 @@
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
 
-        <include
-            android:id="@+id/net_failed_search"
-            layout="@layout/net_failed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
+    </com.liaoinstan.springview.widget.SpringView>
 
-        <include
-            android:id="@+id/nothing_find_search"
-            layout="@layout/nothingfind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-    </LinearLayout>
-</LinearLayout>
+    <include
+        android:id="@+id/net_failed_search"
+        layout="@layout/net_failed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@+id/title_search"
+        android:layout_marginTop="180dp"
+        />
+
+    <include
+        android:id="@+id/nothing_find_search"
+        layout="@layout/nothingfind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@+id/title_search"
+        android:layout_marginTop="180dp"/>
+
+</RelativeLayout>

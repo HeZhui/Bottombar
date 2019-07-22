@@ -8,11 +8,11 @@
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="#fff">
 
         <ImageView
-            android:id="@+id/back_login"
+            android:id="@+id/update_bk"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/arrow_back"
@@ -21,10 +21,10 @@
             />
 
         <TextView
-            android:id="@+id/back"
+            android:id="@+id/update_back"
             android:clickable="true"
             android:layout_marginLeft="2dp"
-            android:layout_toRightOf="@+id/back_login"
+            android:layout_toRightOf="@+id/update_bk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="返回"
@@ -36,25 +36,10 @@
             android:id="@+id/view0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="用户详情"
+            android:text="修改资料"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             android:layout_centerInParent="true"/>
-
-        <TextView
-            android:id="@+id/update_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="修改信息"
-            android:textColor="@color/colorPrimary"
-            android:textSize="17sp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginRight="22dp"
-            android:layout_alignBaseline="@+id/view0"
-            android:layout_alignBottom="@+id/view0"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 
@@ -73,13 +58,13 @@
             <RelativeLayout
                 android:id="@+id/user_info"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 android:layout_below="@+id/title"
                 android:background="#fff"
                 android:layout_marginTop="10dp">
 
                 <ImageView
-                    android:id="@+id/user_image"
+                    android:id="@+id/update_image"
                     android:clickable="true"
                     android:layout_height="200dp"
                     android:layout_width="200dp"
@@ -89,40 +74,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/user0"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/user_info"
-                android:layout_marginTop="15dp"
-                android:background="#fff">
-                <TextView
-                    android:id="@+id/user_id"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:text="用户ID:"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginLeft="10dp"
-                    android:layout_centerVertical="true"
-                    />
-                <TextView
-                    android:id="@+id/id_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/user_id"
-                    android:text="000000000"
-                    android:layout_centerVertical="true"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"/>
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/user1"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/user0"
+                android:layout_height="40dp"
+                android:layout_below="@+id/user_info"
                 android:background="#fff"
                 android:layout_marginTop="10dp">
                 <TextView
@@ -135,23 +90,25 @@
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     />
-            <TextView
-                android:id="@+id/userNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="000000000"
-                android:textSize="16sp"
-                android:layout_marginLeft="10dp"
-                android:layout_alignBaseline="@+id/account"
-                android:layout_alignBottom="@+id/account"
-                android:layout_toRightOf="@+id/account"
-                android:layout_toEndOf="@+id/account"/>
+                <EditText
+                    android:id="@+id/update_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:hint="请输入用户名"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_alignBaseline="@+id/account"
+                    android:layout_alignBottom="@+id/account"
+                    android:layout_toRightOf="@+id/account"
+                    android:layout_toEndOf="@+id/account"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/user2"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/user1"
                 android:background="#fff"
                 android:layout_marginTop="10dp">
@@ -165,23 +122,25 @@
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     />
-                <TextView
-                    android:id="@+id/sex_Info"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/update_sex"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
                     android:layout_marginLeft="10dp"
-                    android:text="000000000"
-                    android:textSize="16sp"
+                    android:hint="请输入性别"
+                    android:textSize="15sp"
                     android:layout_alignBaseline="@+id/sex"
                     android:layout_alignBottom="@+id/sex"
                     android:layout_toRightOf="@+id/sex"
-                    android:layout_toEndOf="@+id/sex"/>
+                    android:layout_toEndOf="@+id/sex"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/user3"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/user2"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -197,21 +156,23 @@
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     />
-                <TextView
-                    android:id="@+id/mail_text"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/update_phone"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
                     android:layout_toRightOf="@+id/mail"
-                    android:text="000000000"
                     android:layout_centerVertical="true"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:textSize="15sp"
+                    android:hint="请输入手机号"
+                    android:layout_marginLeft="10dp"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/user4"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/user3"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -227,21 +188,23 @@
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     />
-                <TextView
-                    android:id="@+id/QQ_text"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/update_QQ"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
                     android:layout_toRightOf="@+id/QQ"
-                    android:text="000000000"
+                    android:hint="请输入QQ号"
                     android:layout_centerVertical="true"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:textSize="15sp"
+                    android:layout_marginLeft="10dp"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/user5"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/user4"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -257,45 +220,66 @@
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     />
-                <TextView
-                    android:id="@+id/weixin_text"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/update_weixin"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
                     android:layout_toRightOf="@+id/weixin"
-                    android:text="000000000"
                     android:layout_centerVertical="true"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:textSize="15sp"
+                    android:hint="请输入微信号"
+                    android:layout_marginLeft="10dp"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/user6"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/user5"
                 android:background="#fff"
                 android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:text="个性签名:"
                     android:textSize="16sp"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
-                    />
-                <TextView
-                    android:id="@+id/description_text"
-                    android:layout_width="wrap_content"
+                />
+                <EditText
+                    android:id="@+id/update_ps"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
                     android:layout_toRightOf="@+id/description"
-                    android:text="000000000"
+                    android:hint="请输入个性签名"
                     android:layout_centerVertical="true"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:layout_marginLeft="10dp"
                     android:maxLines="2"
-                    />
+                />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/user6"
+                android:layout_marginTop="20dp"
+                >
+
+                <Button
+                    android:id="@+id/update_ok"
+                    android:layout_width="180dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/shape_bule_frame"
+                    android:layout_centerInParent="true"
+                    android:text="保存"
+                    android:textSize="18sp"
+                    android:textColor="#fff"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

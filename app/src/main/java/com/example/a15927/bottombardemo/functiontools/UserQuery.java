@@ -4,7 +4,7 @@ package com.example.a15927.bottombardemo.functiontools;
 public class UserQuery{
     private UserVO user;
     private int flag;
-    private int token;
+    private String token;
     private String message;
 
     public UserVO getUser() {
@@ -23,11 +23,11 @@ public class UserQuery{
         this.flag = flag;
     }
 
-    public int getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(int token) {
+    public void setToken(String token) {
         this.token = token;
     }
 

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.Utils.TestAndVerify;
 import com.example.a15927.bottombardemo.adapter.GoodsAdapter;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
 import com.example.a15927.bottombardemo.functiontools.Goods;
@@ -38,7 +39,7 @@ public class Sort extends AppCompatActivity {
     private String TAG = "Test";
 
     private RecyclerView recycler_sort;
-    private View netFailed;
+    private View netFailed,sort_nothing;
     private SpringView springView_sort;
     private ImageView arrow_back_sort;
     private TextView text_sort;
@@ -73,6 +74,7 @@ public class Sort extends AppCompatActivity {
         recycler_sort = (RecyclerView) findViewById( R.id.recycler_sort );
         springView_sort = (SpringView) findViewById( R.id.springView_sort );
         netFailed = findViewById( R.id.layout_net_failed_sort );
+        sort_nothing = findViewById( R.id.sort_nothing );
         arrow_back_sort = (ImageView) findViewById( R.id.arrow_back_sort );
         arrow_back_sort.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -88,10 +90,10 @@ public class Sort extends AppCompatActivity {
         Log.i( "Test", "token is  " + token );
         switch (type){
             case "electric":
-                goodsType = "电器";
-                text_sort.setText( "分类：电器" );
+                goodsType = "电器数码";
+                text_sort.setText( "分类：电器数码" );
                 break;
-            case "makeup":
+            case "dayLife":
                 goodsType = "日常用品";
                 text_sort.setText( "分类：日常用品" );
                 break;
@@ -108,8 +110,8 @@ public class Sort extends AppCompatActivity {
                 text_sort.setText( "分类：书籍" );
                 break;
             case "camera":
-                goodsType = "数码";
-                text_sort.setText( "分类：数码" );
+                goodsType = "其他";
+                text_sort.setText( "分类：其他" );
                 break;
             default:
                 break;
@@ -173,7 +175,9 @@ public class Sort extends AppCompatActivity {
                         Log.i( TAG, "run: failed" );
                         recycler_sort.setVisibility( View.GONE );
                         netFailed.setVisibility( View.VISIBLE );
-                        Toast.makeText( Sort.this, "当前网络不给力哦！", Toast.LENGTH_SHORT ).show();
+                        sort_nothing.setVisibility( View.GONE );
+                        String errorData = TestAndVerify.judgeError( Sort.this );
+                        Toast.makeText( Sort.this, errorData, Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }
@@ -196,14 +200,31 @@ public class Sort extends AppCompatActivity {
                 //flag判断
                 if (flag == 200) {
                     if(goodsList.size() == 0){
-                        runOnUiThread( new Runnable() {
-                            @Override
-                            public void run() {
-                                //取消进度框
-                                dismiss( progressDialog );
-                                Toast.makeText( Sort.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
-                            }
-                        } );
+                        if(page == 1) {
+                            runOnUiThread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    //取消进度框
+                                    dismiss( progressDialog );
+                                    recycler_sort.setVisibility( View.GONE );
+                                    netFailed.setVisibility( View.GONE );
+                                    sort_nothing.setVisibility( View.VISIBLE );
+                                    Toast.makeText( Sort.this, "暂时没有商品展示哦！", Toast.LENGTH_SHORT ).show();
+                                }
+                            } );
+                        }else{
+                            runOnUiThread( new Runnable() {
+                                @Override
+                                public void run() {
+                                    //取消进度框
+                                    dismiss( progressDialog );
+                                    recycler_sort.setVisibility( View.VISIBLE );
+                                    netFailed.setVisibility( View.GONE );
+                                    sort_nothing.setVisibility( View.GONE );
+                                    Toast.makeText( Sort.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
+                                }
+                            } );
+                        }
                     }
                     if(goodsList.size() <= pageSize && goodsList.size() != 0){
                         for (int i = 0; i < goodsList.size(); i++) {
@@ -223,8 +244,15 @@ public class Sort extends AppCompatActivity {
                             public void run() {
                                 //取消进度框一
                                 dismiss( progressDialog );
+                                recycler_sort.setVisibility( View.VISIBLE );
+                                netFailed.setVisibility( View.GONE );
+                                sort_nothing.setVisibility( View.GONE );
                                 Log.i( TAG, "run: 查询成功！" );
-                                Toast.makeText( Sort.this, "查询成功！", Toast.LENGTH_SHORT ).show();
+                                if(checkType == 1){
+                                    Toast.makeText( Sort.this, "加载成功！", Toast.LENGTH_SHORT ).show();
+                                }else{
+                                    Toast.makeText( Sort.this, "刷新成功！", Toast.LENGTH_SHORT ).show();
+                                }
                                 //LinearLayoutManager指定了recyclerView的布局方式，这里是线性布局
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( Sort.this );
                                 recycler_sort.setLayoutManager( layoutManager );

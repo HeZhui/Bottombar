@@ -42,17 +42,48 @@
             android:background="@drawable/puls"
             android:layout_marginLeft="20dp"
             />
+
+        <TextView
+            android:id="@+id/login_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/image_plus"
+            android:text="用户名"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/login_ps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/image_plus"
+            android:text="个性签名："
+            android:textSize="15sp"
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="30dp"
+            android:textColor="@color/gray"
+            android:visibility="gone"
+            />
+
         <TextView
             android:id="@+id/user"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="点击登录"
             android:layout_gravity="center"
             android:gravity="center_vertical"
             android:textColor="@color/gray"
-            android:textSize="15sp"
+            android:textSize="17sp"
+            android:layout_marginLeft="31dp"
+            android:visibility="visible"
+            android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/image_plus"
-            android:layout_marginLeft="30dp"/>
+            android:layout_toEndOf="@+id/image_plus"
+            android:layout_marginStart="31dp"/>
 
     </RelativeLayout>
 

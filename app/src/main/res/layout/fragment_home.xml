@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    >
 
     <RelativeLayout
+        android:id="@+id/title_home"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#0895e7"
@@ -38,12 +39,14 @@
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="150dp"/>
+        android:layout_height="150dp"
+        android:layout_below="@+id/title_home"/>
 
     <RelativeLayout
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="25dp"
+        android:layout_below="@+id/banner"
         >
 
         <View
@@ -80,37 +83,42 @@
     </RelativeLayout>
 
 
-    <LinearLayout
+    <!--上拉加载下拉刷新版本25-->
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/springView_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginBottom="50dp"
-        >
+        android:layout_below="@+id/view"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="50dp">
 
-        <!--上拉加载下拉刷新版本25-->
-        <com.liaoinstan.springview.widget.SpringView
-            android:id="@+id/springView_home"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
+        </android.support.v7.widget.RecyclerView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_home"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="2dp">
-            </android.support.v7.widget.RecyclerView>
+    </com.liaoinstan.springview.widget.SpringView>
 
-        </com.liaoinstan.springview.widget.SpringView>
+    <include
+        android:id="@+id/layout_net_failed"
+        layout="@layout/net_failed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="70dp"
+        android:layout_below="@+id/view"
+        />
 
-        <include
-            android:id="@+id/layout_net_failed"
-            layout="@layout/net_failed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
-    </LinearLayout>
+    <include
+        android:id="@+id/home_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/nothingfind"
+        android:visibility="gone"
+        android:layout_marginTop="70dp"
+        android:layout_below="@+id/view"
+        />
 
-
-</LinearLayout>
+</RelativeLayout>

@@ -14,14 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15927.bottombardemo.R;
+import com.example.a15927.bottombardemo.Utils.TestAndVerify;
 import com.example.a15927.bottombardemo.dialog.DialogUIUtils;
+import com.example.a15927.bottombardemo.functiontools.ItemGoods;
 import com.example.a15927.bottombardemo.functiontools.PostWith;
 import com.example.a15927.bottombardemo.functiontools.UserCO;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -91,59 +91,36 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener {
             case R.id.commit_buy:
                 //获取求购的商品信息及求购者的联系方式
                 String goodsName = name_buy.getText().toString().trim();
-                String phone = phone_buy.getText().toString().trim();
                 String description = description_buy.getText().toString().trim();
-                if (goodsName.length() == 0 || phone.length() == 0) {
+                if (goodsName.length() == 0 ) {
                     Toast.makeText( this, "请完善需求信息！", Toast.LENGTH_SHORT ).show();
                 } else {
-                    if (phone.length() == 11) {
-                        if (checkPhone( phone ) == true) {
-                            //进度框显示方法一
-                            progressDialog = DialogUIUtils.showLoadingDialog( FindBuy.this,"正在发布商品" );
-                            progressDialog.show();
-                            require( goodsName, phone, description );
-                        } else {
-                            Toast.makeText( this, "手机号码有误，请重新输入！", Toast.LENGTH_SHORT ).show();
-                        }
-                    } else {
-                        Toast.makeText( this, "手机号码有误，请重新输入！", Toast.LENGTH_SHORT ).show();
-                    }
-                    break;
+                    //进度框显示方法一
+                    progressDialog = DialogUIUtils.showLoadingDialog( FindBuy.this,"正在发布商品" );
+                    progressDialog.show();
+                    require( goodsName, description );
                 }
+                break;
         }
     }
 
-    //正则表达式验证手机号码
-    private boolean checkPhone(String str) {
-        if (str == null) {
-            return false;
-        }
-        String regEx = "^(13[0-9]|14[0-9]|15[0-9]|166|17[0-9]|18[0-9]|19[8|9])\\d{8}$";
-        Pattern p = Pattern.compile( regEx );
-        Matcher m = p.matcher( str );
-        if (m.matches()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-    public void require(String goodsName, String phone, String description) {
+    public void require(String goodsName, String description) {
         SharedPreferences sp = getSharedPreferences( "data", MODE_PRIVATE );
-        String uname = sp.getString( "uname", "" );
+        String uid = sp.getString( "uid", "" );
         String token = sp.getString( "token", "" );
-        Log.i( "Test", "uname is  " + uname );
-        Log.i( "Test", "token is  " + token );
+        Log.i( TAG, "require:uid is  "+uid );
+        Log.i( TAG, "token is  " + token );
         //设置属性
-        GoodsBuy goodsBuy = new GoodsBuy();
+        ItemGoods goodsBuy = new ItemGoods();
         goodsBuy.setToken( token );
         goodsBuy.setOpType( opType );
         goodsBuy.setDescription( description );
         goodsBuy.setGoodsName( goodsName );
+        goodsBuy.setUserid( uid );
         goodsBuy.setGoodsType( String.valueOf( spinner_position ) );
-        goodsBuy.setPhone( phone );
         Gson gson = new Gson();
-        String jsonStr = gson.toJson( goodsBuy, GoodsBuy.class );
+        String jsonStr = gson.toJson( goodsBuy, ItemGoods.class );
         Log.i( TAG, "require: jsonStr is " + jsonStr );
         //发送Post
         PostWith.sendPostWithOkhttp( url, jsonStr, new Callback() {
@@ -155,7 +132,8 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener {
                     public void run() {
                         //取消进度框一
                         progressDialog.dismiss();
-                        Toast.makeText( FindBuy.this, "网络不给力哦！", Toast.LENGTH_SHORT ).show();
+                        String errorData = TestAndVerify.judgeError( FindBuy.this );
+                        Toast.makeText( FindBuy.this, errorData, Toast.LENGTH_SHORT ).show();
                     }
                 } );
             }
@@ -190,7 +168,7 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener {
                         public void run() {
                             //取消进度框一
                             progressDialog.dismiss();
-                            Toast.makeText( FindBuy.this, "登录信息已失效,请重新登录", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( FindBuy.this, "发布失败！登录信息已失效,请重新登录。", Toast.LENGTH_SHORT ).show();
                         }
                     } );
                 } else {
@@ -199,7 +177,7 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener {
                         public void run() {
                             //取消进度框一
                             progressDialog.dismiss();
-                            Toast.makeText( FindBuy.this, "出现错误！,登录失败", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( FindBuy.this, "出现错误！,发布失败", Toast.LENGTH_SHORT ).show();
                         }
                     } );
                 }

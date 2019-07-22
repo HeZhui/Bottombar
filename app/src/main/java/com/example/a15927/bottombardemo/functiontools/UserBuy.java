@@ -7,7 +7,7 @@ public class UserBuy {
     private int page;
     private int checkType; //查询方式       1----------加载               2----------------刷新
     private int condition;//区别是摊位（ 1 ），还是求购（ 2 ）
-
+    private String userid;
     public int getOpType() {
         return opType;
     }
@@ -54,5 +54,13 @@ public class UserBuy {
 
     public void setCondition(int condition) {
         this.condition = condition;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }
