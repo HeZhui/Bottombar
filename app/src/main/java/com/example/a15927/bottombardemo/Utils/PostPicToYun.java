@@ -44,7 +44,7 @@ public class PostPicToYun {
         String region = "";//存储桶所在的地域
         String secretId = ""; //永久密钥 secretId
         String secretKey =""; //永久密钥 secretKey
-        String bucket = ""; //格式：BucketName-APPID
+        String bucket = "pic-001-1259665619"; //格式：BucketName-APPID
 
         //创建 CosXmlServiceConfig 对象，根据需要修改默认的配置参数
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()
