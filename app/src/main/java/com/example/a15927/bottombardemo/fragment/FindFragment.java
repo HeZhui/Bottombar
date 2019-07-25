@@ -55,7 +55,8 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     private SpringView springView;
     private View netFailedLayout,find_nothing;
     //分页状态
-    public int page = 1;
+    public int refreshPage = 1;
+    public int loadPage = 1;
     //当前分页  1------加载，  2-----------刷新
     protected int checkType = 1;
     //每页数目
@@ -85,9 +86,9 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     //    };
 
     //发送请求得到的商品信息
-    List<ItemGoods> GoodsList = new ArrayList<>();
+    List<ItemGoods> goodsList = new ArrayList<>();
     //存放（每次分页的商品加载在一起）所有商品信息的数组
-    List<ItemGoods> newGoodsList = new ArrayList<>();
+    List<ItemGoods> moreGoodsList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,7 +114,7 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         springView.setListener( new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
+                refreshPage = 1;
                 checkType = 2;  //刷新
                 getData();
                 springView.onFinishFreshAndLoad();
@@ -121,9 +122,12 @@ public class FindFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onLoadmore() {
-                page++;
+                if(moreGoodsList != null ){
+                    loadPage++;
+                }else{
+                    loadPage = 1;
+                }
                 checkType = 1;  //加载
-                Log.i( TAG, "onRefresh: page is " + page );
                 getData();
                 springView.onFinishFreshAndLoad();
             }
@@ -222,15 +226,19 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     public void getData() {
         //当statue的状态发生变化时
         if(statueLast != statue){
-            page = 1;
-            newGoodsList.clear();
-            Log.i( TAG, "getData: 清空后的数组为" +newGoodsList);
+            loadPage = 1;
+            moreGoodsList.clear();
+            Log.i( TAG, "getData: 清空后的数组为" +moreGoodsList);
         }
         final UserBuy userBuy = new UserBuy();
         userBuy.setOpType( opTypeBuy );
         userBuy.setToken( token );
         userBuy.setPageSize( pageSize );
-        userBuy.setPage( page );
+        if(checkType == 1){
+            userBuy.setPage( loadPage );
+        }else{
+            userBuy.setPage( refreshPage );
+        }
         userBuy.setCheckType( checkType );
         userBuy.setCondition( statue );
         Gson gson_buy = new Gson();
@@ -253,7 +261,6 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                     public void run() {
                         //取消进度框一
                         dismiss( progressDialog );
-                        //显示布局net_failed
                         recyclerView.setVisibility( View.GONE );
                         netFailedLayout.setVisibility( View.VISIBLE );
                         find_nothing.setVisibility( View.GONE );
@@ -274,13 +281,13 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                 Goods goods = gson.fromJson( responseData, Goods.class );
                 int flag = goods.getFlag();
                 Log.i( TAG, "flag " + flag );
-                GoodsList = goods.getGoodsList();
+                goodsList = goods.getGoodsList();
                 //application全局变量
                 AppStr appStr = (AppStr)getActivity().getApplication();
                 appStr.setState( true );
                 if (flag == 200) {
-                    if (GoodsList.size() == 0) {
-                        if(page == 1){
+                    if (goodsList.size() == 0) {
+                        if((refreshPage == 1 || loadPage == 1) && moreGoodsList.size() == 0){
                             getActivity().runOnUiThread( new Runnable() {
                                 @Override
                                 public void run() {
@@ -298,24 +305,46 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                                 public void run() {
                                     //取消进度框一
                                     dismiss( progressDialog );
+                                    recyclerView.setVisibility( View.VISIBLE );
+                                    netFailedLayout.setVisibility( View.GONE );
+                                    find_nothing.setVisibility( View.GONE );
                                     Toast.makeText( getActivity(), "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
                                 }
                             } );
                         }
-                    }
-                    if (GoodsList.size() <= pageSize && GoodsList.size() != 0) {
-                        for (int i = 0; i < GoodsList.size(); i++) {
-                            boolean repeat = false;
-                            for (int j = 0; j < newGoodsList.size(); j++) {
-                                if (newGoodsList.get( j ).getGoodsID().equals( GoodsList.get( i ).getGoodsID() )) {
-                                    repeat = true;
-                                    break;
+                    }else{
+                        //刷新
+                        if(checkType == 2){
+                            for(int i = 0; i < moreGoodsList.size(); i++ ){
+                                boolean repeat  = false;
+                                for(int j = 0; j< goodsList.size(); j++){
+                                    if(goodsList.get( j ).getGoodsID().equals( moreGoodsList.get( i).getGoodsID() )){
+                                        repeat = true;
+                                        break;
+                                    }
+                                }
+                                if(repeat == false){
+                                    goodsList.add( moreGoodsList.get( i ) );
                                 }
                             }
-                            if (repeat == false) {
-                                newGoodsList.add( GoodsList.get( i ) );
+                            moreGoodsList = goodsList;
+                        }
+                        //加载
+                        if(checkType == 1){
+                            for (int i = 0; i < goodsList.size(); i++) {
+                                boolean repeat = false;
+                                for (int j = 0; j < moreGoodsList.size(); j++) {
+                                    if (moreGoodsList.get( j ).getGoodsID().equals( goodsList.get( i ).getGoodsID() )) {
+                                        repeat = true;
+                                        break;
+                                    }
+                                }
+                                if (repeat == false) {
+                                    moreGoodsList.add( goodsList.get( i ) );
+                                }
                             }
                         }
+                        //切换到主线程
                         getActivity().runOnUiThread( new Runnable() {
                             @Override
                             public void run() {
@@ -329,13 +358,13 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
                                 recyclerView.setLayoutManager( layoutManager );
                                 if (statue == 1) {
-                                    Log.i( TAG, "run: "+newGoodsList.toString() );
-                                    GoodsAdapter goodsAdapter = new GoodsAdapter( getActivity(), newGoodsList );
+                                    Log.i( TAG, "run: "+moreGoodsList.toString() );
+                                    GoodsAdapter goodsAdapter = new GoodsAdapter( getActivity(), moreGoodsList );
                                     recyclerView.setAdapter( goodsAdapter );
                                 }
                                 if (statue == 2) {
-                                    Log.i( TAG, "run: 求购 "+newGoodsList.toString() );
-                                    ShopAdapter shopAdapter = new ShopAdapter( getActivity(), newGoodsList );
+                                    Log.i( TAG, "run: 求购 "+moreGoodsList.toString() );
+                                    ShopAdapter shopAdapter = new ShopAdapter( getActivity(), moreGoodsList );
                                     recyclerView.setAdapter( shopAdapter );
                                 }
                                 if(checkType == 1){

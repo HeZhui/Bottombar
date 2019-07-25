@@ -55,12 +55,13 @@ public class HomeFragment extends Fragment implements OnBannerListener {
     private RecyclerView recycler_home;
     private List<ItemGoods> goodsList = new ArrayList<>(  );
     private List<ItemGoods> moreGoodsList = new ArrayList<>(  );
-    private int opTypebuy  = 90004;
-    private  String urlbuy = "http://47.105.185.251:8081/Proj31/buy";
+    private int opTypeBuy  = 90004;
+    private  String urlBuy = "http://47.105.185.251:8081/Proj31/buy";
     private SpringView springView_home;
     private View netFailedLayout,home_nothing;
     //分页状态
-    public int page = 1;
+    public int refreshPage = 1;
+    public int loadPage = 1;
     //当前分页  1------加载，  2-----------刷新
     protected int checkType = 1;
     //每页数目
@@ -107,7 +108,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
         springView_home.setListener( new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
+                refreshPage = 1;
                 checkType = 2;
                 initGoods();
                 springView_home.onFinishFreshAndLoad();
@@ -115,9 +116,12 @@ public class HomeFragment extends Fragment implements OnBannerListener {
 
             @Override
             public void onLoadmore() {
-                page++;
+                if(moreGoodsList != null){
+                    loadPage++;
+                }else{
+                    loadPage = 1;
+                }
                 checkType = 1;
-                Log.i( TAG, "onRefresh: page is " + page );
                 initGoods();
                 springView_home.onFinishFreshAndLoad();
             }
@@ -126,13 +130,19 @@ public class HomeFragment extends Fragment implements OnBannerListener {
         return view;
     }
 
-    //获取数据
+    /*
+     * 获取数据
+     */
     private void initGoods() {
         UserBuy userBuy = new UserBuy();
-        userBuy.setOpType( opTypebuy );
+        userBuy.setOpType( opTypeBuy );
         userBuy.setToken( token );
         userBuy.setPageSize( pageSize );
-        userBuy.setPage( page );
+        if(checkType == 1){
+            userBuy.setPage( loadPage );
+        }else{
+            userBuy.setPage( refreshPage );
+        }
         userBuy.setCheckType( checkType );
         userBuy.setCondition( statue );
         Gson gson_buy = new Gson();
@@ -141,7 +151,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
         AppStr appStr = (AppStr)getActivity().getApplication();
         appStr.setState( false );
         //发送Post
-        PostWith.sendPostWithOkhttp( urlbuy, userBuyJson, new Callback() {
+        PostWith.sendPostWithOkhttp( urlBuy, userBuyJson, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i( TAG, "onFailure: " );
@@ -161,7 +171,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("Test","获取数据成功了");
+                Log.d(TAG,"获取数据成功了");
                 String responseData = response.body().string();
                 Log.i( TAG, "onResponse: " +responseData);
                 //开始解析返回数据
@@ -178,12 +188,10 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                 //flag判断
                 if (flag == 200) {
                     if(goodsList.size() == 0){
-                        if(page == 1){
+                        if((loadPage == 1 || refreshPage == 1) && moreGoodsList.size() == 0){
                             getActivity().runOnUiThread( new Runnable() {
                                 @Override
                                 public void run() {
-                                    //取消进度框一
-                                    //dismiss( progressDialog );
                                     recycler_home.setVisibility( View.GONE );
                                     netFailedLayout.setVisibility( View.GONE );
                                     home_nothing.setVisibility( View.VISIBLE );
@@ -194,31 +202,50 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                             getActivity().runOnUiThread( new Runnable() {
                                 @Override
                                 public void run() {
-                                    //取消进度框一
-                                    //dismiss( progressDialog );
+                                    recycler_home.setVisibility( View.VISIBLE );
+                                    netFailedLayout.setVisibility( View.GONE );
+                                    home_nothing.setVisibility( View.GONE );
                                     Toast.makeText( getActivity(), "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
                                 }
                             } );
                         }
-                    }
-                    if(goodsList.size() <= pageSize && goodsList.size() != 0){
-                        for (int i = 0; i < goodsList.size(); i++) {
-                            boolean repeat = false;
-                            for (int j = 0; j < moreGoodsList.size(); j++) {
-                                if (moreGoodsList.get( j ).getGoodsID().equals( goodsList.get( i ).getGoodsID() )) {
-                                    repeat = true;
-                                    break;
+                    }else{
+                        //刷新
+                        if(checkType == 2){
+                            for(int i = 0; i < moreGoodsList.size(); i++ ){
+                                boolean repeat  = false;
+                                for(int j = 0; j< goodsList.size(); j++){
+                                    if(goodsList.get( j ).getGoodsID().equals( moreGoodsList.get( i).getGoodsID() )){
+                                        repeat = true;
+                                        break;
+                                    }
+                                }
+                                if(repeat == false){
+                                    goodsList.add( moreGoodsList.get( i ) );
                                 }
                             }
-                            if (repeat == false) {
-                                moreGoodsList.add( goodsList.get( i ) );
+                            moreGoodsList = goodsList;
+                        }
+                        //加载
+                        if(checkType == 1){
+                            for (int i = 0; i < goodsList.size(); i++) {
+                                boolean repeat = false;
+                                for (int j = 0; j < moreGoodsList.size(); j++) {
+                                    if (moreGoodsList.get( j ).getGoodsID().equals( goodsList.get( i ).getGoodsID() )) {
+                                        repeat = true;
+                                        break;
+                                    }
+                                }
+                                if (repeat == false) {
+                                    moreGoodsList.add( goodsList.get( i ) );
+                                }
                             }
                         }
                         //切换到主线程
                         getActivity().runOnUiThread( new Runnable() {
                             @Override
                             public void run() {
-                                Log.i( "Test", "run: 查询成功" );
+                                Log.i( TAG, "run: 查询成功" );
                                 recycler_home.setVisibility( View.VISIBLE );
                                 netFailedLayout.setVisibility( View.GONE );
                                 home_nothing.setVisibility( View.GONE );
@@ -254,17 +281,19 @@ public class HomeFragment extends Fragment implements OnBannerListener {
         } );
     }
 
-    //加载轮播
+    /*
+     *加载轮播
+     */
     private void initView() {
         //放图片地址的集合
         list_path = new ArrayList<>();
 //        //放标题的集合
 //        list_title = new ArrayList<>();
 
-        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_032500.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg
-        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_031014.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg
-        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190719_030733.png");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg
-        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/picDemo/20190720_093147.jpg");//http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg
+        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/bottomBarDemo/goodsPic/20190723_055538.jpg");
+        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/bottomBarDemo/goodsPic/20190723_090613.jpg");
+        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/bottomBarDemo/goodsPic/20190722_074813.jpg");
+        list_path.add("https://pic-001-1259665619.cos.ap-chengdu.myqcloud.com/bottomBarDemo/goodsPic/20190722_081759.jpg");
 //        list_title.add("");
 //        list_title.add("");
 //        list_title.add("");
@@ -291,7 +320,9 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                 .start();
     }
 
-    //自定义的图片加载器
+    /*
+     *自定义的图片加载器
+     */
     private class MyLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
@@ -299,7 +330,9 @@ public class HomeFragment extends Fragment implements OnBannerListener {
         }
     }
 
-    //轮播图的监听方法
+    /*
+     *轮播图的监听方法
+     */
     @Override
     public void OnBannerClick(int position) {
 //        Log.i("tag", "你点了第"+position+"张轮播图");

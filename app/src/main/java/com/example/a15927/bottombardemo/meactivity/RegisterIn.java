@@ -35,21 +35,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static com.example.a15927.bottombardemo.R.id.takephoto;
 import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 
 public class RegisterIn extends AppCompatActivity implements View.OnClickListener{
+    private String TAG = "Test";
     private EditText input_username;
     private EditText input_password;
     private EditText password_confirm;
-    private Button comit_register;
-    private ImageView takephoto;
+    private Button commit_register;
+    private ImageView takePhoto;
     private ImageView arrow_back;
     private TextView back;
 
@@ -69,16 +70,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
 
     //进度条一
     Dialog progressDialog;
-    //进度条二
-    //private LoadingDialog dialog;
-
-    //    private Handler mHandler = new Handler() {
-    //        public void dispatchMessage(android.os.Message msg) {
-    //            if (dialog != null && dialog.isShowing()) {
-    //                dialog.dismiss();
-    //            }
-    //        };
-    //    };
+    private int imageClick = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,21 +80,23 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         //绑定控件并设置监听
         input_username = (EditText) findViewById( R.id.user_input );
         input_password = (EditText) findViewById( R.id.password_input );
+        TestAndVerify.deleteIllegal( input_password,RegisterIn.this );
         password_confirm = (EditText) findViewById( R.id.password_confirm );
-        takephoto = (ImageView) findViewById( R.id.takephoto );
-        takephoto.setOnClickListener( this );
+        TestAndVerify.deleteIllegal( password_confirm,RegisterIn.this );
+        takePhoto = (ImageView) findViewById( takephoto );
+        takePhoto.setOnClickListener( this );
         arrow_back = (ImageView) findViewById( R.id.arrow_back );
         arrow_back.setOnClickListener( this );
         back = (TextView) findViewById( R.id.back );
         back.setOnClickListener( this );
-        comit_register = (Button) findViewById( R.id.register );
-        comit_register.setOnClickListener( this );
+        commit_register = (Button) findViewById( R.id.register );
+        commit_register.setOnClickListener( this );
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.takephoto:
+            case takephoto:
                 //底部弹框Dialog
                 //获取拍照和手机相册的权利
                 List<String> stringList = new ArrayList<>();
@@ -145,24 +139,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                 } );
                 break;
             case R.id.register:
-                //application全局变量
-                AppStr appStr = (AppStr)getApplication();
-                if(appStr.isState() == true){
-                    String yunFlag = PostPicToYun.getYunFlag();
-                    Log.i( "Test", "onClick: "+yunFlag );
-                    String picUrl = PostPicToYun.getPicUrl();
-                    Log.i( "Test", "onClick: "+picUrl );
-                    if(yunFlag != null && yunFlag.equals( "OK" )){
-                        if(picUrl != null || picUrl.length() > 20){
-                            allCommit(picUrl);
-                        }
-                    }else{
-                        Toast.makeText( this, "头像上传失败！", Toast.LENGTH_SHORT ).show();
-                        Log.i( "Test", "onClick: 上传失败！");
-                    }
-                }else{
-                    Toast.makeText( RegisterIn.this, "头像图片上传尚未成功，请稍作等待！", Toast.LENGTH_SHORT ).show();
-                }
+                allCommit(  );
                 break;
             case R.id.arrow_back:
                 finish();
@@ -188,7 +165,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
             return ;
         }
         Intent intent = new Intent( "com.android.camera.action.CROP" );
-        Log.i( "Test", "startImageCrop: " + "执行到压缩图片了" + "uri is " + uri );
+        Log.i( TAG, "startImageCrop: " + "执行到压缩图片了" + "uri is " + uri );
         intent.setDataAndType( uri, "image/*" );//设置Uri及类型
         //uri权限
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -226,7 +203,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                     //选中相册照片显示
                     try {
                         imageUri = data.getData(); //获取系统返回的照片的Uri
-                        Log.i( "Test", "onActivityResult: uriImage is " +imageUri );
+                        Log.i( TAG, "onActivityResult: uriImage is " +imageUri );
                         //设置照片存储文件及剪切图片
                         File saveFile = ImageUtils.setTempFile( RegisterIn.this );
                         filePath = ImageUtils.getTempFile();
@@ -243,7 +220,8 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                     //通过FileName拿到裁剪图片
                     Bitmap bitmap = BitmapFactory.decodeFile( filePath.toString() );
                     //把裁剪后的图片展示出来
-                    takephoto.setImageBitmap( bitmap );
+                    takePhoto.setImageBitmap( bitmap );
+                    imageClick = 1;
                     //application全局变量
                     AppStr appStr = (AppStr)getApplication();
                     appStr.setState( false );
@@ -258,36 +236,34 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
     }
 
     //注册
-    public void allCommit(String picUrl) {
-        Log.i( "Test", "allcomit: " +picUrl);
+    public void allCommit( ) {
         String inputUsername = input_username.getText().toString().trim();
-        String inputpassword = input_password.getText().toString().trim();
-        String confirmpassword = password_confirm.getText().toString().trim();
-
-        //数据库写入，再弹出注册成功过的消息，跳入登录活动页面
+        String inputPassword = input_password.getText().toString().trim();
+        String confirmPassword = password_confirm.getText().toString().trim();
 
         if (TextUtils.isEmpty( inputUsername )) {
             Toast.makeText( RegisterIn.this, "用户名不能为空", Toast.LENGTH_SHORT ).show();
         } else {
-            if (inputpassword.equals( "" )) {
+            if (inputPassword.equals( "" )) {
                 Toast.makeText( RegisterIn.this, "密码不能为空", Toast.LENGTH_SHORT ).show();
             } else {
-                if (confirmpassword.equals( "" )) {
+                if (confirmPassword.equals( "" )) {
                     Toast.makeText( RegisterIn.this, "第二次输入密码不能为空", Toast.LENGTH_SHORT ).show();
                 } else {
-                    if (inputpassword.equals( confirmpassword )) {
-                        //进度框显示方法一
-                        progressDialog = DialogUIUtils.showLoadingDialog( RegisterIn.this, "正在注册" );
-                        progressDialog.show();
-                        //                        //进度条显示方法二
-                        //                        dialog = new LoadingDialog(RegisterIn.this,R.layout.tips_load);
-                        //                        //点击物理返回键是否可取消dialog
-                        //                        dialog.setCancelable(true);
-                        //                        //点击dialog之外 是否可取消
-                        //                        dialog.setCanceledOnTouchOutside(true);
-                        //                        //显示
-                        //                        dialog.show();
-                        register( inputUsername, inputpassword ,picUrl);
+                    if (inputPassword.equals( confirmPassword )) {
+                        //检验是否输入非法字符
+                        if(!TestAndVerify.checkIllegal( inputUsername )){
+                            Toast.makeText( RegisterIn.this, "禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
+                            return;
+                        }
+                        if(TestAndVerify.checkPw( inputPassword )){
+                            //进度框显示方法一
+                            progressDialog = DialogUIUtils.showLoadingDialog( RegisterIn.this, "正在注册" );
+                            progressDialog.show();
+                            register( inputUsername, inputPassword );
+                        }else{
+                            Toast.makeText( RegisterIn.this, "密码中必须包含英文字母和数字(6-10长度)", Toast.LENGTH_SHORT ).show();
+                        }
                     } else
                         Toast.makeText( RegisterIn.this, "两次密码不一致", Toast.LENGTH_SHORT ).show();
                 }
@@ -295,15 +271,37 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    public void register(String uname, String upassword ,String picUrl) {
+    public void register(String uname, String upassword) {
         //生成部分属性
         UserVO userVO = new UserVO();
-        String uuid = UUID.randomUUID().toString().replaceAll( "-","" );
         userVO.setOpType( opType );
-        userVO.setUid( uuid );
         userVO.setUname( uname );
         userVO.setUpassword( MD5Utils.getMD5( upassword ) );
-        userVO.setPicDir( picUrl );
+        if(imageClick == 1){
+            //application全局变量
+            AppStr appStr = (AppStr)getApplication();
+            if(appStr.isState() == true){
+                String yunFlag = PostPicToYun.getYunFlag();
+                Log.i( TAG, "onClick: "+yunFlag );
+                String picUrl = PostPicToYun.getPicUrl();
+                Log.i( TAG, "onClick: "+picUrl );
+                if(yunFlag != null && yunFlag.equals( "OK" )){
+                    if(picUrl != null || picUrl.length() > 20){
+                        userVO.setPicDir( picUrl );
+                    }
+                }else{
+                    Toast.makeText( this, "头像上传失败！", Toast.LENGTH_SHORT ).show();
+                    Log.i( TAG, "onClick: 上传失败！");
+                    return;
+                }
+            }else{
+                Toast.makeText( RegisterIn.this, "头像图片上传尚未成功，请稍作等待！", Toast.LENGTH_SHORT ).show();
+                return;
+            }
+        }else{
+            Toast.makeText( RegisterIn.this, "请设置头像信息！", Toast.LENGTH_SHORT ).show();
+            return;
+        }
         userVO.setUphone( "15927305629" );
         userVO.setSex( 1 );
         userVO.setQq( "1574367559" );
@@ -317,7 +315,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onFailure(Call call, IOException e) {
                 //异常情况的逻辑
-                Log.d( "Test", "获取数据失败了" + e.toString() );
+                Log.d( TAG, "获取数据失败了" + e.toString() );
                 //切换为主线程
                 runOnUiThread( new Runnable() {
                     @Override
@@ -335,21 +333,15 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {//回调的方法执行在子线程。
-                    Log.d( "Test", "获取数据成功了" );
+                    Log.d( TAG, "获取数据成功了" );
                     //获取后台返回结果
                     final String responseData = response.body().string();
                     //json转String
                     Gson g = new Gson();
                     UserCO userCO = g.fromJson( responseData, UserCO.class );
-                    Log.i( "Test", userCO.toString() );
+                    Log.i( TAG, userCO.toString() );
                     int flag = userCO.getFlag();
-                    Log.i( "Test", String.valueOf( flag ) );
-                    //                    String message = userCO.getMessage();
-                    //                    Log.i( "Test", message );
-                    //                    String token = userCO.getToken();
-                    //当token无返回值时，为null,但是Log打印时message不可为空，故而出现此步崩溃
-                    //Log.i( "Test", token );
-
+                    Log.i( TAG, String.valueOf( flag ) );
                     if (flag == 200) {
                         runOnUiThread( new Runnable() {
                             @Override

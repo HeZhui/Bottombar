@@ -49,7 +49,8 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
 
     private int state = 1;    //摊位
     //分页状态
-    public int page = 1;
+    public int loadPage = 1;
+    public int refreshPage = 1;
     //当前分页  1------加载，  2-----------刷新
     protected int checkType = 1;
     //每页数目
@@ -77,7 +78,7 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
         springView_shop.setListener( new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
+                refreshPage = 1;
                 checkType = 2;
                 postRequest();
                 springView_shop.onFinishFreshAndLoad();
@@ -85,7 +86,11 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
 
             @Override
             public void onLoadmore() {
-                page++;
+                if(moreGoodsList != null){
+                    loadPage++;
+                }else{
+                    loadPage = 1;
+                }
                 checkType = 1;
                 postRequest();
                 springView_shop.onFinishFreshAndLoad();
@@ -102,7 +107,11 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
         Gson gson = new Gson();
         UserBuy shop = new UserBuy();
         shop.setPageSize( pageSize );
-        shop.setPage( page );
+        if(checkType == 1){
+            shop.setPage( loadPage );
+        }else{
+            shop.setPage( refreshPage );
+        }
         shop.setCheckType( checkType );
         shop.setToken(token);
         shop.setCondition( state );
@@ -146,7 +155,7 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                 goodsList = goods.getGoodsList();
                 if (flag == 200) {
                     if (goodsList.size() == 0) {
-                        if(page == 1){
+                        if((refreshPage == 1 || loadPage == 1) && moreGoodsList.size() == 0){
                             runOnUiThread( new Runnable() {
                                 @Override
                                 public void run() {
@@ -164,6 +173,9 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                                 public void run() {
                                     //取消进度框一
                                     dismiss( progressDialog );
+                                    recyclerView_shop.setVisibility( View.VISIBLE );
+                                    netFailed.setVisibility( View.GONE );
+                                    nothing_find.setVisibility( View.GONE );
                                     Toast.makeText( MyShop.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
                                 }
                             } );
@@ -171,20 +183,19 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                     } else {
                         //刷新消息应该显示在最上面
                         if(checkType == 2){
-                            boolean repeat  = false;
-//                            if(moreGoodsList != null){
-                                for(int i = 0; i < moreGoodsList.size(); i++ ){
-                                    for(int j = 0; j< goodsList.size(); j++){
-                                        if(goodsList.get( j ).getGoodsID().equals( moreGoodsList.get( i).getGoodsID() )){
-                                            repeat = true;
-                                            break;
-                                        }
-                                    }
-                                    if(repeat == false){
-                                        goodsList.add( moreGoodsList.get( i ) );
+                            for(int i = 0; i < moreGoodsList.size(); i++ ){
+                                boolean repeat  = false;
+                                for(int j = 0; j< goodsList.size(); j++){
+                                    if(goodsList.get( j ).getGoodsID().equals( moreGoodsList.get( i).getGoodsID() )){
+                                        repeat = true;
+                                        break;
                                     }
                                 }
-//                            }
+                                if(repeat == false){
+                                    goodsList.add( moreGoodsList.get( i ) );
+                                }
+                            }
+                            moreGoodsList = goodsList;
                         }
                         //下拉加载
                         if(checkType == 1){
@@ -217,11 +228,7 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                                 }
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( MyShop.this, LinearLayoutManager.VERTICAL, false );
                                 recyclerView_shop.setLayoutManager( layoutManager );
-                                if(checkType == 1){
-                                    adapter = new GoodsAdapter(MyShop.this, moreGoodsList );
-                                } else {
-                                    adapter = new GoodsAdapter(MyShop.this, goodsList );
-                                }
+                                adapter = new GoodsAdapter(MyShop.this, moreGoodsList );
                                 recyclerView_shop.setAdapter( adapter );
                             }
                         } );

@@ -29,7 +29,7 @@ import okhttp3.Response;
 
 public class FindBuy extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "Test";
-    private EditText name_buy, phone_buy, description_buy;
+    private EditText name_buy, description_buy;
     private TextView commit_buy, buying;
     private ImageView back_buy;
 
@@ -53,7 +53,6 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener {
         buying.setOnClickListener( this );
 
         name_buy = (EditText) findViewById( R.id.name_buy );
-        phone_buy = (EditText) findViewById( R.id.phone_buy );
         description_buy = (EditText) findViewById( R.id.description_buy );
 
         commit_buy = (TextView) findViewById( R.id.commit_buy );
@@ -95,6 +94,16 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener {
                 if (goodsName.length() == 0 ) {
                     Toast.makeText( this, "请完善需求信息！", Toast.LENGTH_SHORT ).show();
                 } else {
+                    if(!TestAndVerify.checkIllegal( goodsName )){
+                        Toast.makeText( this, "商品名称禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
+                        return;
+                    }
+                    if(description != null){
+                        if(!TestAndVerify.checkIllegal( description )){
+                            Toast.makeText( this, "描述禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
+                            return;
+                        }
+                    }
                     //进度框显示方法一
                     progressDialog = DialogUIUtils.showLoadingDialog( FindBuy.this,"正在发布商品" );
                     progressDialog.show();

@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">BottombarDemo</string>
 
-    <string name="tab_one">Home</string>
-    <string name="tab_two">Sort</string>
-    <string name="tab_three">Find</string>
-    <string name="tab_four">Me</string>
+    <string name="tab_one">首页</string>
+    <string name="tab_two">分类</string>
+    <string name="tab_three">发现</string>
+    <string name="tab_four">我的</string>
 
 </resources>
 

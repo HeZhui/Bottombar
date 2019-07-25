@@ -44,7 +44,8 @@ public class MyForBuy extends AppCompatActivity {
 
     private int state = 2; //求购
     //分页状态
-    public int page = 1;
+    public int loadPage = 1;
+    public int refreshPage = 1;
     //当前分页  1------加载，  2-----------刷新
     protected int checkType = 1;
     //每页数目
@@ -72,7 +73,7 @@ public class MyForBuy extends AppCompatActivity {
         springView_myBuy.setListener( new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
+                refreshPage = 1;
                 checkType = 2;
                 getData();
                 springView_myBuy.onFinishFreshAndLoad();
@@ -80,7 +81,11 @@ public class MyForBuy extends AppCompatActivity {
 
             @Override
             public void onLoadmore() {
-                page++;
+                if(moreGoodsList != null){
+                    loadPage++;
+                }else{
+                    loadPage = 1;
+                }
                 checkType = 1;
                 getData();
                 springView_myBuy.onFinishFreshAndLoad();
@@ -97,7 +102,11 @@ public class MyForBuy extends AppCompatActivity {
         Gson gson = new Gson();
         UserBuy myBuy = new UserBuy();
         myBuy.setPageSize( pageSize );
-        myBuy.setPage( page );
+        if(checkType == 1){
+            myBuy.setPage( loadPage );
+        }else{
+            myBuy.setPage( refreshPage );
+        }
         myBuy.setCheckType( checkType );
         myBuy.setToken(token);
         myBuy.setCondition( state );
@@ -135,7 +144,7 @@ public class MyForBuy extends AppCompatActivity {
                 goodsList = goods.getGoodsList();
                 if(flag == 200){
                     if(goodsList.size() == 0){
-                        if(page == 1){
+                        if((loadPage == 1 || refreshPage == 1) && moreGoodsList.size() == 0){
                             runOnUiThread( new Runnable() {
                                 @Override
                                 public void run() {
@@ -152,10 +161,10 @@ public class MyForBuy extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     //取消进度框一
+                                    recycler_buy.setVisibility( View.VISIBLE );
+                                    net_failed_buy.setVisibility( View.GONE );
+                                    nothing_find_buy.setVisibility( View.GONE );
                                     dismiss( progressDialog );
-//                                    recycler_buy.setVisibility( View.GONE );
-//                                    net_failed_buy.setVisibility( View.GONE );
-//                                    nothing_find_buy.setVisibility( View.GONE );
                                     Toast.makeText( MyForBuy.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
                                 }
                             } );
@@ -163,9 +172,8 @@ public class MyForBuy extends AppCompatActivity {
                     }else{
                         //刷新消息应该显示在最上面
                         if(checkType == 2){
-                            boolean repeat  = false;
-                            //                            if(moreGoodsList != null){
                             for(int i = 0; i < moreGoodsList.size(); i++ ){
+                                boolean repeat  = false;
                                 for(int j = 0; j< goodsList.size(); j++){
                                     if(goodsList.get( j ).getGoodsID().equals( moreGoodsList.get( i).getGoodsID() )){
                                         repeat = true;
@@ -176,7 +184,7 @@ public class MyForBuy extends AppCompatActivity {
                                     goodsList.add( moreGoodsList.get( i ) );
                                 }
                             }
-                            //                            }
+                            moreGoodsList = goodsList;
                         }
                         //下拉加载
                         if(checkType == 1){
@@ -209,11 +217,7 @@ public class MyForBuy extends AppCompatActivity {
                                 }
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( MyForBuy.this,LinearLayoutManager.VERTICAL,false );
                                 recycler_buy.setLayoutManager( layoutManager );
-                                if(checkType == 1){
-                                    adapter = new ShopAdapter(MyForBuy.this, goodsList );
-                                }else{
-                                    adapter = new ShopAdapter(MyForBuy.this, moreGoodsList );
-                                }
+                                adapter = new ShopAdapter(MyForBuy.this, moreGoodsList );
                                 recycler_buy.setAdapter( adapter );
                             }
                         } );

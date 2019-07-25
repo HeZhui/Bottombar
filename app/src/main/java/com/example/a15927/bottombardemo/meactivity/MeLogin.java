@@ -51,17 +51,6 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
 
     //进度条一
     Dialog progressDialog;
-    //进度条二
-    //private LoadingDialog dialog;
-
-//    //掌握进度条二消失
-//    private Handler mHandler = new Handler() {
-//        public void dispatchMessage(android.os.Message msg) {
-//            if (dialog != null && dialog.isShowing()) {
-//                dialog.dismiss();
-//            }
-//        };
-//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,18 +107,12 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
         final String username = in_username.getText().toString().trim();
         final String password = in_password.getText().toString().trim();
 
-        //检验是否输入非法字符
-        if(!TestAndVerify.checkName( username )){
-            Toast.makeText( this, "禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
-            return;
-        }
-
         //检查数据格式是否正确
         if (TextUtils.isEmpty( username ) | TextUtils.isEmpty( password )) {
             runOnUiThread( new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText( MeLogin.this, "请检查并输入正确的用户名和密码", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( MeLogin.this, "用户名和密码不可为空！", Toast.LENGTH_SHORT ).show();
                 }
             } );
         } else {
@@ -148,7 +131,6 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
             progressDialog = DialogUIUtils.showLoadingDialog( MeLogin.this, "正在登录" );
             progressDialog.show();
             //发送请求
-            //传递参数
             postDataLogin( username, userJsonStr );
         }
     }

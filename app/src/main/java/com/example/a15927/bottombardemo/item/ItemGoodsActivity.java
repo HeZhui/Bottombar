@@ -31,9 +31,10 @@ public class ItemGoodsActivity extends AppCompatActivity {
     private TextView back,g_goodsName,g_id,g_quality,g_unit,g_typeName,g_price,g_phone,g_qq,g_weixin,g_userId,g_userName,g_description;
     private String url = "http://47.105.185.251:8081/Proj31/collection";
     private int opType = 2;//0----未收藏     1-----收藏    2----查询收藏状态
-    private int state = 0; //0----未收藏     1-----收藏
-    public int lastState; //记录上次的状态
+    private int state = 0; //记录当前状态   0----未收藏     1-----收藏
     ItemGoods itemGoods = null;
+    private boolean login = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -52,6 +53,7 @@ public class ItemGoodsActivity extends AppCompatActivity {
         //从sp中取出token
         SharedPreferences User = getSharedPreferences( "data", Context.MODE_PRIVATE );
         String token = User.getString( "token","" );
+        login = User.getBoolean( "login",false );
         ItemGoods col = new ItemGoods();
         col.setOpType( opType );
         col.setToken( token );
@@ -94,7 +96,6 @@ public class ItemGoodsActivity extends AppCompatActivity {
                         public void run() {
                             col_image.setImageResource( R.drawable.col_ok );
                             state = 1;
-                            lastState = state;
                         }
                     } );
                 }else {
@@ -103,7 +104,6 @@ public class ItemGoodsActivity extends AppCompatActivity {
                         public void run() {
                             col_image.setImageResource( R.drawable.col_normal );
                             state = 0;
-                            lastState = state;
                         }
                     } );
                 }
@@ -169,7 +169,11 @@ public class ItemGoodsActivity extends AppCompatActivity {
         col_image.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                collectGoods();
+                if(login == true){
+                    collectGoods();
+                }else{
+                    Toast.makeText( ItemGoodsActivity.this, "登录后才可收藏哦，请先登录！", Toast.LENGTH_SHORT ).show();
+                }
             }
         } );
     }
@@ -178,7 +182,7 @@ public class ItemGoodsActivity extends AppCompatActivity {
      *执行收藏操作（取消或者添加）
      */
     private void collectGoods() {
-        if(lastState == 1){
+        if(state == 1){
             opType = 0;
         }else{
             opType = 1;
@@ -218,7 +222,6 @@ public class ItemGoodsActivity extends AppCompatActivity {
                                 state = 0;
                                 Toast.makeText( ItemGoodsActivity.this, "取消收藏成功！", Toast.LENGTH_SHORT ).show();
                             }
-                            lastState = state;
                         }
                     } );
                 }else if (flag == 30001){

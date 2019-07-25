@@ -64,6 +64,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
 
     //进度条一
     Dialog progressDialog;
+    private int imageClick = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,23 +154,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                 } );
                 break;
             case R.id.commit_sale:
-                AppStr appStr = (AppStr)getApplication();
-                if(appStr.isState() == true){
-                    String yunFlag = PostPicToYun.getYunFlag();
-                    Log.i( TAG, "onClick: "+yunFlag );
-                    String picUrl = PostPicToYun.getPicUrl();
-                    Log.i( TAG, "onClick: "+picUrl );
-                    if(yunFlag != null && yunFlag.equals( "OK" )){
-                        if(picUrl != null || picUrl.length() > 20){
-                            commitSale(picUrl);
-                        }
-                    }else{
-                        Toast.makeText( this, "图片上传失败！", Toast.LENGTH_SHORT ).show();
-                        Log.i( TAG, "onClick: 上传失败！");
-                    }
-                }else{
-                    Toast.makeText( FindSale.this, "图片上传尚未成功，请稍作等待！", Toast.LENGTH_SHORT ).show();
-                }
+                commitSale(  );
                 break;
         }
     }
@@ -239,6 +224,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                     Bitmap bitmap = BitmapFactory.decodeFile( filePath.toString() );
                     //把裁剪后的图片展示出来
                     photo_taken.setImageBitmap( bitmap );
+                    imageClick = 1;
                     //application全局变量
                     AppStr appStr = (AppStr)getApplication();
                     appStr.setState( false );
@@ -252,20 +238,43 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
-    public void commitSale(String picUrl) {
+    public void commitSale( ) {
         String goods_name = text_name.getText().toString().trim();
         String goods_price = text_price.getText().toString().trim();
         String quality = quality_sale.getText().toString().trim();
         String unit = unit_sale.getText().toString().trim();
         String goods_description = text_description.getText().toString().trim();
 
-        if(( goods_name == null|| goods_name.isEmpty())  || ( goods_price == null || goods_price.isEmpty()) || quality == null || quality.isEmpty()){
+        //检验
+        if(( goods_name == null|| goods_name.isEmpty())  || ( goods_price == null || goods_price.isEmpty()) || quality == null || quality.isEmpty() || unit == null || unit.isEmpty()){
             Toast.makeText( FindSale.this, "请填写完整的商品信息", Toast.LENGTH_SHORT ).show();
             return;
         }
 
-        if(picUrl == null || filePath == null){
-            Toast.makeText( this, "您还没有物品的照片呢，请给您的物品拍个照吧！", Toast.LENGTH_SHORT ).show();
+        if(!TestAndVerify.checkIllegal( goods_name )){
+            Toast.makeText( FindSale.this, "商品名称禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
+            return;
+        }
+
+        if(!TestAndVerify.checkMoney( goods_price )){
+            Toast.makeText( FindSale.this, "商品价格格式不对！", Toast.LENGTH_SHORT ).show();
+            return;
+        }
+
+        if(!TestAndVerify.checkPlus( quality )){
+            Toast.makeText( FindSale.this, "商品数量格式不对，请输入正整数！", Toast.LENGTH_SHORT ).show();
+            return;
+        }
+
+        if(goods_description != null ){
+            if(!TestAndVerify.checkIllegal( goods_description )){
+                Toast.makeText( FindSale.this, "商品说明禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
+                return;
+            }
+        }
+
+        if(filePath == null){
+            Toast.makeText( this, "您还没有商品的照片呢，请给您的商品拍个照吧！", Toast.LENGTH_SHORT ).show();
             return;
         }
         
@@ -285,7 +294,32 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
         goods.setPrice( Float.parseFloat( goods_price ) );
         goods.setUnit( unit );
         goods.setQuality( Integer.parseInt( quality ) );
-        goods.setGoodsImg( picUrl );
+
+        if(imageClick == 1){
+            AppStr appStr = (AppStr)getApplication();
+            if(appStr.isState() == true){
+                String yunFlag = PostPicToYun.getYunFlag();
+                Log.i( TAG, "PostToYun: "+yunFlag );
+                String picUrl = PostPicToYun.getPicUrl();
+                Log.i( TAG, "PostToYun: "+picUrl );
+                if(yunFlag != null && yunFlag.equals( "OK" )){
+                    if(picUrl != null || picUrl.length() > 20){
+                        goods.setGoodsImg( picUrl );
+                    }
+                }else{
+                    Toast.makeText( this, "图片上传失败！", Toast.LENGTH_SHORT ).show();
+                    Log.i( TAG, "PostToYun: 上传失败！");
+                    return;
+                }
+            }else{
+                Toast.makeText( FindSale.this, "图片上传尚未成功，请稍作等待！", Toast.LENGTH_SHORT ).show();
+                return;
+            }
+        }else{
+            Toast.makeText( this, "您还没有商品的照片呢，请给您的商品拍个照吧！", Toast.LENGTH_SHORT ).show();
+            return;
+        }
+
         goods.setUserid( uid );
         goods.setToken( token );
         goods.setDescription( goods_description );
@@ -318,9 +352,8 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                 //获取后台返回结果
                 final String responseData = response.body().string();
                 Log.i( TAG, "后台返回的结果是："+responseData );
-                //json转String
-                Gson re_gson = new Gson();
-                UserCO buyBack = re_gson.fromJson( responseData, UserCO.class );
+                Gson gson = new Gson();
+                UserCO buyBack = gson.fromJson( responseData, UserCO.class );
                 Log.i( TAG, buyBack.toString() );
                 int flag = buyBack.getFlag();
                 if (flag == 200) {

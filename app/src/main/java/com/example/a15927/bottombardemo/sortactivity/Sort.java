@@ -51,7 +51,8 @@ public class Sort extends AppCompatActivity {
     private List<ItemGoods> moreGoodsList = new ArrayList<>(  );
 
     //分页状态
-    public int page = 1;
+    public int refreshPage = 1;
+    public int loadPage = 1;
     //当前分页  1------加载，  2-----------刷新
     protected int checkType = 1;
     //每页数目
@@ -126,7 +127,7 @@ public class Sort extends AppCompatActivity {
         springView_sort.setListener( new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
+                refreshPage = 1;
                 checkType = 2;
                 initGoods();
                 springView_sort.onFinishFreshAndLoad();
@@ -134,9 +135,12 @@ public class Sort extends AppCompatActivity {
 
             @Override
             public void onLoadmore() {
-                page++;
+                if(moreGoodsList != null){
+                    loadPage++;
+                }else{
+                    loadPage = 1;
+                }
                 checkType = 1;
-                Log.i( TAG, "onRefresh: page is " + page );
                 initGoods();
                 springView_sort.onFinishFreshAndLoad();
             }
@@ -151,9 +155,12 @@ public class Sort extends AppCompatActivity {
         sort.setToken( token );
         sort.setQueryType( QueryType );
         sort.setGoodsType( goodsType );
-        sort.setGoodsName( null );
         sort.setPageSize( pageSize );
-        sort.setPage( page );
+        if(checkType == 1){
+            sort.setPage( loadPage );
+        }else{
+            sort.setPage( refreshPage );
+        }
         sort.setCheckType( checkType );
 
         Gson gson = new Gson();
@@ -163,7 +170,7 @@ public class Sort extends AppCompatActivity {
         //进度框显示方法一
         progressDialog = DialogUIUtils.showLoadingDialog( Sort.this, "正在查询..." );
         progressDialog.show();
-        //发送okhttp请求
+        //发送okHttp请求
         PostWith.sendPostWithOkhttp( url, jsonStr, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -196,11 +203,9 @@ public class Sort extends AppCompatActivity {
                 int flag = goods.getFlag();
                 Log.i( TAG, "flag " + flag );
                 goodsList = goods.getGoodsList();
-                // Log.i( TAG, "goodsList" +goodsList);
-                //flag判断
                 if (flag == 200) {
                     if(goodsList.size() == 0){
-                        if(page == 1) {
+                        if((refreshPage == 1 || loadPage == 1) && moreGoodsList.size() == 0) {
                             runOnUiThread( new Runnable() {
                                 @Override
                                 public void run() {
@@ -225,20 +230,39 @@ public class Sort extends AppCompatActivity {
                                 }
                             } );
                         }
-                    }
-                    if(goodsList.size() <= pageSize && goodsList.size() != 0){
-                        for (int i = 0; i < goodsList.size(); i++) {
-                            boolean repeat = false;
-                            for (int j = 0; j < moreGoodsList.size(); j++) {
-                                if (moreGoodsList.get( j ).getGoodsID().equals( goodsList.get( i ).getGoodsID() )) {
-                                    repeat = true;
-                                    break;
+                    }else{
+                        //刷新
+                        if(checkType == 2){
+                            for(int i = 0; i < moreGoodsList.size(); i++ ){
+                                boolean repeat  = false;
+                                for(int j = 0; j< goodsList.size(); j++){
+                                    if(goodsList.get( j ).getGoodsID().equals( moreGoodsList.get( i).getGoodsID() )){
+                                        repeat = true;
+                                        break;
+                                    }
+                                }
+                                if(repeat == false){
+                                    goodsList.add( moreGoodsList.get( i ) );
                                 }
                             }
-                            if (repeat == false) {
-                                moreGoodsList.add( goodsList.get( i ) );
+                            moreGoodsList = goodsList;
+                        }
+                        //加载
+                        if(checkType == 1){
+                            for (int i = 0; i < goodsList.size(); i++) {
+                                boolean repeat = false;
+                                for (int j = 0; j < moreGoodsList.size(); j++) {
+                                    if (moreGoodsList.get( j ).getGoodsID().equals( goodsList.get( i ).getGoodsID() )) {
+                                        repeat = true;
+                                        break;
+                                    }
+                                }
+                                if (repeat == false) {
+                                    moreGoodsList.add( goodsList.get( i ) );
+                                }
                             }
                         }
+                        //切换到主线程
                         runOnUiThread( new Runnable() {
                             @Override
                             public void run() {

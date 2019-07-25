@@ -29,6 +29,7 @@ public class CustomProgressTransDialog {
         tipTextView.setText(msg);
 
         Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
+        //若为true，点击ProgressDialog以外的区域的时候ProgressDialog就会关闭
         loadingDialog.setCancelable( true );
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,

@@ -93,7 +93,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
             Glide.with( mContext ).load( goods.getGoodsImg() ).centerCrop().error( R.drawable.ic_launcher ).into( holder.goods_img );
         }
         holder.goodsID.setText( goods.getGoodsID() );
-        holder.goodsName.setText( goods.getGoodsName() );
+        if(goods.getGoodsName() != null && goods.getGoodsName().length() > 7){
+            holder.goodsName.setText( goods.getGoodsName().substring( 0,7 )+"..." );
+        }else{
+            holder.goodsName.setText( goods.getGoodsName() );
+        }
         holder.goods_price.setText( ""+goods.getPrice() );
         holder.goods_quality.setText( ""+ goods.getQuality() );
         holder.goods_unit.setText( goods.getUnit() );

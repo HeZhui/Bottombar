@@ -43,7 +43,8 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
 
     private int state = 3; //收藏
     //分页状态
-    public int page = 1;
+    public int loadPage = 1;
+    public int refreshPage = 1;
     //当前分页  1------加载，  2-----------刷新
     protected int checkType = 1;
     //每页数目
@@ -71,7 +72,7 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
         springView_col.setListener( new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
+                refreshPage = 1;
                 checkType = 2;
                 getCol();
                 springView_col.onFinishFreshAndLoad();
@@ -79,7 +80,11 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onLoadmore() {
-                page++;
+                if(moreGoodsList.size() != 0){
+                    loadPage++;
+                }else{
+                    loadPage = 1;
+                }
                 checkType = 1;
                 getCol();
                 springView_col.onFinishFreshAndLoad();
@@ -100,7 +105,11 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
         Gson gson = new Gson();
         UserBuy col = new UserBuy();
         col.setPageSize( pageSize );
-        col.setPage( page );
+        if(checkType == 1){
+            col.setPage( loadPage );
+        }else{
+            col.setPage( refreshPage );
+        }
         col.setCheckType( checkType );
         col.setToken(token);
         col.setUserid( uid );
@@ -133,7 +142,7 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
                 goodsList = goods.getGoodsList();
                 if(flag == 200){
                     if(goodsList.size() == 0){
-                        if(page == 1){
+                        if( (loadPage == 1 || refreshPage == 1) && moreGoodsList.size() == 0){
                             runOnUiThread( new Runnable() {
                                 @Override
                                 public void run() {
@@ -142,7 +151,7 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
                                     recycler_collect.setVisibility( View.GONE );
                                     net_failed_col.setVisibility( View.GONE );
                                     col_nothing.setVisibility( View.VISIBLE );
-                                    Toast.makeText( CollectionInf.this, "您暂时没有任何想买的东西哦！", Toast.LENGTH_SHORT ).show();
+                                    Toast.makeText( CollectionInf.this, "您暂时没有任何收藏的商品哦！", Toast.LENGTH_SHORT ).show();
                                 }
                             } );
                         }else{
@@ -150,6 +159,9 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
                                 @Override
                                 public void run() {
                                     //取消进度框一
+                                    recycler_collect.setVisibility( View.VISIBLE );
+                                    net_failed_col.setVisibility( View.GONE );
+                                    col_nothing.setVisibility( View.GONE );
                                     dismiss( progressDialog );
                                     Toast.makeText( CollectionInf.this, "没有更多的内容了！", Toast.LENGTH_SHORT ).show();
                                 }
@@ -158,9 +170,8 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
                     }else{
                         //刷新消息应该显示在最上面
                         if(checkType == 2){
-                            boolean repeat  = false;
-                            //                            if(moreGoodsList != null){
                             for(int i = 0; i < moreGoodsList.size(); i++ ){
+                                boolean repeat  = false;
                                 for(int j = 0; j< goodsList.size(); j++){
                                     if(goodsList.get( j ).getGoodsID().equals( moreGoodsList.get( i).getGoodsID() )){
                                         repeat = true;
@@ -171,7 +182,7 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
                                     goodsList.add( moreGoodsList.get( i ) );
                                 }
                             }
-                            //                            }
+                            moreGoodsList = goodsList;
                         }
                         //下拉加载
                         if(checkType == 1){
@@ -188,6 +199,7 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
                                 }
                             }
                         }
+                        //切换到主线程
                         runOnUiThread( new Runnable() {
                             @Override
                             public void run() {
@@ -204,11 +216,7 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
                                 }
                                 LinearLayoutManager layoutManager = new LinearLayoutManager( CollectionInf.this,LinearLayoutManager.VERTICAL,false );
                                 recycler_collect.setLayoutManager( layoutManager );
-                                if(checkType == 1){
-                                    adapter = new GoodsAdapter(CollectionInf.this, goodsList );
-                                }else{
-                                    adapter = new GoodsAdapter(CollectionInf.this, moreGoodsList );
-                                }
+                                adapter = new GoodsAdapter(CollectionInf.this, moreGoodsList );
                                 recycler_collect.setAdapter( adapter );
                             }
                         } );

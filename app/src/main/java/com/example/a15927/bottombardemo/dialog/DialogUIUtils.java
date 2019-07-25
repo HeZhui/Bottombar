@@ -15,7 +15,6 @@ public class DialogUIUtils {
     }
 
     public static void dismiss(Dialog dialog){
-
         if(dialog!=null){
             dialog.dismiss();
             dialog = null;

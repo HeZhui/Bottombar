@@ -50,7 +50,7 @@
             android:layout_toRightOf="@+id/image_plus"
             android:text="用户名"
             android:textSize="20sp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="12dp"
             android:layout_marginLeft="30dp"
             android:textColor="@color/colorPrimary"
             android:visibility="gone"
@@ -63,8 +63,8 @@
             android:layout_toRightOf="@+id/image_plus"
             android:text="个性签名："
             android:textSize="15sp"
-            android:layout_marginTop="45dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="13dp"
             android:textColor="@color/gray"
             android:visibility="gone"
             />
@@ -122,12 +122,12 @@
 
         <ImageView
             android:id="@+id/image_arrow_1"
-            android:layout_width="20dp"
-            android:layout_height="27dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/arrow"/>
+            android:background="@drawable/arrow_right"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -164,12 +164,12 @@
 
         <ImageView
             android:id="@+id/image_arrow_2"
-            android:layout_width="20dp"
-            android:layout_height="27dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/arrow"/>
+            android:background="@drawable/arrow_right"/>
 
 
     </RelativeLayout>
@@ -207,12 +207,12 @@
 
         <ImageView
             android:id="@+id/image_arrow3"
-            android:layout_width="20dp"
-            android:layout_height="27dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/arrow"/>
+            android:background="@drawable/arrow_right"/>
 
 
     </RelativeLayout>
@@ -251,12 +251,12 @@
 
         <ImageView
             android:id="@+id/image_arrow4"
-            android:layout_width="20dp"
-            android:layout_height="27dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/arrow"/>
+            android:background="@drawable/arrow_right"/>
 
     </RelativeLayout>
 
@@ -295,12 +295,12 @@
 
         <ImageView
             android:id="@+id/image_arrow5"
-            android:layout_width="20dp"
-            android:layout_height="27dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/arrow"/>
+            android:background="@drawable/arrow_right"/>
 
     </RelativeLayout>
 

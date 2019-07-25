@@ -198,8 +198,14 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
         if(ps != null && ps.length() >= 100){
             Toast.makeText( this, "个性签名长度过长！", Toast.LENGTH_SHORT ).show();
             return;
+        }else{
+            if(!TestAndVerify.checkIllegal( ps )){
+                Toast.makeText( this, "个性签名禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
+                return;
+            }else{
+                userVO.setPs( ps );
+            }
         }
-        userVO.setPs( ps );
         Gson gson = new Gson();
         String reqJson = gson.toJson( userVO,UserVO.class );
         Log.i( TAG, "commitChange: reqJson is "+reqJson.toString() );

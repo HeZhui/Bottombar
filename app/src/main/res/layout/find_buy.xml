@@ -114,34 +114,6 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:id="@+id/phone_number_buy"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="联系方式: "
-            android:textColor="@color/gray"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            />
-
-        <EditText
-            android:id="@+id/phone_buy"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:layout_alignTop="@+id/phone_number_buy"
-            android:layout_toRightOf="@+id/phone_number_buy"
-            android:layout_toEndOf="@+id/phone_number_buy"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp">
-
-        <TextView
             android:id="@+id/text_description_buy"
             android:layout_width="wrap_content"
             android:layout_height="50dp"

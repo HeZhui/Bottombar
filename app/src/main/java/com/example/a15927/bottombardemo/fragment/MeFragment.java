@@ -72,7 +72,11 @@ public class MeFragment extends Fragment {
             login_username.setVisibility( View.VISIBLE );
             login_ps.setVisibility( View.VISIBLE );
             login_username.setText( username );
-            login_ps.setText( "个性签名："+ps);
+            if(ps.isEmpty()){
+                login_ps.setText( "个性签名:这个人很懒,什么也没有留下。");
+            }else{
+                login_ps.setText( "个性签名:"+ps);
+            }
         }
 
         Login.setOnClickListener(new View.OnClickListener() {

@@ -78,7 +78,6 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/text_u"
             android:background="@color/gray"
-
             />
     </RelativeLayout>
 
@@ -89,7 +88,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/view"
-        android:layout_marginTop="2dp"
         android:layout_marginBottom="50dp">
 
         <android.support.v7.widget.RecyclerView

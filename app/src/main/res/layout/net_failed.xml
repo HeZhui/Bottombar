@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="亲，当前网络不给力哦！"
+        android:text="亲，当前连接断开了哟！"
         android:layout_below="@+id/net"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"/>
