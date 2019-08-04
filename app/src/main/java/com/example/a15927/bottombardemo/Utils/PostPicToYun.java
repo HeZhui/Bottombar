@@ -41,10 +41,10 @@ public class PostPicToYun {
     }
 
     public static void PostPic(Context context, File filePath,String typePic){
-        String region = "";//存储桶所在的地域
-        String secretId = ""; //永久密钥 secretId
-        String secretKey =""; //永久密钥 secretKey
-        String bucket = ""; //格式：BucketName-APPID
+        String region = "ap-chengdu";//存储桶所在的地域
+        String secretId = "AKIDTfdNr6E5KK5dvvnv54oOnJYVIyPe5S3T"; //永久密钥 secretId
+        String secretKey ="djfVFBQWYaVu7C6qTxKeV6WkjVGrRnRv"; //永久密钥 secretKey
+        String bucket = "pic-001-1259665619"; //格式：BucketName-APPID
 
         //创建 CosXmlServiceConfig 对象，根据需要修改默认的配置参数
         CosXmlServiceConfig serviceConfig = new CosXmlServiceConfig.Builder()
@@ -177,7 +177,7 @@ public class PostPicToYun {
     public static void downloadObject(CosXmlService cosXmlService,Context context){
         //        Context applicationContext = "application 上下文"; // getApplicationContext()
         String bucket = "pic-001-1259665619"; //对象所在的存储桶                                    存储桶名称
-        String cosPath = "picDemo/20190719_010920.png"; //即对象在 COS 上的绝对路径,格式如 cosPath = "text.txt";                 对象键
+        String cosPath = "bottomBarDemo/goodsPic/"+ImageUtils.getName(); //即对象在 COS 上的绝对路径,格式如 cosPath = "text.txt";                 对象键
         File file = new File(context.getExternalCacheDir(),"");
         String savedDirPath = file.getPath();                                                                  // 对象下载到本地的文件夹路径
         Log.i( TAG, "downloadObject: "+savedDirPath );

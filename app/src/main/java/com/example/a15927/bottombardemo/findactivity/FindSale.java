@@ -230,7 +230,11 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
                     appStr.setState( false );
                     //图片上传腾讯云
                     Toast.makeText( FindSale.this, "即将上传商品图片至腾讯云！", Toast.LENGTH_SHORT ).show();
-                    PostPicToYun.PostPic( FindSale.this,filePath ,"goods");
+                    if(TestAndVerify.getConnectedType( FindSale.this ) == 1){
+                        PostPicToYun.PostPic( FindSale.this,filePath ,"goods");
+                    }else{
+                        Toast.makeText( this, "亲，当前网络已断开！", Toast.LENGTH_SHORT ).show();
+                    }
                 }
                 break;
             default:

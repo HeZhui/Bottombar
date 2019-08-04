@@ -379,7 +379,11 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
                     statusPic = 1;
                     Toast.makeText( this, "图片即将上传腾讯云！", Toast.LENGTH_SHORT ).show();
                     //图片上传腾讯云
-                    PostPicToYun.PostPic( UpdateUserInfo.this,filePath ,"reg");
+                    if(TestAndVerify.getConnectedType( UpdateUserInfo.this ) == 1){
+                        PostPicToYun.PostPic( UpdateUserInfo.this,filePath ,"reg");
+                    }else {
+                        Toast.makeText( this, "亲，当前网络已断开！", Toast.LENGTH_SHORT ).show();
+                    }
                 }
                 break;
             default:

@@ -230,6 +230,9 @@ public class MyShop extends AppCompatActivity implements View.OnClickListener {
                                 recyclerView_shop.setLayoutManager( layoutManager );
                                 adapter = new GoodsAdapter(MyShop.this, moreGoodsList );
                                 recyclerView_shop.setAdapter( adapter );
+                                if(checkType == 1){
+                                    recyclerView_shop.scrollToPosition( adapter.getItemCount()-1 );
+                                }
                             }
                         } );
                     }

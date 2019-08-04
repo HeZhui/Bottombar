@@ -259,6 +259,9 @@ public class HomeFragment extends Fragment implements OnBannerListener {
                                 recycler_home.setLayoutManager( layoutManager );
                                 GoodsAdapter adapter = new GoodsAdapter( getActivity(), moreGoodsList );
                                 recycler_home.setAdapter( adapter );
+                                if(checkType == 1){
+                                    recycler_home.scrollToPosition( adapter.getItemCount()-1 );
+                                }
                             }
                         } );
                     }

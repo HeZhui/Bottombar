@@ -25,6 +25,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <!--/背景是否模糊显示，背景是否变暗-->
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="mProgress_circle">

@@ -7,14 +7,6 @@
            android:background="@drawable/bg"
            >
 
-    <!--<ProgressBar-->
-        <!--android:id="@+id/progressbar"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:visibility="invisible"-->
-        <!--/>-->
-
-
     <RelativeLayout
         android:id="@+id/title_thing"
         android:layout_width="match_parent"
@@ -40,33 +32,33 @@
     </RelativeLayout>
 
     <RelativeLayout
-    android:id="@+id/user"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_below="@+id/title_thing"
-    android:layout_marginTop="50dp">
-
-    <ImageView
-        android:id="@+id/image_user"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="25dp"
-        android:layout_centerVertical="true"
-        android:background="@drawable/user"/>
-
-    <!--账号-->
-    <EditText
-        android:id="@+id/in_username"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/image_user"
-        android:layout_width="300dp"
+        android:id="@+id/user"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="用户名/手机号/邮箱"
-        android:inputType="textPersonName"
-        android:textSize="15sp"
-        android:textColor="@color/gray"/>
+        android:layout_below="@+id/title_thing"
+        android:layout_marginTop="50dp">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/image_user"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="25dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/user"/>
+
+        <!--账号-->
+        <EditText
+            android:id="@+id/in_username"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/image_user"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="用户名/手机号/邮箱"
+            android:inputType="textPersonName"
+            android:textSize="15sp"
+            android:textColor="@color/gray"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/password"
@@ -135,7 +127,7 @@
         android:id="@+id/login_in"
         android:layout_width="320dp"
         android:layout_height="60dp"
-        android:background="@drawable/shape_bule_frame"
+        android:background="@drawable/shape_blue_frame"
         android:text="登录"
         android:textSize="25sp"
         android:textColor="#fff"
@@ -148,7 +140,7 @@
         android:id="@+id/register_in"
         android:layout_width="320dp"
         android:layout_height="60dp"
-        android:background="@drawable/shape_bule_frame"
+        android:background="@drawable/shape_blue_frame"
         android:text="注册"
         android:textSize="25sp"
         android:textColor="#fff"

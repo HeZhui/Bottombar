@@ -219,6 +219,9 @@ public class MyForBuy extends AppCompatActivity {
                                 recycler_buy.setLayoutManager( layoutManager );
                                 adapter = new ShopAdapter(MyForBuy.this, moreGoodsList );
                                 recycler_buy.setAdapter( adapter );
+                                if(checkType == 1){
+                                    recycler_buy.scrollToPosition( adapter.getItemCount()-1 );
+                                }
                             }
                         } );
                     }

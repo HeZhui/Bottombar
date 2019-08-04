@@ -218,6 +218,9 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
                                 recycler_collect.setLayoutManager( layoutManager );
                                 adapter = new GoodsAdapter(CollectionInf.this, moreGoodsList );
                                 recycler_collect.setAdapter( adapter );
+                                if(checkType == 1){
+                                    recycler_collect.scrollToPosition( adapter.getItemCount()-1 );
+                                }
                             }
                         } );
                     }

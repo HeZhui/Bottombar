@@ -361,11 +361,17 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                                     Log.i( TAG, "run: "+moreGoodsList.toString() );
                                     GoodsAdapter goodsAdapter = new GoodsAdapter( getActivity(), moreGoodsList );
                                     recyclerView.setAdapter( goodsAdapter );
+                                    if(checkType == 1){
+                                        recyclerView.scrollToPosition( goodsAdapter.getItemCount()-1 );
+                                    }
                                 }
                                 if (statue == 2) {
                                     Log.i( TAG, "run: 求购 "+moreGoodsList.toString() );
                                     ShopAdapter shopAdapter = new ShopAdapter( getActivity(), moreGoodsList );
                                     recyclerView.setAdapter( shopAdapter );
+                                    if(checkType == 1){
+                                        recyclerView.scrollToPosition( shopAdapter.getItemCount()-1 );
+                                    }
                                 }
                                 if(checkType == 1){
                                     Toast.makeText( getActivity(), "加载成功！", Toast.LENGTH_SHORT ).show();

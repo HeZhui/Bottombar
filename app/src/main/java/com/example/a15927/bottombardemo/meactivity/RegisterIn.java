@@ -227,7 +227,11 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                     appStr.setState( false );
                     Toast.makeText( RegisterIn.this, "即将上传头像图片至腾讯云！", Toast.LENGTH_SHORT ).show();
                     //图片上传腾讯云
-                    PostPicToYun.PostPic( RegisterIn.this,filePath ,"reg");
+                    if(TestAndVerify.getConnectedType( RegisterIn.this ) == 1){
+                        PostPicToYun.PostPic( RegisterIn.this,filePath ,"reg");
+                    }else{
+                        Toast.makeText( this, "亲，当前网络已断开！", Toast.LENGTH_SHORT ).show();
+                    }
                 }
                 break;
             default:
@@ -322,8 +326,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                     public void run() {
                         //取消进度框一
                         dismiss( progressDialog );
-                        //取消进度条二
-                        //mHandler.sendEmptyMessage(1);
                         String errorData = TestAndVerify.judgeError( RegisterIn.this );
                         Toast.makeText( RegisterIn.this, errorData, Toast.LENGTH_SHORT ).show();
                     }
@@ -348,8 +350,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                             public void run() {
                                 //取消进度框一
                                 dismiss( progressDialog );
-                                //取消进度条二
-                                //mHandler.sendEmptyMessage(1);
                                 Toast.makeText( RegisterIn.this, "注册成功", Toast.LENGTH_SHORT ).show();
                                 Intent intentTras = new Intent( RegisterIn.this, MeLogin.class );
                                 startActivity( intentTras );
@@ -361,8 +361,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                             public void run() {
                                 //取消进度框一
                                 dismiss( progressDialog );
-                                //取消进度条二
-                                //mHandler.sendEmptyMessage(1);
                                 Toast.makeText( RegisterIn.this, "该用户名已存在，注册失败！", Toast.LENGTH_SHORT ).show();
                             }
                         } );
@@ -373,8 +371,6 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
                             public void run() {
                                 //取消进度框一
                                 dismiss( progressDialog );
-                                //取消进度条二
-                                //mHandler.sendEmptyMessage(1);
                                 Toast.makeText( RegisterIn.this, "注册失败", Toast.LENGTH_SHORT ).show();
                             }
                         } );

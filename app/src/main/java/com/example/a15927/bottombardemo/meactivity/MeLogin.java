@@ -36,12 +36,11 @@ import static com.example.a15927.bottombardemo.dialog.DialogUIUtils.dismiss;
 
 
 public class MeLogin extends AppCompatActivity implements View.OnClickListener {
-
     private ImageView back_arrow;
     private CheckBox cb_mima;
     private EditText in_username, in_password;
     private Button meLogin, register;
-    private TextView forgetpassword;
+    private TextView forgetPassword;
     private String url = "http://47.105.185.251:8081/Proj31/login";//http://192.168.2.134:8081/Proj20/login
     private int opType = 90002;
     private String TAG = "Test";
@@ -72,8 +71,8 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
         register = (Button) findViewById( R.id.register_in );
         register.setOnClickListener( this );
 
-        forgetpassword = (TextView) findViewById( R.id.forget_to );
-        forgetpassword.setOnClickListener( this );
+        forgetPassword = (TextView) findViewById( R.id.forget_to );
+        forgetPassword.setOnClickListener( this );
     }
 
     @Override
