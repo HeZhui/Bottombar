@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -48,6 +49,9 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
     //判断是否是登录过
     private boolean login = false;
 
+    private SharedPreferences pref;//sp读对象
+    private SharedPreferences.Editor editor;//sp写对象
+
     //进度条一
     Dialog progressDialog;
 
@@ -56,14 +60,26 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.me_login );
 
+        pref = PreferenceManager.getDefaultSharedPreferences( this );
+
         back_arrow = (ImageView) findViewById( R.id.arrow_back );
         back_arrow.setOnClickListener( this );
 
-        cb_mima = (CheckBox) findViewById( R.id.cb_mima );
-        cb_mima.setOnClickListener( this );
-
         in_username = (EditText) findViewById( R.id.in_username );
         in_password = (EditText) findViewById( R.id.in_password );
+
+        cb_mima = (CheckBox) findViewById( R.id.cb_mima );
+        boolean isRemember = pref.getBoolean( "remember_password",false );
+        if(isRemember){
+            //填充文本
+            String account = pref.getString( "account","" );
+            String password = pref.getString( "password","" );
+            in_username.setText( account );
+            in_username.setSelection( account.length() );//将光标移动到文本末尾
+            in_password.setText( password );
+            in_password.setSelection( password.length() );
+            cb_mima.setChecked( true );
+        }
 
         meLogin = (Button) findViewById( R.id.login_in );
         meLogin.setOnClickListener( this );
@@ -92,9 +108,6 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
             case R.id.forget_to:
                 Intent intent_reset = new Intent( MeLogin.this, ResetPassword.class );
                 startActivity( intent_reset );
-                break;
-            case R.id.cb_mima:
-
                 break;
             default:
                 break;
@@ -130,11 +143,11 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
             progressDialog = DialogUIUtils.showLoadingDialog( MeLogin.this, "正在登录" );
             progressDialog.show();
             //发送请求
-            postDataLogin( username, userJsonStr );
+            postDataLogin( username,password,userJsonStr );
         }
     }
 
-    public void postDataLogin(final String uname, String userJsonStr) {
+    public void postDataLogin(final String uname, final String password,String userJsonStr) {
         PostWith.sendPostWithOkhttp( url, userJsonStr, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -170,6 +183,18 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
                         editor.putString( "ps",userVO.getPs());
                         editor.putString( "uid",userVO.getUid() );
                         editor.commit();
+
+                        //记住密码
+                        editor = pref.edit();
+                        if(cb_mima.isChecked()){
+                            editor.putBoolean( "remember_password",true );
+                            editor.putString( "account",uname );
+                            editor.putString( "password",password );
+                        }else{
+                            editor.clear();
+                        }
+                        editor.commit();
+
                         runOnUiThread( new Runnable() {
                             @Override
                             public void run() {
