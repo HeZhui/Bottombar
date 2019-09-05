@@ -58,6 +58,7 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
     private String url = "http://47.105.185.251:8081/Proj31/shopandbuy";
     //进度条一
     Dialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -65,6 +66,25 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
 
         initView();
 
+        refresh();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i( TAG, "onRestart: reStart" );
+        if(moreGoodsList != null){
+            moreGoodsList.clear();
+        }
+        loadPage = 1;
+        refreshPage = 1;
+        refresh();
+    }
+
+    /**
+     * 刷新列表
+     */
+    public void refresh(){
         getCol();
 
         springView_col.setHeader( new DefaultHeader( CollectionInf.this ) );
@@ -92,8 +112,9 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
         } );
     }
 
+
     /*
-     *获取收藏的物品信息
+     * 获取收藏的物品信息
      */
     private void getCol() {
         SharedPreferences sp = getSharedPreferences( "data", MODE_PRIVATE );

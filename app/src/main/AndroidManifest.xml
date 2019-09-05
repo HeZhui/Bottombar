@@ -79,7 +79,8 @@
         </activity>
         <activity android:name=".item.ItemBuyActivity">
         </activity>
-        <activity android:name=".sortactivity.Sort">
+        <activity android:name=".sortactivity.Sort"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".meactivity.UpdateUserInfo">
         </activity>
