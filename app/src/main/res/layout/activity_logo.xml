@@ -3,19 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:background="@drawable/logo"/>
+        android:background="@drawable/logo2"/>
 
     <RelativeLayout
+        android:id="@+id/rc_logo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#fb8d74"
         >
 
         <ImageView
@@ -23,7 +26,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
             android:background="@drawable/fle"
             />
 
@@ -31,9 +35,7 @@
             android:id="@+id/fle_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/fle"
+            android:layout_centerInParent="true"
             android:text="FleaMarket"
             android:textSize="25dp"/>
 
@@ -42,9 +44,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/fle_text"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
             android:background="@drawable/mar"/>
 
     </RelativeLayout>

@@ -73,13 +73,13 @@
             android:background="#feebeb"
             android:clickable="true">
 
-
             <ImageView
                 android:id="@+id/Image_make_up"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/day_life"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -216,8 +216,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:background="@drawable/qita"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+               android:layout_centerInParent="true"/>
 
             <TextView
                 android:layout_width="wrap_content"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BottombarDemo</string>
+    <string name="app_name">二手市场</string>
 
     <string name="tab_one">首页</string>
     <string name="tab_two">分类</string>

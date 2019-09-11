@@ -63,74 +63,74 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/input"
-        android:layout_below="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/view">
 
-        <EditText
-            android:id="@+id/user_input"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="bottom"
-            android:hint="请输入用户名"
-            android:textColor="@color/gray"
-            android:textSize="15sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            />
+        <RelativeLayout
+            android:id="@+id/input"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp">
 
-        <EditText
-            android:id="@+id/password_input"
-            android:layout_below="@+id/user_input"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:password="true"
-            android:gravity="bottom"
-            android:hint="请输入密码"
-            android:textColor="@color/gray"
-            android:textSize="15sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:inputType="textPassword"
-        />
+            <EditText
+                android:id="@+id/user_input"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:gravity="bottom"
+                android:hint="请输入用户名"
+                android:textColor="@color/gray"
+                android:textSize="15sp"
+                />
 
-        <EditText
-            android:id="@+id/password_confirm"
-            android:layout_below="@+id/password_input"
-            android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/password_input"
+                android:layout_below="@+id/user_input"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:password="true"
+                android:gravity="bottom"
+                android:hint="请输入密码"
+                android:textColor="@color/gray"
+                android:textSize="15sp"
+                android:inputType="textPassword"
+                />
+
+            <EditText
+                android:id="@+id/password_confirm"
+                android:layout_below="@+id/password_input"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:gravity="bottom"
+                android:hint="请确认密码"
+                android:textColor="@color/gray"
+                android:textSize="15sp"
+                android:password="true"
+                android:inputType="textPassword"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/but"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:gravity="bottom"
-            android:hint="请确认密码"
-            android:textColor="@color/gray"
-            android:textSize="15sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:password="true"
-            android:inputType="textPassword"
-        />
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/input">
+
+            <Button
+                android:id="@+id/register"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:background="@drawable/shape_blue_frame"
+                android:text="注册"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="25dp"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/but"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/input"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
 
-        <Button
-            android:id="@+id/register"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/shape_blue_frame"
-            android:text="注册"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"/>
-    </RelativeLayout>
 
 </RelativeLayout>

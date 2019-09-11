@@ -270,12 +270,12 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
             return;
         }
 
-        if(goods_description != null ){
-            if(!TestAndVerify.checkIllegal( goods_description )){
-                Toast.makeText( FindSale.this, "商品说明禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
-                return;
-            }
-        }
+//        if(goods_description != null ){
+//            if(!TestAndVerify.checkIllegal( goods_description )){
+//                Toast.makeText( FindSale.this, "商品说明禁止输入非法字符！", Toast.LENGTH_SHORT ).show();
+//                return;
+//            }
+//        }
 
         if(filePath == null){
             Toast.makeText( this, "您还没有商品的照片呢，请给您的商品拍个照吧！", Toast.LENGTH_SHORT ).show();

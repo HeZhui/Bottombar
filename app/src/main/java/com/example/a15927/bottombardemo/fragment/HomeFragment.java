@@ -329,7 +329,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
     private class MyLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
-            Glide.with(context).load((String) path).into(imageView);
+            Glide.with(context).load((String) path).fitCenter().into(imageView);
         }
     }
 
