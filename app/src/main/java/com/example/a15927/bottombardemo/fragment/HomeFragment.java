@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment implements OnBannerListener {
     private List<ItemGoods> goodsList = new ArrayList<>(  );
     private List<ItemGoods> moreGoodsList = new ArrayList<>(  );
     private int opTypeBuy  = 90004;
-    private  String urlBuy = "http://47.105.185.251:8081/Proj31/buy";
+    private  String urlBuy = "http://192.168.0.6:8081/Proj31/buy";
     private SpringView springView_home;
     private View netFailedLayout,home_nothing;
     //分页状态

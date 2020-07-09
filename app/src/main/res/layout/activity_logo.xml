@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:background="@drawable/logo2"/>
+        android:background="@drawable/logo2"
+        android:fitsSystemWindows="true"/>
 
     <RelativeLayout
         android:id="@+id/rc_logo"

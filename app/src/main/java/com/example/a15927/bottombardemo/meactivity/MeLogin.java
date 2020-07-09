@@ -42,7 +42,7 @@ public class MeLogin extends AppCompatActivity implements View.OnClickListener {
     private EditText in_username, in_password;
     private Button meLogin, register;
     private TextView forgetPassword;
-    private String url = "http://47.105.185.251:8081/Proj31/login";//http://192.168.2.134:8081/Proj20/login
+    private String url = "http://192.168.0.6:8081/Proj31/login";//http://192.168.2.134:8081/Proj20/login
     private int opType = 90002;
     private String TAG = "Test";
 

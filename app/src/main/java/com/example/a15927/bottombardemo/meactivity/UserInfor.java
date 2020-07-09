@@ -41,7 +41,7 @@ public class UserInfor extends AppCompatActivity implements View.OnClickListener
 
     private UserVO userInfo = null;
     private int op_query = 90006;    //查询
-    private String url = "http://47.105.185.251:8081/Proj31/user";
+    private String url = "http://192.168.0.6:8081/Proj31/user";
 
     //进度条一
     Dialog progressDialog;

@@ -45,7 +45,7 @@ public class HomeSearch extends AppCompatActivity implements View.OnClickListene
     private View net_failed, nothing_find;
     private SpringView springView_homeSearch;
 
-    private String url = "http://47.105.185.251:8081/Proj31/sort";
+    private String url = "http://192.168.0.6:8081/Proj31/sort";
     private int QueryType = 2;//代表按照商品名称查询
     private String goodsType;
     private List<ItemGoods> goodsList = new ArrayList<>();

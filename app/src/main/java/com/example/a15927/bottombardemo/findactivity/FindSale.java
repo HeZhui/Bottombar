@@ -48,7 +48,7 @@ public class FindSale extends AppCompatActivity implements View.OnClickListener 
     private String TAG = "Test";
     //服务类型
     private int opType = 90003;
-    private String url = "http://47.105.185.251:8081/Proj31/sale";
+    private String url = "http://192.168.0.6:8081/Proj31/sale";
 
     //相机参数
     private static Uri imageUri;

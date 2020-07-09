@@ -55,7 +55,7 @@ public class CollectionInf extends AppCompatActivity implements View.OnClickList
 
     private boolean login;
 
-    private String url = "http://47.105.185.251:8081/Proj31/shopandbuy";
+    private String url = "http://192.168.0.6:8081/Proj31/shopandbuy";
     //进度条一
     Dialog progressDialog;
 

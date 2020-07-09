@@ -66,7 +66,7 @@ public class RegisterIn extends AppCompatActivity implements View.OnClickListene
 
     //访问的服务器网页
     private int opType = 90001;
-    private String url = "http://47.105.185.251:8081/Proj31/register";//http://192.168.2.134:8081/Proj20/register
+    private String url = "http://192.168.0.6:8081/Proj31/register";//http://192.168.2.134:8081/Proj20/register
 
     //进度条一
     Dialog progressDialog;

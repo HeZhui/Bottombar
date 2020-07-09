@@ -44,7 +44,7 @@ public class Sort extends AppCompatActivity {
     private ImageView arrow_back_sort;
     private TextView text_sort;
 
-    private String url = "http://47.105.185.251:8081/Proj31/sort";
+    private String url = "http://192.168.0.6:8081/Proj31/sort";
     private int QueryType = 1;//代表按照商品类别查询
     private String goodsType;
     private List<ItemGoods> goodsList = new ArrayList<>();

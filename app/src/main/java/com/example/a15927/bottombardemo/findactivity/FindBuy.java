@@ -35,7 +35,7 @@ public class FindBuy extends AppCompatActivity implements View.OnClickListener {
 
     //查找码
     private int opType = 90004;
-    private String url = "http://47.105.185.251:8081/Proj31/shop";
+    private String url = "http://192.168.0.6:8081/Proj31/shop";
     //下拉框
     private Spinner spinner_buy;
     private static int spinner_position;

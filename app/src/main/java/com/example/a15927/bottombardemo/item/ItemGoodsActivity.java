@@ -29,7 +29,7 @@ public class ItemGoodsActivity extends AppCompatActivity {
     private String TAG = "Test";
     private ImageView img,back_s,col_image;
     private TextView back,g_goodsName,g_id,g_quality,g_unit,g_typeName,g_price,g_phone,g_qq,g_weixin,g_userId,g_userName,g_description;
-    private String url = "http://47.105.185.251:8081/Proj31/collection";
+    private String url = "http://192.168.0.6:8081/Proj31/collection";
     private int opType = 2;//0----未收藏     1-----收藏    2----查询收藏状态
     private int state = 0; //记录当前状态   0----未收藏     1-----收藏
     ItemGoods itemGoods = null;

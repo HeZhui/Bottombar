@@ -23,7 +23,7 @@ import java.util.List;
 
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
     private Context mContext;
-    private List<ItemGoods> mgoodsList;
+    private List<ItemGoods> mGoodsList;
 
     //内部类ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,10 +47,10 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
     }
 
     //构造函数
-    //这个方法用于把眼展示的数据源传进来，并赋值给一份全局变量mgoodsList,后续的操作都基于这个数据源
+    //这个方法用于把要展示的数据源传进来，并赋值给一份全局变量mGoodsList,后续的操作都基于这个数据源
     public GoodsAdapter(Context context,List<ItemGoods> goodsList) {
         mContext = context;
-        mgoodsList = goodsList;
+        mGoodsList = goodsList;
     }
 
     //由于继承自RecyclerView.Adapter，需要重写下面的三个方法
@@ -68,7 +68,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
                 Bundle data = new Bundle(  );
-                ItemGoods itemGoods = mgoodsList.get( position );
+                ItemGoods itemGoods = mGoodsList.get( position );
                 data.putSerializable( "goodsList",itemGoods );
                 Intent intent = new Intent( mContext, ItemGoodsActivity.class );
                 intent.putExtras( data );
@@ -83,14 +83,15 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
     //此方法适用于对RecyclerView子项的数据进行赋值的，会在每个子项被滚到屏幕内的时候执行
     public void onBindViewHolder(ViewHolder holder, int position) {
         //通过position参数得到当前的子项实例
-        ItemGoods goods = mgoodsList.get( position );
+        ItemGoods goods = mGoodsList.get( position );
         //设置数据
         String img = goods.getGoodsImg();
         if(img == null){
             holder.goods_img.setImageResource( R.drawable.kimg );
         }
         else{
-            Glide.with( mContext ).load( goods.getGoodsImg() ).centerCrop().error( R.drawable.ic_launcher ).into( holder.goods_img );
+            Glide.with( mContext ).load( goods.getGoodsImg() ).centerCrop()
+                    .error( R.drawable.ic_launcher ).into( holder.goods_img );
         }
         holder.goodsID.setText( goods.getGoodsID() );
         if(goods.getGoodsName() != null && goods.getGoodsName().length() > 7){
@@ -106,7 +107,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder>{
     @Override
     //得到RecyclerView子项的数目
     public int getItemCount() {
-        return mgoodsList.size();
+        return mGoodsList.size();
     }
 
 }

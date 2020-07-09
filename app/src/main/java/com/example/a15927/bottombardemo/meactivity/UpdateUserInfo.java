@@ -63,7 +63,7 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
     File filePath;
 
     private int op_update = 90007;  //更新
-    private String url = "http://47.105.185.251:8081/Proj31/user";
+    private String url = "http://192.168.0.6:8081/Proj31/user";
 
     //进度条一
     Dialog progressDialog;

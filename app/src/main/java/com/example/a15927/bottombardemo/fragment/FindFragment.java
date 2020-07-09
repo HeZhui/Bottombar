@@ -71,7 +71,7 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     private String token;
     private boolean login;
     //访问网址
-    private String urlBuy = "http://47.105.185.251:8081/Proj31/buy";
+    private String urlBuy = "http://192.168.0.6:8081/Proj31/buy";
     //进度条一
     Dialog progressDialog;
     //进度条二

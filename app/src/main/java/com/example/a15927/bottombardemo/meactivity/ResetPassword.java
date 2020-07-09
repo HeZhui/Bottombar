@@ -40,7 +40,7 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
     private EditText password_confirm;
     private Button comit_info;
     private int opType=90008;//重置密码
-    private String url = "http://47.105.185.251:8081/Proj31/user";
+    private String url = "http://192.168.0.6:8081/Proj31/user";
     private String token;
     //进度条一
     Dialog progressDialog;

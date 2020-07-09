@@ -67,9 +67,9 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
         //不懂的东西就百度一下，总有自己想要的答案，百度内容如下：
 //        Mode包含3种Mode:
 //        MODE_DEFAULT
-//        如果Item的个数<=3就会使用MODE_FIXED模式，否则使用MODE_SHIFTING模式MODE_FIXED
-//        填充模式，未选中的Item会显示文字，没有换挡动画。MODE_SHIFTING
-//        换挡模式，未选中的Item不会显示文字，选中的会显示文字。在切换的时候会有一个像换挡的动画
+//        如果Item的个数<=3就会使用MODE_FIXED模式，否则使用MODE_SHIFTING模式
+//       MODE_FIXED 填充模式，未选中的Item会显示文字，没有换挡动画
+//       MODE_SHIFTING 换挡模式，未选中的Item不会显示文字，选中的会显示文字。在切换的时候会有一个像换挡的动画
         //那么我们这里就是一个填充模式了
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
 
@@ -93,10 +93,10 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
         //然后分别还要设置上对应的图片、还有文字、以及被点击之后的文字颜色变化，这里其实很多的属性都是自己可以选择要不要的，比如说你还可以为某一个item设置
         //一个角标budge，但是我这里没有用，所以就不添笔墨了，感兴趣的可以百度相关的内容
         mBottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.home,"Home").setActiveColorResource(R.color.homered))
-                .addItem(new BottomNavigationItem(R.drawable.sort, "Sort").setActiveColorResource(R.color.sortgreen))
-                .addItem(new BottomNavigationItem(R.drawable.find, "Find").setActiveColorResource(R.color.findblue))
-                .addItem(new BottomNavigationItem(R.drawable.me, "Me").setActiveColorResource(R.color.mepink))
+                .addItem(new BottomNavigationItem(R.drawable.home,"首页").setActiveColorResource(R.color.homered))
+                .addItem(new BottomNavigationItem(R.drawable.sort, "分类").setActiveColorResource(R.color.sortgreen))
+                .addItem(new BottomNavigationItem(R.drawable.find, "发现").setActiveColorResource(R.color.findblue))
+                .addItem(new BottomNavigationItem(R.drawable.me, "我的").setActiveColorResource(R.color.mepink))
                 //这句话就是我们上面说过了的，默认设置的是第一个被选中状态，下标从零开始，那么就是setFirstSelectedPosition(0)了，合情合理
                 .setFirstSelectedPosition(0)
                 //然后都设置好之后，就预置一下，然后用户看到的就是我们所设计的模样了。
@@ -121,7 +121,8 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         //7. 这句话是new了一个HomeFragment的对象，毕竟这个方法是需要控制HomeFragment的
 //        HomeFragment homeFragment = new HomeFragment();
-        //添加（add）和显示（show）配合隐藏（hide）来使用，这样首先避免相同类型的fragment的重复添加        此方式是将fragment隐藏而非重建
+        //添加（add）和显示（show）配合隐藏（hide）来使用，这样首先避免相同类型的fragment的重复添加
+        // 此方式是将fragment隐藏而非重建
         if(homeFragment == null){
             homeFragment = new HomeFragment();
             transaction.add( R.id.ll_content,homeFragment );
@@ -191,8 +192,8 @@ public class MainActivity extends FragmentActivity implements BottomNavigationBa
                     if(sortFragment == null){
                         sortFragment = new SortFragment();
                         transaction.add( R.id.ll_content,sortFragment );
+                        hideAllFragment();
                     }
-                    hideAllFragment();
                     transaction.show( sortFragment );
 
                     //21. 当position为1的子项被选中时，也就是第二个子项被选中时，就是把SortFragment加载进来，替换掉之前的。
